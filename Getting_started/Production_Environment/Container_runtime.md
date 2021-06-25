@@ -20,3 +20,11 @@
 更改设置，令容器运行时和 kubelet 使用 `systemd` 作为 cgroup 驱动 ，以此使系统更为稳定。对于 Docker，`/etc/docker/daemon.json` 中修改 `native.cgroupdriver=systemd` 选项。
 
 > 注意：更改已加入集群的节点的 cgroup 驱动 是一项敏感的操作。如果 kubelet 已经使用其中一个 cgroup 驱动的语义创建了 Pod，更改运行时以使用其他的 cgroup 驱动，当为现有的 Pods 重新创建 PodSandbos 时会产生错误。重启 kubelet 也可能无法解决此类问题。如果你有切实可行的自动化方案，使用其他已更新配置的节点来替换该节点，或者使用自动化方案来重新安装。
+
+### cgroupfs
+
+cgroup 提供了一个原生接口并通过 cgroupfs 提供（从这句话我们可以知道 cgroupfs 就是 cgroup 的一个接口的封装）。类似于 procfs 和 sysfs，是一种虚拟文件系统。并且 cgroupfs 是可以挂载的，默认情况下挂在 `/sys/fs/cgroup` 目录。
+
+### systemd
+
+systemd 也是对于 cgroup 接口的一个封装。systemd 以 `PID=1` 的形式在系统肩颈的时候运行，并提供了一套系统管理守护程序、库和实用程序，用来控制、管理 Linux 系统资源。通过 `systemd-cgls` 命令可以看到 systemd 工作的进程 `PID=1`，而 `/sys/fs/cgroup/systemd` 目录维护的是自己使用的非 subsystem 的 cgroup 层级结构。
