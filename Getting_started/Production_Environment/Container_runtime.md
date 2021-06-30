@@ -87,3 +87,105 @@ sudo sysctl --system
   ```
   sudo systemctl restart containerd
   ```
+
+### CRI-O
+
+本节包含安装 CRI-O 作为容器运行时的必要步骤。
+
+> 说明：CRI-O 的主要以及次要版本必须与 Kubernetes 的主要和次要版本相匹配。更多信息请查阅 [CRI-O 兼容性列表](https://github.com/cri-o/cri-o#compatibility-matrix-cri-o--kubernetes)。
+
+使用以下命令在系统中安装 CRI-O。
+
+- *安装并配置前置环境*
+
+```
+# 创建.conf 文件以在启动时加载模块
+cat <<EOF | sudo tee /etc/modules-load.d/crio.conf
+oerlay
+br_netfilter
+EOF
+
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
+# 配置 sysctl 参数，这些配置在重启之后仍然起作用
+cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.ipv4.ip_forward                 = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+EOF
+
+sudo sysctl --system
+```
+
+- 设置系统环境变量并下载软件包
+
+在下列操作系统上安装 CRI-O ，使用下表中合适的值设置环境变量 `OS`  
+
+操作系统 | 环境变量 `$OS`
+--- | ---
+CentOS 8 | CentOS_8
+CentOS 8 Stream | CentOS_8_Stream
+CentOS 7 | CentOS_7
+
+然后，将 `$VERSION` 设置为与你的 Kubernetes 相匹配的 CRI-O 版本。例如，如果你要安装 CRI-O 1.20，请设置 `VERSION=1.20`。  
+
+你也可以安装一个特定的发行版本。例如，要安装 1.20.0 版本，设置 `VERSJON=1.20:1.20.0`
+
+然后执行
+```
+sudo curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/devel:kubic:libcontainers:stable.repo
+sudo curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.repo https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS/devel:kubic:libcontainers:stable:cri-o:$VERSION.repo
+sudo yum install cri-o
+```
+
+- 启动 CRI-O
+
+```
+sudo systemctl daemon-reload
+sudo systemctl enable crio --now
+```
+
+参阅 [CRI-O 安装指南] 了解进一步的详细信息。
+
+- cgroup 驱动 
+
+默认情况下，CRI-O 使用 `systemd` cgroup 驱动程序。要切换到 `cgroupfs` 驱动程序，编辑 `/etc/crio/crio.conf` 或者放置一个插件在 `/etc/crio/crio.conf.d/02-cgroup-manager.conf` 中的配置，例如：
+```
+[crio.runtime]
+conmon_group = "pod"
+cgroup_manager = "cgroupfs"
+```
+
+> 另请注意，更改后的 `conmon_cgroup`，将 CRI-O 与 `cgroupfs` 一起使用时，必须将其设置为 `pod`。通常有必要操持 kubelet 的 cgroup 驱动程序配置（通常我用过 kubeadm 完成）和 CRI-O 一致。
+
+### Docker
+
+1. 在每个邛上，根据 [安装 Docker 引擎](https://docs.docker.com/engine/install/#server) 为你的 Linux 发行版安装 Docker。你可以此文件中找到最新的经过验证的 Docker 版本 [依赖关系](https://github.com/kubernetes/kubernetes/blob/master/build/dependencies.yaml)。
+
+2. 配置 Docker 守护程序，尤其是使用 `systemd` 来管理容器的 cgroup。
+
+```
+sudo mkdir /etc/docker
+cat <<EOF | sudo tee /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdrive=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m",
+    "max-file": "5"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+```
+
+> 说明：对于 Linux 内核版本 4.0 或更高版本，或使用 3.10.0-51 及 更高版本的 RHEL 或 CentOS 的系统，`overlay2` 是首先的存储驱动程序。
+
+3. 重新启动 Docker 并在开机时启动
+
+```
+sudo systemctl enable docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
