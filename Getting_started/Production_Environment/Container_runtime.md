@@ -28,3 +28,10 @@ cgroup 提供了一个原生接口并通过 cgroupfs 提供（从这句话我们
 ### systemd
 
 systemd 也是对于 cgroup 接口的一个封装。systemd 以 `PID=1` 的形式在系统肩颈的时候运行，并提供了一套系统管理守护程序、库和实用程序，用来控制、管理 Linux 系统资源。通过 `systemd-cgls` 命令可以看到 systemd 工作的进程 `PID=1`，而 `/sys/fs/cgroup/systemd` 目录维护的是自己使用的非 subsystem 的 cgroup 层级结构。
+
+## 容器运行时
+
+### containd
+
+
+
