@@ -33,6 +33,6 @@
   misconfiguration: kubelet cgroup driver: "systemd" is different from docker cgroup driver: "cgroupfs"
   ```
   有两种常见方法可解决 cgroup 驱动程序问题：
-  - 按照[此处]((../../Container_runtime.md))的说明，重新安装 Docker。
-  - 更改 kubelet 配置以手动匹配 Docker cgroup 驱动程序，可以参考[配置 cgroup 驱动]((../../Container_runtime.md))
+  - 按照[此处](../../Container_runtime.md)的说明，重新安装 Docker。
+  - 更改 kubelet 配置以手动匹配 Docker cgroup 驱动程序，可以参考[配置 cgroup 驱动](Task/Management_cluster/Manage_with_kubeadm/Configure_cgroup_driver.md)
 
