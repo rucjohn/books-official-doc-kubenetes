@@ -58,5 +58,53 @@ sudo kubeadm reset
 检查 docker 的日志也可能有用：
 ```
 journalctl -ul docker
-``
+```
 
+## Pods 处于 RunContainerError、CrashLoopBackOff 或 Error 状态
+
+在 `kubeadm init` 命令运行后，系统中不应该有 pods 处于这类状态。
+- 在 `kubeadm init` 命令执行完成后，如果有 pods 处于这些状态之一，请在 kubeadm 仓库捍一个 issue。`coredns`（或 `kube-dns`）应该处于 `Pending` 状态，直到部署了网络插件为止。
+- 如果在部署完网络插件之后，有 pods 处于 `RunCaontainerError`、`CrashLoopBackOff` 或 `Error` 三种状态其中一种，并且 `coredns`（或 `kube-dns`）仍处于 `Pending` 状态，那很可能是安装的网络插件由于某种原因无法工作。或许需要授予它更多的 RBAC 特权或使用较新的版本。请在 Pod Network 提供商的问题跟踪器中提交问题，然后在此处分类问题。
+- 如果安装的 Docker 版本早于 1.12.1，请在使用 `systemd` 来启动 `dockerd` 和重启 docker 时，删除 `MountFlags=slave` 选项。可以在 `/var/lib/systemd/system/docker.service` 中看到 MountFlags。MountFlags 可能会干扰 Kubernetes 挂载的卷，并使 Pods 处于 `CrashLoopBackOff` 状态。当 Kubernetes 不能找到 `/var/run/secrets/kubernetes.io/serviceaccount` 文件时会发生错误。
+
+## coredns 停滞在 Pending 状态
+
+**这一行为是预期之中的，因为系统就是这么设计的**。kubeadm 的网络供应商是中立的，因此 管理员应该选择安装 pod 的网络插件。必须完成 Pod 的网络配置，然后才能完全部署 CoreDNS。在网络被配置好之前，DNS 组件会一直处于 Pending 状态。
+
+## HostPort 服务无法工作
+
+此 `HostPort` 和 `HostIP` 功能是否可用取决于你的 Pod 网络配置。请联系 Pod 网络插件的作者，以确认 `HostPort` 和 `HostIP` 功能是否可用。
+
+已验证 Calico、Canal 和 Flannel CNI 驱动程序支持 HostPort。
+
+## 无法通过其服务 IP 访问 Pod
+
+- 许多网络附加组件尚未启动 hairpin 模式，该模式允许 Pod 通过其服务 IP 进行访问。这是与 CNI 有关的问题。请与网络附加组件提供商联系，以获取他们所提供的 hairpin 模式的最新状态。
+- 如果正在使用 VirtualBox（直接使用或通过 Vagrant 使用），需要确保 `hostname -i` 返回一个可路由的 IP 地址。默认情况下，第一个接口连接不能路由的仅主机网络。解决方法是修改 `/etc/hosts` ，请参考[Vagrantfile](https://github.com/errordeveloper/kubernetes-ansible-vagrant/blob/22dd39dfc06111235620e6c4404a96ae146f26fd/Vagrantfile#L11)。
+
+## TLS 证书错误
+
+以下错误指出证书可能不匹配：
+```
+# kubectl get pods
+Unable to connect to ther server: x509: certificate signed by unknown authority (possibly because of "crypto/rsa: verification error" while trying to verify candidate authority certificate "kubernetes")
+```
+
+- 验证 `$HOME/.kube/config` 文件是否包含有效证书，并在必要时重新生成证书。在 kubeconfig 文件中的证书是 base64 编码的。使用 `base64 -d` 命令可以用来解码证书，`openssl x509 -text -noout` 命令可以用于查看证书信息。
+- 使用如下方法取消设置 `KUBECONFIG` 环境变量的值：
+  ```
+  unset KUBECONFIG
+  ```
+  或者将其设置为默认的 `KUBECONFIG` 位置：
+  ```
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+  ```
+- 另一个方法是覆盖 `kubeconfig` 的现有用户 "管理员"：
+  ```
+  mv $HOME/.kube $HOME/.kube.bak
+  mkdir $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+  ```
+
+## 容器
