@@ -84,5 +84,19 @@ Docker | /var/run/dockershim.sock
 containerd | /run containerd/containerd.sock
 CRI-O | /var/run/crio/crio.sock
 
-如果同时检测到 Docker 和 containerd，则优先选择 Docker。这是必然的，因为 Docker 18.09 附带了 containerd 并且两者都是可以检测到的，即使你仅
+- 如果同时检测到 Docker 和 containerd，则优先选择 Docker。这是必然的，因为 Docker 18.09 附带了 containerd 并且两者都是可以检测到的，即使你仅安装了 Docker。
+- 如果检测到其他两个或多个运行时，kubeadm 输出错误信息并退出。
+
+kubelet 通过内置的 `dockershim` CRI 实现与 Docker 集成。
+
+## 安装 kubeadm、kubelet 和 kubectl
+
+你需要在每台机器上安装以下的软件包：
+- kubeadm：用来初始化集群的指令。
+- kubelet：在集群中的每个节点上用来启动 Pod 和容器等。
+- kubectl：用来与集群通信的命令行工具。
+
+
+
+
 
