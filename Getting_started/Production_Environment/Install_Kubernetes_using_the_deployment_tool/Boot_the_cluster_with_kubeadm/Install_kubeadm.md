@@ -120,20 +120,29 @@ kubeadm 不能帮忙安装或者管理 `kubelet` 和 `kubectl`，所以需要确
 
   sudo systemctl enable --now kubelet
   ```
+  
   > 通过运行命令 `setenforce 0` 和 `sed ...` 将 SELinux 设置为 permissive 模式可以有效地将其禁用。这是允许容器访问主机文件系统所必需的，而这些操作为了例如 Pod 网络工作正常。必须这么做，直到 kubelet 做出对 SELinux 的支持进行升级为止。
+  
   > 如果你知道如何配置 SELinux 则可将其保持启动状态，但可能需要设定 kubeadm 不支持的部分配置。
   
 - 基于 Debian 的发行版
 
+  更新 apt 包索引 并安装使用 Kubernetes apt 仓库所需要的包：
+
   ```
-  # 更新 apt 包索引 并安装使用 Kubernetes apt 仓库所需要的包
   sudo apt-get update
   sudo apt-get install -y apt-transport-https ca-certificates curl
-  # 下载 Google Cloud 公开签名密钥
+  ```
+  下载 Google Cloud 公开签名密钥：
+  ```
   sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-  # 添加 Kubernetes apt 仓库
+  ```
+  添加 Kubernetes apt 仓库：
+  ```
   echo "deb [signed-by=/usr/shar/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-  # 更新 apt 包索引 ，安装 kubelet、kubeadm 和 kubectl，并锁定其版本
+  ```
+  更新 apt 包索引 ，安装 kubelet、kubeadm 和 kubectl，并锁定其版本：
+  ```
   sudo apt-get update
   sudo apt-get install -y kubelet kubeadm kubectl
   sudo apt-mark hold kubelet kubeadm kubectl
