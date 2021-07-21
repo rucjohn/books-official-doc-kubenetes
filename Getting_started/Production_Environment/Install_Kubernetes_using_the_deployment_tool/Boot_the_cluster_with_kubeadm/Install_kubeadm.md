@@ -121,9 +121,9 @@ kubeadm 不能帮忙安装或者管理 `kubelet` 和 `kubectl`，所以需要确
   sudo systemctl enable --now kubelet
   ```
   
-  > 通过运行命令 `setenforce 0` 和 `sed ...` 将 SELinux 设置为 permissive 模式可以有效地将其禁用。这是允许容器访问主机文件系统所必需的，而这些操作为了例如 Pod 网络工作正常。必须这么做，直到 kubelet 做出对 SELinux 的支持进行升级为止。
+  > 1. 通过运行命令 `setenforce 0` 和 `sed ...` 将 SELinux 设置为 permissive 模式可以有效地将其禁用。这是允许容器访问主机文件系统所必需的，而这些操作为了例如 Pod 网络工作正常。必须这么做，直到 kubelet 做出对 SELinux 的支持进行升级为止。
   
-  > 如果你知道如何配置 SELinux 则可将其保持启动状态，但可能需要设定 kubeadm 不支持的部分配置。
+  > 2. 如果你知道如何配置 SELinux 则可将其保持启动状态，但可能需要设定 kubeadm 不支持的部分配置。
   
 - 基于 Debian 的发行版
 
@@ -152,4 +152,8 @@ kubeadm 不能帮忙安装或者管理 `kubelet` 和 `kubectl`，所以需要确
 
 kubelet 现在每隔几秒就会重启，因为它陷入了一个等待 kubeadm 指令的死循环。
 
+## 配置 cgroup 驱动程序
 
+容器运行时和 kubelet 都具有名字为 “cgroup driver” 的属性，该懒得骑 于在 Linux 机器 上管理 CGroups 而主非常重要。
+
+> 需要确保容器运行时和 kubelet 所使用的是相同的 cgroup 驱动，否则 kubelet 进程会失败。
