@@ -96,7 +96,51 @@ kubelet 通过内置的 `dockershim` CRI 实现与 Docker 集成。
 - kubelet：在集群中的每个节点上用来启动 Pod 和容器等。
 - kubectl：用来与集群通信的命令行工具。
 
+kubeadm 不能帮忙安装或者管理 `kubelet` 和 `kubectl`，所以需要确保它们与通过 kubeadm 安装的控制平台的版本相匹配。如果不这样做，则存在发生版本偏差的风险，可能会导致一些预料之外的错误和问题。然后，控制平面与 kubelet 间的相差一个次要版本不一致是支持的，但是 kubelet 的版本不可能超过 API 服务器的版本。例如，1.7.0 版本的 kubelet 可以完全兼容 1.8.0 版本的 API 服务器，反之则不可以。
 
+- 基于 RedHat 的发行版
 
+  ```
+  cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+  [kubernetes]
+  name=Kubernetes
+  baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+  enabled=1
+  gpgcheck=1
+  repo_gpgcheck=1
+  gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+  exclude=kubelet kubeadm kubectl
+  EOF
+
+  # 将 SELinux 设置为 permissive 模式（相当于将其禁用）
+  sudo setenforce 0
+  sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+
+  sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+
+  sudo systemctl enable --now kubelet
+  ```
+  > 通过运行命令 `setenforce 0` 和 `sed ...` 将 SELinux 设置为 permissive 模式可以有效地将其禁用。这是允许容器访问主机文件系统所必需的，而这些操作为了例如 Pod 网络工作正常。必须这么做，直到 kubelet 做出对 SELinux 的支持进行升级为止。
+  > 如果你知道如何配置 SELinux 则可将其保持启动状态，但可能需要设定 kubeadm 不支持的部分配置。
+  
+- 基于 Debian 的发行版
+
+  ```
+  # 更新 apt 包索引 并安装使用 Kubernetes apt 仓库所需要的包
+  sudo apt-get update
+  sudo apt-get install -y apt-transport-https ca-certificates curl
+  # 下载 Google Cloud 公开签名密钥
+  sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  # 添加 Kubernetes apt 仓库
+  echo "deb [signed-by=/usr/shar/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+  # 更新 apt 包索引 ，安装 kubelet、kubeadm 和 kubectl，并锁定其版本
+  sudo apt-get update
+  sudo apt-get install -y kubelet kubeadm kubectl
+  sudo apt-mark hold kubelet kubeadm kubectl
+  ```
+
+- 无包管理器的情况
+
+kubelet 现在每隔几秒就会重启，因为它陷入了一个等待 kubeadm 指令的死循环。
 
 
