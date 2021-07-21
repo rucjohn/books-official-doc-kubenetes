@@ -5,3 +5,8 @@
     * [使用部署工具安装 Kubernetes]()
       * [使用 kubeadm 引导集群]()
         * [安装 kubeadm](Getting_started/Production_Environment/Install_Kubernetes_using_the_deployment_tool/Boot_the_cluster_with_kubeadm/Install_kubeadm.md)
+        * [对 kubeadm 进行故障排查](Getting_started/Production_Environment/Install_Kubernetes_using_the_deployment_tool/Boot_the_cluster_with_kubeadm/Troubleshoot_kubeadm.md)
+* [任务]()
+  * [管理集群]() 
+    * [使用 kubeadm 进行管理]()
+      * [配置 cgroup 驱动]()
