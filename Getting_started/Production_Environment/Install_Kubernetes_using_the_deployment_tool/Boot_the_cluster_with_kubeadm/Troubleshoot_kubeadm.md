@@ -107,6 +107,27 @@ Unable to connect to ther server: x509: certificate signed by unknown authority 
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
   ```
 
+## 容器使用的非公共 IP
 
+在某些情况下 `kubectl logs` 和 `kubectl run` 命令或许会返回以下错误，即使除此之外集群一切功能正常：
+```
+Error from server: Get https://10.19.0.41:10250/containerLogs/default/mysql-xxxx-xxxx/mysql: dial tcp 10.19.0.41:10250: getsockopt: no route to host
+```
+
+- 这或许是由于 Kubernetes 使用的 IP 无法与看似相同的子网上的其他 IP 进行通信的缘故，可能是由机器提供商的政策所导致。
+- Digital Ocean 既分配一个共有 IP 给 `eth0`，也分配一个私有 IP 在内部用作其浮动 IP 功能的锚点，然而 `kubelet` 将选择后者作为节点的 `InternalIP` 而不是公共 IP。
+  
+  使用 `ip addr show` 命令代替 `ifconfig` 命令去检查这种情况，因为 `ifconfig` 命令不会显示有问题的别名 IP 地址。或者指定的 Digital Ocean 的 API 端口允许从 droplet 中查询 anchor IP：
+  ```
+  curl http://169.254.169.254/metadata/v1/interfaces/public/0/anchor_ipv4/address
+  ```
+
+  解决方法是通知 `kubelet` 使用哪个 `--node-ip`。当使用 Digital Ocean 时，可以是公网 IP（分配给 `eth0`），或者私网 IP（分配给 `eth1`）。私网 IP 是可选的。
+
+  然后重启 `kubelet`：
+  ```
+  systemctl daemon-reload
+  systemctl restart kubelet
+  ```
 
 
