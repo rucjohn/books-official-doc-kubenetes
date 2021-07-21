@@ -35,4 +35,28 @@
   有两种常见方法可解决 cgroup 驱动程序问题：
   - 按照[此处](../../Container_runtime.md)的说明，重新安装 Docker。
   - 更改 kubelet 配置以手动匹配 Docker cgroup 驱动程序，可以参考[配置 cgroup 驱动](../../../../Task/Management_cluster/Manage_with_kubeadm/Configure_cgroup_driver.md)
+- 控制平面上的 Docker 容器持续遁入崩溃状态或（因其他原因）挂起。可以运行 `docker ps` 命令来检查以及 `docker logs` 命令来检视每个容器的运行日志。
+
+## 当删除托管容器时 kubeadm 阻塞
+
+如果 Docker 停止并且不删除 Kubernetes 所管理的所有容器，可能发生以下情况：
+```
+sudo kubeadm reset
+```
+```
+[preflight] Running pre-flight checks
+[reset] Stopping the kubelet service
+[reset] Unmounting mounted directories in "/var/lib/kubelet"
+[reset] Removing kubernetes-managed containers
+(block)
+```
+一个可行的解决方案是重新启动 Docker 服务，然后重新运行 `kubeadm reset`：
+```
+sudo systemctl restart docker.service
+sudo kubeadm reset
+```
+检查 docker 的日志也可能有用：
+```
+journalctl -ul docker
+``
 
