@@ -70,6 +70,19 @@ TCP | 入站 | 30000-32767 | NodePort 服务 | 所有组件
 
 ## 安装 runtime
 
-为了在 Pod 中运行容器，Kubernetes 使用 [容器运行时](../../Container_runtime.md)
+为了在 Pod 中运行容器，Kubernetes 使用 [容器运行时](../../Container_runtime.md)。
 
+**Linux 节点**
+
+默认情况下，Kubernetes 使用容器运行时接口（Container Runtime Interface, CRI）来与你所选择的容器运行时交互。
+
+如果不指定运行时，则 kubeadm 会自动尝试检测到系统上已经安装的运行时，方法是扫描一组众所周知的 Unix 套接字。下面的表格列举了一些容器运行时及其对应的套接字路径：
+
+运行时 | 域套接字
+--- | ---
+Docker | /var/run/dockershim.sock
+containerd | /run containerd/containerd.sock
+CRI-O | /var/run/crio/crio.sock
+
+如果同时检测到 Docker 和 containerd，则优先选择 Docker。这是必然的，因为 Docker 18.09 附带了 containerd 并且两者都是可以检测到的，即使你仅
 
