@@ -70,6 +70,6 @@ TCP | 入站 | 30000-32767 | NodePort 服务 | 所有组件
 
 ## 安装 runtime
 
-为了在 Pod 中运行容器，Kubernetes 使用 [容器运行时]
+为了在 Pod 中运行容器，Kubernetes 使用 [容器运行时](../../Container_runtime.md)
 
 
