@@ -9,4 +9,5 @@
 * [任务](Task/README.md)
   * [管理集群](Task/Management_cluster/README.md) 
     * [使用 kubeadm 进行管理](Task/Management_cluster/Manage_with_kubeadm/README.md)
+      * [使用 kubeadm 进行证书管理]（Task/Management_cluster/Manage_with_kubeadm/Use_kubeadm_for_certificate_management.md）
       * [配置 cgroup 驱动](Task/Management_cluster/Manage_with_kubeadm/Configure_cgroup_driver.md)
