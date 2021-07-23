@@ -169,13 +169,15 @@ cgroup_manager = "cgroupfs"
 sudo mkdir /etc/docker
 cat <<EOF | sudo tee /etc/docker/daemon.json
 {
-  "exec-opts": ["native.cgroupdrive=systemd"],
-  "log-driver": "json-file",
-  "log-opts": {
-    "max-size": "100m",
-    "max-file": "5"
-  },
-  "storage-driver": "overlay2"
+    "exec-opts": [
+        "native.cgroupdriver=systemd"
+    ],
+    "log-driver": "json-file",
+    "log-opts": {
+        "max-size": "100m",
+        "max-file": "5"
+    },
+    "storage-driver": "overlay2"
 }
 EOF
 ```
