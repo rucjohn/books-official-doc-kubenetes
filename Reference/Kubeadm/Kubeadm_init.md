@@ -40,5 +40,8 @@ upload-cents                  上传证书到 kubeadm-certs
 mark-control-plane            将节点标记为控制平面
 bootstrap-token               生成用于将节点加入集群的引导令牌
 kubelet-finalize              在 TLS 引导后更新与 kubelet 相关的设置
-  /experimental-cert-rotation   
+  /experimental-cert-rotation   启动 kubelet 客户端证书轮换
+addon                         安装通过一致性测试的所需的插件
+  /coredns                      将 CoreDNS 插件安装到 Kubernetes 集群中
+  /kube-proxy                   将 kube-proxy 插件安装到 Kubernetes 集群中
 ```
