@@ -6,7 +6,7 @@
 
 运行此命令来搭建 Kubernetes 控制平面节点。
 
-`kubeadm init` 命令执行以下步骤：
+`kubeadm init [flags]` 命令执行以下步骤：
 ```
 preflight                     运行前检查
 certs                         证书生成
