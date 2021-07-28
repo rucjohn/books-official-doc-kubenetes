@@ -20,3 +20,5 @@
   * [Kubeadm](Reference/Kubeadm/README.md)
     * [kubeadm init](Reference/Kubeadm/Kubeadm_init.md)
     * [kubeadm token](Reference/Kubeadm/Kubeadm_token.md)
+  * [组件工具](Reference/Component_tools/README.md)
+    * [TLS 启动引导](Reference/Component_tools/TLS_bootstrapping.md)
