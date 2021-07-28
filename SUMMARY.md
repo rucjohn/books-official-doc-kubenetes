@@ -17,3 +17,4 @@
 * [参考](Reference/README.md)
   * [Kubeadm](Reference/Kubeadm/README.md)
     * [kubeadm init](Reference/Kubeadm/Kubeadm_init.md)
+    * [kubeadm token](Reference/Kubeadm/Kubeadm_token.md)
