@@ -187,5 +187,32 @@ kubeadm 配置文件的路径。
 
 > 警告：从 v1.18 版本开始，在 kubeadm 中使用 kube-dns 的支持已被废弃，并已在 v1.21 版本中删除。
 
+## 在 kubeadm 中使用 init phases
+
+kubeadm 允许使用 `kubeadm init phase` 命令分阶段创建控制平面节点。
+
+要查看阶段和子阶段的有序列表，可以调用 `kubeadm init --help`。该列表将位于帮助屏幕的顶部，每个阶段旁边都有描述。
+
+> 注意，通过调用 `kubeadm init`，所有阶段和子阶段都将按照此顺序执行。
+
+```
+sudo kubeadm init phase control-plane controller-manager --help
+```
+
+也可以使用 `--help` 查看稳定父阶段的子阶段列表：
+```
+sudo kubeadm init phase control-plane --help
+```
+
+`kubeadm init` 还公开了一个名为 `--skip-phases` 的参数，该参数可用于跳过某些阶段。参数接受阶段名称列表，这个名称列表可以从上面的有序列表中获取。
+```
+sudo kubeadm init phase control-plane all --config=configfile.yaml
+sudo kubeadm init phase etcd local --config=configfile.ymal
+# 现在可以修改控制平面和 etcd 清单文件
+kubeadm init --skip-phase=control-plane,etcd --config=configfile.yaml
+```
+
+示例中将执行的操作是基于 `configfile.yaml` 中的配置在 `/etc/kubernetes/manifests` 中写入控制平面和 etcd 的清单文件。允许修改文件，然后使用 `--skip-phases` 跳过这些阶段。通过调用最后一个命令，将使用自定义清单文件创建一个控制平面节点。
+
 
 
