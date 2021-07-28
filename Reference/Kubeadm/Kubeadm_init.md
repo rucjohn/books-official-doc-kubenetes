@@ -176,7 +176,7 @@ kubeadm 配置文件的路径。
 6. 生成令牌，将来其他节点可使用该令牌向控制平面注册自己。如 [kubeadm token](Kubeadm_token.md) 文档所述，用户可以选择通过 `--token` 提供令牌。  
 &emsp;
 
-7. 为了使得节点能够遵照 [启动引导令牌](../API_access_control/Authenticating_with_Bootstrap_Tokens.md) 和 [TLS启动引导]() 这两份文档中描述的机制加入到集群中，kubeadm 会执行所有的必要配置：
+7. 为了使得节点能够遵照 [启动引导令牌](../API_access_control/Authenticating_with_Bootstrap_Tokens.md) 和 [TLS启动引导](../Component_tools/TLS_bootstrapping.md) 这两份文档中描述的机制加入到集群中，kubeadm 会执行所有的必要配置：
     - 创建一个 ConfigMap 提供添加集群节点所需的信息，并为该 ConfigMap 设置相关的 RABC 访问规则。
     - 允许启动引导令牌访问 CSR 签名 API。
     - 配置自动签名新的 CSR 请求。
