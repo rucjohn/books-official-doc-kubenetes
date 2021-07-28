@@ -159,23 +159,31 @@ kubeadm 配置文件的路径。
 `kubeadm init` 命令通过执行下列步骤来启动一个 Kubernetes 控制平面节点。  
 
 1. 在做出变更前运行一系列的预检选项来验证系统状态。一些检查选项仅仅触发警告，其它的则会被为错误并且退出 kubeadm，除非问题得到解决或者用户指定了 `--ignore-preflight-error=<错误列表>` 参数。  
+&emsp;
 
 2. 生成一个自签名的 CA 证书来为集群中每一个组件建立身份标识。用户可以通过将其放入 `--cert-dir` 配置的证书目录中（默认为 `/etc/kubernetes/pki`）来提供他们自己的 CA 证书以及或者密钥。apiserver 证书将为任何 `--apisrver-cert-extra-sans` 参数值提供附加的 SAN 条目，必要时将其小写。  
+&emsp;
 
 3. 将 kubeconfig 文件写入 `/etc/kubernetes` 目录，以便 kubelet、controller manager 和 scheduler 可以连接到 apiserver，它们每一个都有自己的身份标识，同时生成一个名为 `admin.conf` 的独立的 kubeconfig 文件，用于管理操作。  
+&emsp;
 
 4. 为 apiserver、controller manager 和 scheduelr 生成静态 Pod 清单文件。假如没有提供一个外部的 etcd 服务的话，也会为 etcd 生成一份额外的静态 Pod 清单文件。文件被写入到 `/etc/kubernetes/manifests` 目录，kubelet 会监视这个目录以便在系统启动的时候创建 Pod。一旦控制平面的 Pod 都运行起来，`kubeadm init` 的工作就继续往下执行。  
+&emsp;
 
 5. 对控制平面节点设置标签和污点标记，以便不会在它上面运行其它的工作负载。  
+&emsp;
 
 6. 生成令牌，将来其他节点可使用该令牌向控制平面注册自己。如 [kubeadm token](Kubeadm_token.md) 文档所述，用户可以选择通过 `--token` 提供令牌。  
+&emsp;
 
 7. 为了使得节点能够遵照 [启动引导令牌]() 和 [TLS启动引导]() 这两份文档中描述的机制加入到集群中，kubeadm 会执行所有的必要配置：
     - 创建一个 ConfigMap 提供添加集群节点所需的信息，并为该 ConfigMap 设置相关的 RABC 访问规则。
     - 允许启动引导令牌访问 CSR 签名 API。
     - 配置自动签名新的 CSR 请求。
+&emsp;
 
 8. 通过 apiserver 安装一个 DNS 服务器（CoreDNS）和 kube-proxy 附加组件。在 Kubernetes 1.11 版本以后，CoreDNS 是默认的 DNS 服务器。请注意，尽管已部署 DNS 服务器，但直到安装 CNI 时才调度它。
+&emsp;
 
 > 警告：从 v1.18 版本开始，在 kubeadm 中使用 kube-dns 的支持已被废弃，并已在 v1.21 版本中删除。
 
