@@ -179,7 +179,8 @@ kubeadm 配置文件的路径。
 7. 为了使得节点能够遵照 [启动引导令牌](../API_access_control/Authenticating_with_Bootstrap_Tokens.md) 和 [TLS启动引导](../Component_tools/TLS_bootstrapping.md) 这两份文档中描述的机制加入到集群中，kubeadm 会执行所有的必要配置：
     - 创建一个 ConfigMap 提供添加集群节点所需的信息，并为该 ConfigMap 设置相关的 RABC 访问规则。
     - 允许启动引导令牌访问 CSR 签名 API。
-    - 配置自动签名新的 CSR 请求。
+    - 配置自动签名新的 CSR 请求。  
+&emsp;
 &emsp;
 
 8. 通过 apiserver 安装一个 DNS 服务器（CoreDNS）和 kube-proxy 附加组件。在 Kubernetes 1.11 版本以后，CoreDNS 是默认的 DNS 服务器。请注意，尽管已部署 DNS 服务器，但直到安装 CNI 时才调度它。
@@ -187,7 +188,7 @@ kubeadm 配置文件的路径。
 
 > 警告：从 v1.18 版本开始，在 kubeadm 中使用 kube-dns 的支持已被废弃，并已在 v1.21 版本中删除。
 
-## 在 kubeadm 中使用 init phases
+## kubeadm init phases
 
 kubeadm 允许使用 `kubeadm init phase` 命令分阶段创建控制平面节点。
 
