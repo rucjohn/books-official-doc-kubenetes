@@ -56,6 +56,109 @@
 
 本文的其余部分描述配置 TLS 引导的必要步骤及其局限性。
 
+## 配置
+
+要配置 TLS 启动引导及可选的自动批复，必须配置以下组件的选项：
+- kube-apiserver
+- kube-controller-manager
+- kubelet
+- `ClusterRoleBinding` 以及可能需要的 `ClusterRole`
+
+此外，需要有 Kubernetes 证书机构（Ceritificate Authority，CA）
+
+## 证书机构
+
+就像在没有启动引导的情况下，会需要证书机构（CA）密钥和证书。这些数据会被用来对 kubelet 证书进行签名。如前所述，将证书机构密钥和证书发布到主控节点是管理员的责任。
+
+就本文而言，假定这些数据已经发布到主控节点上的 `/var/lib/kubernetes/ca.pem`（证书）和 `/var/lib/kubernetes/ca-key.pem`（密钥）文件中，这两个文件被称作 “Kubernetes CA 证书和密钥”，并且假定证书和密钥都是 PEM 编码的。所有 Kubernetes 组件（kubelet、kube-apiserver、kube-controller-manager）都使用这些凭据，
+
+## kube-apiserver 配置
+
+启动 TLS 引导对 kube-apiserver 有若干需求：
+- 能够识别对客户端证书进行签名的 CA
+- 能够对启动引导的 kubelet 执行身份认证，并将其置入 `system:bootstrappers` 组
+- 能够对启动引导的 kubelet 执行鉴权操作，允许其创建证书签名请求（CSR）
+
+### 识别客户证书
+
+对于所有客户端证书的认证操作而言，这是很常见的。如果还没有设置，则要为 kube-apiserver 添加 `--client-ca-file=FILENAME` 标志来启用客户端证书认证，在标志中引用一个包含用来签名的证书的证书机构包，例如：`--client-ca-file=/var/lib/kubernetes/ca.pem`。
+
+### 初始引导认证
+
+为了让引导的 kubelet 能够连接到 kube-apiserver 并请求证书，它必须首先向服务器进行身份认证。可以使用任何一种能够对 kubelet 进行身份认证的 [身份认证组件](../API_access_control/Authenticating.md) 。
+
+尽管所有身份认证策略都可以用于 kubelet 初始引导凭据来进行认证，但为了便于配置，建议使用以下两个身份认证组件：
+- Bootstrap Token
+- 令牌认证文件
+
+Bootstrap Token 是一种对 kubelet 进行身份认证的方法，相对简单且容易管理，并且不需要在启动 kube-apiserver 时设置额外的标志。Bootstrap Token 从 Kubernetes 1.12 开始是处于 ***beta*** 功能特性。
+
+无论选择哪种方法，都要求 kubelet 能够以具有以下权限的用户进行身份认证：  
+
+1. 创建和读取 CSR
+2. 在启用了自动批复时，能够在请求节点客户端证书时得到自动批复
+
+使用 Bootstrap Token 进行身份认证的 kubelet 会被认证为 `system:bootstrappers` 组中的用户，这是一种标准方法。
+
+随着这个功能特性的逐渐成熟，需要确保 token 绑定到某个基于角色的访问控制（RBAC）策略上，从而严格限制仅限于客户端申请提供证书的请求。当 RBAC 被配置启用时，可以将 token 限制到某个组，从而提高灵活性。例如，可以在准备节点期间禁止某特定引导组的访问。
+
+### Bootstrap Token
+
+Bootstrap Token 在 Kubernetes 集群中存储为 Secret 对象，被发放到各个 kubelet。可以在整个集群中使用同一个 token，也可以为每个节点发放单独的 token。
+
+这一过程有两个方面：
+
+1. 基于 token id、secret 和范畴信息创建 Kubernetes Secret。
+2. 将 token 发放给 kubelet。
+
+- 从 kubelet 的角度，所有 token 看起来都很像，没有特别的含义。
+- 从 kube-apiserver 的角度，Bootstrap Token 是很特殊的。根据其 `type`、`namespace` 和 `name`，kube-apiserver 能够认其为特殊的 token，并授予携带该 token 的任何人以特殊的引导权限，换言之，将其视为 `system:bootstrappers` 组的成员。这就满足了 TLS 引导的基本需求。
+
+如果希望使用 Bootstrap Token，必须在 kube-apiserver 上启用以下标志：
+```
+--enable-bootstrap-token-auth=true
+```
+
+### 令牌认证文件
+
+kube-apiserver 能够将 token 视作身份认证依据。这些 token 可以是任意数据，但必须表示为基于某个安全随机数生成器而得到的 128 位混沌数据。这里的随机数生成器可以是现代 Linux 系统上的 `/dev/urandom`。生成 token 的方式有很多种。例如：
+```
+head -c 16 /dev/urandom | od -An -t x | tr -d ' '
+```
+
+上面的命令会生成有类似开 `02b50b05283e98dd0fd71db496ef01e8` 这样的 token。
+
+token 文件示例：
+```
+02b50b05283e98dd0fd71db496ef01e8,kube-let-bootstrap,10001,"system:bootstrappers"
+```
+
+以上示例中，前面三个值可能是任何值，但是最后一段""内的组名则必须是固定的。
+
+向 kube-apiserver 添加 `--token-auth-file=FILENAME` 标志以启动令牌文件。
+
+### 授权 kubelet 创建 CSR
+
+既然引导节点被认证为 `system:bootstrapping` 组的成员，则需要授权它创建证书签名请求（CSR），并在证书被签名之后将其取回。幸运的是，Kubernetes 附带了一个 `ClusterRole`，这具有（并且仅有）这些权限：`system:node-bootstrapper`。
+
+为了实现这一点，只需要创建 `ClusterRoleBinding`，将 `system:bootstrappers` 组绑定到集群角色 `system:node-bootstrapper`。
+```
+apiVersion: rabc.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: create-csrs-for-bootstrapping
+subjects:
+- kind: Group
+  name: system:bootstrappers
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: system:node-bootstrapper
+  apiGroup: rbac.authorization.k8s.io
+```
+
+
+
 
 
 
