@@ -11,6 +11,7 @@
 ## 初始化过程
 
 当工作节点启动时，kubelet 执行以下动作：
+
 1. 查找自己的 `kubeconfig` 文件  
 2. 通过 `kubeconfig` 文件的 TLS 密钥和签名证书，检索 apiserver 的 URL 和凭据  
 3. 尝试使用这些凭据与 apiserver 通信  
@@ -22,6 +23,7 @@
 - 证书被 kube-apiserver 所信任的一个证书机构（CA）所签名
 
 集群管理员需要完成以下动作：  
+
 1. 创建 CA 密钥和证书  
 2. 将 CA 证书发布到 kube-apiserver 所在的主控节点上  
 3. 为每个 kubelet 创建密钥和证书；强烈建议为每个 kubelet 使用唯一的、CN 值不同的密钥和证书  
@@ -33,6 +35,7 @@
 ### 引导初始化
 
 在启动引导初始化过程，会发生以下事情：  
+
 1. kubelet 启动  
 2. kubelet 发现没有对应的 `kubeconfig` 文件  
 3. kubelet 搜索并发现 `bootstrap-kubeconfig` 文件  
@@ -41,9 +44,8 @@
 6. kubelet 现在拥有受限制的凭据，以此来创建和获取证书签名请求（CSR）  
 7. kubelet 为自己创建一个 CSR，并将其 signerName 设置为 `kubernetes.io/kube-apiserver-client-kubelet`  
 8. CSR 通过以下两种方式获得批复：  
-    - 如果已配置，kube-conroller-manager 会自动批复该 CSR  
-    - 如果已配置，外部流程（可能是个人）使用 Kubernetes API 或通过 `kubectl` 来批复该 CSR  
-
+    - 如果已配置，kube-conroller-manager 会自动批复该 CSR。
+    - 如果已配置，外部流程（可能是个人）使用 Kubernetes API 或通过 `kubectl` 来批复该 CSR。
 9. kubelet 所需要的证书被创建  
 10. 证书被发放到 kubelet  
 11. kubelet 取回该证书  
