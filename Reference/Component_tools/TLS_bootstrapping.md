@@ -43,6 +43,7 @@
 8. CSR 通过以下两种方式获得批复：  
     - 如果已配置，kube-conroller-manager 会自动批复该 CSR  
     - 如果已配置，外部流程（可能是个人）使用 Kubernetes API 或通过 `kubectl` 来批复该 CSR  
+
 9. kubelet 所需要的证书被创建  
 10. 证书被发放到 kubelet  
 11. kubelet 取回该证书  
