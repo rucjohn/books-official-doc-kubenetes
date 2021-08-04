@@ -107,7 +107,7 @@ data:
     users: []   
 ```
 
-ConfigMap 的 `kubeconfig` 成员是一个填好了集群信息的配置文件。这里主要交接的信息是 `certificate-authority-data`。在将来可能会扩展。
+ConfigMap 的 `kubeconfig` 数据是一个填好了集群信息的配置文件。这里主要交接的信息是 `certificate-authority-data`。在将来可能会扩展。
 
 签名是一个使用 "detached" 模式生成的 JWS 签名。
 - 为了检验签名，用户应该按照 JWS 规则（base64 编码且丢掉结尾的 `=`）对 `kubeconfig` 的内容进行编码。完成编码的内容会被插入到两个`.`中间，形成完整的 JWS。
