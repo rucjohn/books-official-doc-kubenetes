@@ -22,4 +22,4 @@
     * [kubeadm token](Reference/Kubeadm/Kubeadm_token.md)
     * [kubeadm config](Reference/Kubeadm/Kubeadm_config.md)
   * [组件工具](Reference/Component_tools/README.md)
-    * [TLS 启动引导](Reference/Component_tools/TLS_bootstrapping.md)
+    * [TLS 引导](Reference/Component_tools/TLS_bootstrapping.md)
