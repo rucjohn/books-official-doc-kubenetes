@@ -159,6 +159,57 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 ```
 
+## kube-controller-manager 配置
+
+apiserver 收到 kubelet 的证书请求，并对这些请求进行身份认证，但真正负责发放签名证书的是 controller manager。
+
+controller manager 通过一个证书发放的控制回路来执行此操作。该操作的执行方式是使用使用磁盘上的文件用 `cfssl` 本地签名组件来完成。目前，**所发放的所有证书都只有一年的有效期**，并设定了默认的一组密钥用法。
+
+为了让 controller manager 对证书签名，需要：
+- 能够访问之前所创建并分发 "Kubernetes CA 密钥和证书"
+- 启用 CSR 签名
+
+### 访问密钥和证书
+
+如前所述，需要创建一个 Kubernetes CA 密钥和证书，并将其发布到主控节点。controller manager 会使用这些数据对 kubelet 证书进行签名。
+
+这些被签名的证书反过来会被 kubelet 用来向 kube-apiserver 进行身份认证，因此在此阶段提供给 controller manager 的 CA 同时也能够被 kube-apiserver 信任，并且能够进行身份认证就显得非常重要。CA 密钥和证书是通过 kube-apiserver 的标志 `--client-ca-file=FILENAME` 来设置的。
+
+要将 Kubernetes CA 密钥和证书提供给 kube-controller-manager，可以使用以下标志：
+```
+--cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt --cluster-signing-key-file=/etc/kubernetes/pki/ca.key
+```
+
+所签名的证书的合法期限可以通过下面的标志来配置：
+```
+--cluster-signing-duration
+```
+
+### 批复
+
+为了对 CSR 进行批复，需要告诉 controller manager 所批复的 CSR 是可授受的。这是通过 RBAC 访问权限授予正确的组来实现的。
+
+有两个许可权限组：
+- `nodeclient`：如果进行创建新证书操作，则该节点目前没有证书。该节点使用前文所列的其中一个 token 进行身份认证，因此是 `system:bootstrappers` 组的成员。
+- `selfnodeclient`：如果进行证书续期操作，则该节点已经拥有证书。该节点持续使用现有的证书将自己认证为 `system:nodes` 组的成员。
+
+要允许 kubelet 请求并接收新的证书，可以创建一个 `ClusterRoleBinding` 将引导节点所处的组 `system:bootstrappers` 绑定到为其赋予访问权限的 `ClusterRole`: `system:certificates.k8s.io:certificatesigningrequests:nodeclient`。
+```
+# 批复 "system:bootstrappers" 组的所有 CSR
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: auto-approve-csrs-for-group
+subjects:
+- kind: Group
+  name: system:bootstrappers
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: system:certificates.k8s.io:certificatesigningrequests:nodeclient
+  apiGroup: rbac.authorization.k8s.io
+```
+
 
 
 
