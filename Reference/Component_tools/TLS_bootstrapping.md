@@ -12,9 +12,9 @@
 
 当工作节点启动时，kubelet 执行以下动作：
 
-1. 查找自己的 `kubeconfig` 文件  
-2. 通过 `kubeconfig` 文件的 TLS 密钥和签名证书，检索 apiserver 的 URL 和凭据  
-3. 尝试使用这些凭据与 apiserver 通信  
+1. &nbsp;查找自己的 `kubeconfig` 文件  
+2. &nbsp;通过 `kubeconfig` 文件的 TLS 密钥和签名证书，检索 apiserver 的 URL 和凭据  
+3. &nbsp;尝试使用这些凭据与 apiserver 通信  
 
 如果 kube-apiserver 成功认证了 kubelet 的凭据数据，它会将 kubelet 视为一个有效节点，并开始为其分配 Pod。
 
@@ -24,11 +24,11 @@
 
 集群管理员需要完成以下动作：  
 
-1. 创建 CA 密钥和证书  
-2. 将 CA 证书发布到 kube-apiserver 所在的主控节点上  
-3. 为每个 kubelet 创建密钥和证书；强烈建议为每个 kubelet 使用唯一的、CN 值不同的密钥和证书  
-4. 使用 CA 密钥对 kubelet 证书签名  
-5. 将 kubelet 密钥和签名的证书发布到 kubelet 所在的特定节点上  
+1. &nbsp;创建 CA 密钥和证书  
+2. &nbsp;将 CA 证书发布到 kube-apiserver 所在的主控节点上  
+3. &nbsp;为每个 kubelet 创建密钥和证书；强烈建议为每个 kubelet 使用唯一的、CN 值不同的密钥和证书  
+4. &nbsp;使用 CA 密钥对 kubelet 证书签名  
+5. &nbsp;将 kubelet 密钥和签名的证书发布到 kubelet 所在的特定节点上  
 
 本文中描述的 TLS 启动引导过程旨在简化上述过程，甚至完全自动化，尤其是第 3 步之后操作，因为这些步骤是初始化或扩展集群时最常见的操作。
 
