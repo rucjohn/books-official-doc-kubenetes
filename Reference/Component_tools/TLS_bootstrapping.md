@@ -36,23 +36,23 @@
 
 在启动引导初始化过程，会发生以下事情：  
 
-1. kubelet 启动  
-2. kubelet 发现没有对应的 `kubeconfig` 文件  
-3. kubelet 搜索并发现 `bootstrap-kubeconfig` 文件  
-4. kubelet 读取该引导文件，获取 apiserver 的 URL 和一个用途有限的 Token  
-5. kubelet 使用 Token 与 apiserver 建立连接并进行身份认证  
-6. kubelet 现在拥有受限制的凭据，以此来创建和获取证书签名请求（CSR）  
-7. kubelet 为自己创建一个 CSR，并将其 signerName 设置为 `kubernetes.io/kube-apiserver-client-kubelet`  
-8. CSR 通过以下两种方式获得批复：  
+1. &nbsp;kubelet 启动  
+2. &nbsp;kubelet 发现没有对应的 `kubeconfig` 文件  
+3. &nbsp;kubelet 搜索并发现 `bootstrap-kubeconfig` 文件  
+4. &nbsp;kubelet 读取该引导文件，获取 apiserver 的 URL 和一个用途有限的 Token  
+5. &nbsp;kubelet 使用 Token 与 apiserver 建立连接并进行身份认证  
+6. &nbsp;kubelet 现在拥有受限制的凭据，以此来创建和获取证书签名请求（CSR）  
+7. &nbsp;kubelet 为自己创建一个 CSR，并将其 signerName 设置为 `kubernetes.io/kube-apiserver-client-kubelet`  
+8. &nbsp;CSR 通过以下两种方式获得批复：  
     - 如果已配置，kube-conroller-manager 会自动批复该 CSR。
     - 如果已配置，外部流程（可能是个人）使用 Kubernetes API 或通过 `kubectl` 来批复该 CSR。
-9. kubelet 所需要的证书被创建  
-10. 证书被发放到 kubelet  
-11. kubelet 取回该证书  
-12. kubelet 创建一个合适的 `kubeconfig`，其中包含密钥和已签名的证书  
-13. kubelet 开始正常工作  
-14. kubelet 在证书快过期时自动请求更新证书（可选的，如果配置了参数）  
-15. kubelet 要求更新的证书被批复并发放（可选的，如果配置了参数）  
+9. &nbsp;kubelet 所需要的证书被创建  
+10. &nbsp;证书被发放到 kubelet  
+11. &nbsp;kubelet 取回该证书  
+12. &nbsp;kubelet 创建一个合适的 `kubeconfig`，其中包含密钥和已签名的证书  
+13. &nbsp;kubelet 开始正常工作  
+14. &nbsp;kubelet 在证书快过期时自动请求更新证书（可选的，如果配置了参数）  
+15. &nbsp;kubelet 要求更新的证书被批复并发放（可选的，如果配置了参数）  
 
 本文的其余部分描述配置 TLS 启动引导的必要步骤及其局限性。
 
