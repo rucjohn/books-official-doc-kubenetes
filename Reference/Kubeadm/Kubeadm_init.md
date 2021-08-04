@@ -36,7 +36,7 @@ etcd                          生成用于本地 etcd 的静态 Pod 清单文件
 upload-config                 将 kubeadm 和 kubelet 配置上传到 configmap
   /kubeadm                      将 kubeadm ClusterConfiguration 上传到 configmap
   /kubelet                      将 kubelet 组件配置上传到 configmap
-upload-cents                  上传证书到 kubeadm-certs
+upload-certs                  上传证书到 kubeadm-certs
 mark-control-plane            将节点标记为控制平面
 bootstrap-token               生成用于将节点加入集群的引导令牌
 kubelet-finalize              在 TLS 引导后更新与 kubelet 相关的设置
