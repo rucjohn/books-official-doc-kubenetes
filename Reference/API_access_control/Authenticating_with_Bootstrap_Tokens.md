@@ -10,7 +10,7 @@ Bootstrap Tokens 被定义成一个特定类型的 Secret（`bootstrap.kubernete
 
 ## 令牌格式
 
-Bootstrap Tokens 使用 `abcdef.0123456789abcdef` 的形式。规范地说，它们必须符合正则表达式：`[a-z0-9]{6}\.[a-z0-9]{16}`。
+Bootstrap Tokens 的格式必须符合正则表达式：`[a-z0-9]{6}\.[a-z0-9]{16}`。例如：`abcdef.0123456789abcdef`。
 - 令牌的第一部分是 "Token ID"，它是公开的，用于引用令牌并确保不会泄露认证使用的秘密信息。
 - 令牌的第二部分是 "Token Secret"，它被共享给受信的第三方。
 
