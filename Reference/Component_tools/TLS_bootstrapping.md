@@ -21,7 +21,7 @@
 - `kubeconfig` 中包含密钥和本地主机的证书
 - 证书被 kube-apiserver 所信任的一个证书机构（CA）所签名
 
-集群管理员需要完成以下动作：
+集群管理员需要完成以下动作：  
 1. 创建 CA 密钥和证书
 2. 将 CA 证书发布到 kube-apiserver 所在的主控节点上
 3. 为每个 kubelet 创建密钥和证书；强烈建议为每个 kubelet 使用唯一的、CN 值不同的密钥和证书
@@ -32,7 +32,7 @@
 
 ### 引导初始化
 
-在启动引导初始化过程，会发生以下事情：
+在启动引导初始化过程，会发生以下事情：  
 1. kubelet 启动
 2. kubelet 发现没有对应的 `kubeconfig` 文件
 3. kubelet 搜索并发现 `bootstrap-kubeconfig` 文件
