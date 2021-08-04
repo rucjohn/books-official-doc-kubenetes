@@ -17,7 +17,7 @@
 
 如果 kube-apiserver 成功认证了 kubelet 的凭据数据，它会将 kubelet 视为一个有效节点，并开始为其分配 Pod。
 
-注意 **签名的过程依赖于：**
+注意， **签名的过程依赖于：**
 - `kubeconfig` 中包含密钥和本地主机的证书
 - 证书被 kube-apiserver 所信任的一个证书机构（CA）所签名
 
