@@ -211,6 +211,69 @@ roleRef:
 ```
 
 
+要允许 kubelet 对其客户端证书执行续期操作，可以创建一个 `ClusterRoleBinding` 将正常工作的节点所处的组 `system:nodes` 绑定到为其授予访问许可的 `ClusterRole`: `system:certificates.k8s.io:certificatesigningrequests:selfnodeclient`。
+```
+# 批复 "system:nodes" 组的 CSR 续约请求
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: auto-approve-renewals-for-nodes
+subjects:
+- kind: Group
+  name: system:nodes
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: system:certificates.k8s.io:certificatesigningrequests:selfnodeclient
+  apiGroup: rbac.authorization.k8s.io
+```
+
+`csrapproving` 控制器是 kube-controller-manager 的一部分，是自动被启用的。
+- 该控制器使用 [SubjectAccessReview API](../API_access_control/Authorization_ Overview.md) 来确定是否给指定用户被授权请求 CSR，之后基于鉴权结果执行批复操作。
+- 为了避免与其它批复组件发生冲突，内置的批复组件不会显式地拒绝任何 CSRs。
+- 该组件仅是忽略未被授权的请求。
+- 控制器也会作为垃圾收集的一部分，清除已过期的证书。
+
+## kubelet 配置
+
+最后，当主控节点被正确配置并且所有必要的身份认证和鉴权机制都就绪时，可以开始配置 kubelet。
+
+kubelet 需要以下配置来进行引导：
+- 一个用来存储所生成的密钥和证书的路径（可选，可以使用默认配置）
+- 一个用来指向尚不存在的 `kubeconfig` 文件的路径；kubelet 会将引导配置文件存放在这个位置
+- 一个指向引导 `kubeconfig` 文件的路径，用来提供 apiserver 的 URL 和引导凭据，例如：Bootstrap Token
+- 轮换证书的指令（可选）
+
+引导 `kubeconfig` 文件应该放在一个 kubelet 可访问的路径下，例如：`/var/lib/kubelet/bootstrap-kubeconfig`。
+
+其格式与普通的 `kubeconfig` 文件完全相同。
+```
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+    certificate-authority: /var/lib/kubernetes/ca.pem
+    server: https://my.server.example.com:6443
+  name: bootstrap
+contexts:
+- context:
+    cluster: bootstrap
+    user: kubelet-bootstrap
+  name: bootstrap
+current-context: bootstrap
+preferences: {}
+users:
+- name: kubelet-bootstrap
+  user:
+    token: 07401b.f395accd246ae52d
+```
+
+需要额外注意的一些因素：
+- `certificate-authority`：指向 CA 文件的路径，用来验证 kube-apiserver 提供的服务器证书
+- `server`：用来访问 kube-apiserver 的 URL
+- `token`：要使用的令牌
+
+
 
 
 
