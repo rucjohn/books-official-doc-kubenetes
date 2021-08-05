@@ -18,6 +18,7 @@
   * [访问 API](Reference/API_access_control/README.md)
     * [用户认证](Reference/API_access_control/Authenticating.md)
     * [使用引导令牌（Bootstrap Tokens）认证](Reference/API_access_control/Authenticating_with_Bootstrap_Tokens.md)
+    * [鉴权概述](Reference/API_access_control/Authorization_ Overview.md)
   * [Kubeadm](Reference/Kubeadm/README.md)
     * [kubeadm init](Reference/Kubeadm/Kubeadm_init.md)
     * [kubeadm token](Reference/Kubeadm/Kubeadm_token.md)
