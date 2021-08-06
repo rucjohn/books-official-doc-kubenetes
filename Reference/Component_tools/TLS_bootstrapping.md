@@ -274,6 +274,85 @@ users:
 - `token`：要使用的 token
 
 
+token 的格式并不重要，只要它与 kube-apiserver 匹配即可。在上面的例子中，使用的是 Bootstrap Token。如前所述，合法的身份认证方法都可以使用，不限于 token。
+
+因为引导 kubeconfig 文件是一个标准的 kubeconfig 文件，可以使用 `kubectl` 来生成该文件。示例：
+```
+kubectl config --kubeconfig=/var/lib/kubelet/bootstrap-kubeconfig set-cluster bootstrap --server='https://my.server.example.com:6443' --certificate-authority=/var/lib/kubernetes/ca.pem
+kubectl config --kubeconfig=/var/lib/kubelet/bootstrap-kubeconfig set-credentials kubelet-bootstrap --token=07401b.f395accd246ae52d
+kubectl config --kubeconfig=/var/lib/kubelet/bootstrap-kubeconfig set-context bootstrap --user=kubelet-bootstrap --cluster=bootstrap
+kubectl config --kubeconfig=/var/lib/kubelet/bootstrap-kubeconfig use-context bootstrap
+```
+
+要让 kubelet 使用引导 kubeconfig 文件，可以使用以下的标志：
+```
+--bootstrap-kubeconfig="/var/lib/kubelet/bootstrap-kubeconfig" --kubeconfig="/var/lib/kubelet/kubeconfig"
+```
+
+在启动 kubelet 时，如果 `--kubeconfig` 标志所指定的文件不存在，会使用通过 `--bootstrap-kubeconfig` 标志中所指定的引导 kubeconfig 配置来向 apiserver 请求客户端证书。在证书请求被批复并被 kubelet 收回时，一个引用所生成的密钥和所获得证书的 kubeconfig 文件会被写入到 `--kubeconfig` 所指定的文件路径下。证书和密钥文件会被放到 `--cert-dir` 所指定的目录中。
+
+### 客户端和服务证书
+
+前文所述的内容都与 kubelet 客户端证书相关，尤其是 kubelet 用来向 kube-apiserver 认证自身身份的证书。
+
+kubelet 也可以使用服务（*serving*）证书。kubelet 自身向外提供一个 HTTPS 末端，包含若干功能特性。要保证这些末端的安全性，kubelet 可以执行以下其中一种操作：
+- 使用通过 `--tls-private-key-file` 和 `--tls-cert-file` 所设置的密钥和证书
+- 如果没有提供密钥和证书，则创建自签名的密钥和证书
+- 通过 CSR API 从集群服务器请求服务证书
+
+TLS 引导所提供的客户端证书默认被签名为仅用于 `client auth` 客户端认证，因此不能作为提供服务的证书，或者 `server auth`。
+
+不过，你可以启用服务器证书，至少可以部分地通过证书轮换来实现这点。
+
+### 证书轮换
+
+Kubernetes v1.8 和更高版本的 kubelet 实现了对客户端证书与/或服务证书进行轮换 这一 Beta 特性。这一特性通过 kubelet 对应的 `RotateKubeletClientCertificate` 和 `RotateKubeletServerCertificate` 特性门控标志来控制，并且是默认启用的。
+
+`RotateKubeletClientCertificate` 会导致 kubelet 在其现有凭据即将过期时通过 创建新的 CSR 来轮换其客户端证书。要启用此功能特性，可将下面的标志传递给 kubelet：
+```
+--rotate-certificates
+```
+
+`RotateKubeletServerCertificate` 会让 kubelet 在启动引导其客户端凭据之后请求 一个服务证书 且 对该服务证书执行轮换操作。要启用此功能特性，将下面的标志 传递给 kubelet：
+
+```
+--rotate-server-certificates
+```
+
+> **说明**：Kubernetes 核心中所实现的 CSR 批复控制器出于 安全原因 并不会自动批复节点的 服务 证书。 要使用 RotateKubeletServerCertificate 功能特性，集群运维人员需要运行一个 定制的控制器或者手动批复服务证书的请求。
+
+> 对 kubelet 服务证书的批复过程因集群部署而异，通常应该仅批复如下 CSR：
+
+> 1. 由节点发出的请求（确保 `spec.username` 字段形式为 `system:node:<nodeName>` 且 `spec.groups` 包含 `system:nodes`）
+
+> 2. 请求中包含服务证书用法（确保 `spec.usages` 中包含 `server auth`，可选地也可 包含 `digital signature` 和 `key encipherment`，且不包含其它用法）
+
+> 3. 仅包含隶属于请求节点的 IP 和 DNS 的 `subjectAltNames`，没有 URI 和 Email 形式的 `subjectAltNames`（解析 `spec.request` 中的 x509 证书签名请求可以 检查 `subjectAltNames`）
+
+
+## 其它身份认证组件 
+
+本文所描述的所有 TLS 启动引导内容都与 kubelet 相关。不过，其它组件也可能需要 直接与 kube-apiserver 直接通信。容易想到的是 kube-proxy，同样隶属于 Kubernetes 的控制面并且运行在所有节点之上，不过也可能包含一些其它负责 监控或者联网的组件。
+
+与 kubelet 类似，这些其它组件也需要一种向 kube-apiserver 认证身份的方法。 你可以用几种方法来生成这类凭据：
+
+- 较老的方式：和 kubelet 在 TLS 启动引导之前所做的一样，用类似的方式 创建和分发证书
+- DaemonSet：由于 kubelet 自身被加载到所有节点之上，并且有足够能力来启动基本服务， 你可以运行将 kube-proxy 和其它特定节点的服务作为 kube-system 名字空间中的 DaemonSet 来执行，而不是独立的进程。由于 DaemonSet 位于集群内部，你可以为其 指派一个合适的服务账户，使之具有适当的访问权限来完成其使命。这也许是配置此类 服务的最简单的方法。
+
+## kubectl 批复
+
+CSRs 可以在控制器管理其内置的批复工作流之外被批复。
+
+签名控制器并不会立即对所有证书请求执行签名操作。相反，它会等待这些请求被某 具有适当特权的用户标记为 “Approved（已批准）”状态。
+- 这一流程有意允许由外部批复控制器来自动执行的批复，或者由控制器管理器内置的 批复控制器来自动批复。 
+- 集群管理员也可以使用 kubectl 来手动批准证书请求。 
+    - `kubectl get csr` 来列举所有的 CSR
+    - `kubectl descsribe csr <name>` 来描述某个 CSR 的细节
+    - `kubectl certificate approve <name>` 来批准某 CSR
+    - `kubectl certificate deny <name>` 来拒绝某 CSR。
+
+
+
 
 
 
