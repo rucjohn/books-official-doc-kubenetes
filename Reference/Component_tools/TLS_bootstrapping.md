@@ -271,7 +271,7 @@ users:
 需要额外注意的一些因素：
 - `certificate-authority`：指向 CA 文件的路径，用来验证 kube-apiserver 提供的服务器证书
 - `server`：用来访问 kube-apiserver 的 URL
-- `token`：要使用的令牌
+- `token`：要使用的 token
 
 
 
