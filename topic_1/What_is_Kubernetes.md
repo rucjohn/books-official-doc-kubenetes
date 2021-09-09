@@ -8,7 +8,7 @@ Kubernetes 是一个可移植、可扩展的开源平台，用于管理容器化
 
 让我们回顾一下为什么 Kubernetes 如此有用。
 
-![部署方式演进](../../static/deploy.jpg)
+![部署方式演进](../static/deploy.jpg)
 
 * **传统部署时代**  
 
