@@ -50,6 +50,38 @@ etcd 是兼具一致性和高可用的键值数据库，可以作为保存 Kuber
 - **端点控制器（Endpoints Controller）**：填充端口（Endpoints）对象（即加入 Service 与 Pod）
 - **服务账户和令牌控制器（ServiceAccount && Token Controllers）**：为新的命名空间创建默认账户和 API 访问令牌
 
-## Node 组件
+## 节点组件（Node Components）
 
 节点组件在每个节点上运行，维护运行的 Pod 并提供 Kubernetes 运行环境。
+
+### kubelet
+
+一个在集群中每个节点上运行的代理。它保证容器都运行在 Pod 中。
+
+kubelet 接收一组通过各类机制提供给它的 PodSpecs，确保这些 PodSpecs 中描述的容器处于运行状态且健康。kubelet 不会管理不是由 Kubernetes 创建的容器。
+
+### kube-proxy
+
+kube-proxy 是集群中每个节点上运行的网络代理，实现了 Kubernetes Service 概念的一部分。
+
+kube-proxy 维护节点上的网络规则。这些网络规则允许从集群内部或外部的网络能与 Pod 进行网络通信。
+
+如果操作系统提供了数据包过滤层并可用的话，kube-proxy 会通过它来实现网络规则。否则，kube-proxy 仅转发流量本身。
+
+### 容器运行时（Container Runtime）
+
+负责运行容器的软件。
+
+Kubernetes 支持多个容器运行时：Docker、containerd、CRI-O，以及任何实现了 Kubernetes CRI 的容器运行时。
+
+## 插件（Addons）
+
+插件使用 Kubernetes 资源（DaemonSet、Deployment等）实现集群功能。因为这些插件提供集群组别的功能，所以这些资源属于 `kube-system` 命名空间。
+
+### DNS
+
+尽管其他插件都并非严格意义上的必需组件，但几乎所有 Kubernetes 集群都应该有集群 DNS，因为很多示例都需要 DNS 服务。
+
+集群 DNS 是一个 DNS 服务器，和环境中的其他 DNS 服务器一起工作，它为 Kubernetes 服务提供 DNS 记录。
+
+Kubernetes 启动的容器自动将此 DNS 服务器包含在其 DNS 搜索列表中。
