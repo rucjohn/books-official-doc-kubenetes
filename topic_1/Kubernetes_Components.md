@@ -10,4 +10,4 @@
 
 这张图表展示了包含所有相互关联组件的 Kubernetes 集群。
 
-![](../../static/components-of-kubernetes.svg)
+![](../static/components-of-kubernetes.svg)
