@@ -6,4 +6,4 @@ Kubernetes
 
 Kubernetes 官方文档：[https://kubernetes.io/docs/home/](https://kubernetes.io/docs/home/)
 
-gitbook地址：https://rucjohn.gitbook.io/official-doc-kubernetes/(https://rucjohn.gitbook.io/official-doc-kubernetes/)
+gitbook地址：[https://rucjohn.gitbook.io/official-doc-kubernetes/](https://rucjohn.gitbook.io/official-doc-kubernetes/)
