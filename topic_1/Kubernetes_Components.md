@@ -17,3 +17,9 @@
 控制平面的组件对集群做出全局决策（例如：调度），以及检测和响应集群事件（例如：当部署的副本数量不满足时启动新的 pod）。
 
 控制平面组件可以在集群的任何机器上运行。但是为了简单起见，通常会在同一台机器上启动所有控制平面组件，并且不在该机器上运行运行用户容器。
+
+### kube-apiserver
+
+API 服务器是 Kubernetes 控制平面的一个组件，用于公开 Kubernetes API。API 服务器是 Kubernetes 控制平面的前端。
+
+Kubernetes API 服务器的主要实现是 kube-apiserver。kube-apiserver 通过部署更多实例来实现水平扩展，可以运行多个 kube-apiserver 实例来平衡实例间的流量。
