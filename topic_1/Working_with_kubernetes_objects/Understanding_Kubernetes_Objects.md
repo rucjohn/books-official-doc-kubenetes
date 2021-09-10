@@ -23,7 +23,7 @@ Kubernetes 对象是 “目标性记录”，即一旦创建对象，Kubernetes 
 
 创建 Kubernetes 对象时，必须提供对象的 spec，用来描述该对象的期望状态，以及关于对象的一些基本信息（例如名称）。当使用 Kubernetes API 创建对象时（或者直接创建、或者基于 `kubectl`），API 请求必须在请求体中包含 JSON 格式的信息。大多数情况下，需要在 .yaml 文件中为 `kubectl` 提供这些信息。`kubectl` 在发起 API 请求时，将这些信息转换成 JSON 格式。
 
-以下是 `.yaml` 示例文件，展示了 Kubernetes Deployment 的必要字段和对象规约：
+以下是 `.yaml` 示例文件，展示了 Kubernetes Deployment 的必要字段和 spec：
 ```
 apiVersion: apps/v1
 kind: Deployment
