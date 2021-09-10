@@ -7,4 +7,6 @@
 - 这些应用程序可用的资源
 - 这些应用程序的运行策略，例如重启策略、升级策略和容错策略
 
-Kubernetes 对象是 “目标性记录”，即一旦创建对象，Kubernetes 系统将持续工作以确保对象存在。通过创建对象，本质上是在告知 Kubernetes 系统，所需要的集群工作负载看起来是什么样子的，也就是
+Kubernetes 对象是 “目标性记录”，即一旦创建对象，Kubernetes 系统将持续工作以确保对象存在。通过创建对象，本质上是在告知 Kubernetes 系统，所需要的集群工作负载看起来是什么样子的，也就是 Kubernetes 集群的 **期望状态（Desired State）**。
+
+操作 Kubernetes 对象，无论是创建、修改或者删除，都需要使用 Kubernetes API。比如，当使用 `kubectl` 命令行接口时，CLI 会执行必要的 Kubernetes API 调用，也可以在程序中使用客户端库直接调用 Kubernetes API。
