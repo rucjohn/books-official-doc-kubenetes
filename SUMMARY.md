@@ -1,6 +1,7 @@
 * [第一章 Kubernetes 入门](topic_1/README.md)
   * [Kubernetes 是什么？](topic_1/What_is_Kubernetes.md)
   * [Kubernetes 组件](topic_1/Kubernetes_Components.md)
+  * [Kubernetes 对象](topic_1/Working_with_kubernetes_objects/README.md)
 
 
 * [入门](Getting_started/README.md)
