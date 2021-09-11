@@ -45,3 +45,24 @@ spec:
         ports:
         - containerPort: 80
 ```
+
+使用类似于上面的 `.yaml` 文件来创建 Deployment 的一种方式是使用 `kubectl` 命名行接口（CLI）中的 `kubectl apply` 命令，将 `.yam` 文件作为参数。例如：
+```
+kubectl apply -f https://k8s.io/examples/application/deployment.yaml --record
+```
+输出：
+```
+deployment.apps/nginx-deployment created
+```
+
+## 必要的字段
+
+在创建 Kubernetes 对象对应的的 `.yaml` 文件中，至少配置如下字段：
+- `apiVersion`: 创建对象所使用的 Kubernetes API 版本
+- `kind`: 创建对象的类别
+- `metadata`: 创建对象识别唯一性的数据，包括：
+  - `name`: 对象名称，必填
+  - `namespace`: 命名空间，可选
+
+每个 Kubernetes 对象的 `spec` 格式都不同，包含了特定于该对象的嵌套对象。[Kubernetes API 参考](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/) 能够帮助找到任何想要的对象的 `spec` 格式，也可以通过 `kubectl explain` 命令来查找 Kubernetes 对象的所有字段。
+
