@@ -6,6 +6,7 @@
     * [理解 Kubernetes 对象](topic_1/Working_with_kubernetes_objects/Understanding_Kubernetes_Objects.md)
     * [管理 Kubernetes 对象](topic_1/Working_with_kubernetes_objects/Kubernetes_Object_Management.md)
     * [对象名称和 IDs](topic_1/Working_with_kubernetes_objects/Object_Names_and_IDs.md)
+    * [命名空间](topic_1/Working_with_kubernetes_objects/Namespaces.md)
 
 * [入门](Getting_started/README.md)
   * [生产环境](Getting_started/Production_Environment/README.md)
