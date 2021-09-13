@@ -4,7 +4,7 @@
   * [Kubernetes API](topic_1/The_kubernetes_api.md)
   * [Kubernetes 对象](topic_1/Working_with_kubernetes_objects/README.md)
     * [理解 Kubernetes 对象](topic_1/Working_with_kubernetes_objects/Understanding_Kubernetes_Objects.md)
-
+    * [管理 Kubernetes 对象](topic_1/Working_with_kubernetes_objects/Kubernetes_Object_Management.md)
 
 * [入门](Getting_started/README.md)
   * [生产环境](Getting_started/Production_Environment/README.md)
