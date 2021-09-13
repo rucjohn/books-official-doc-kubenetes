@@ -64,7 +64,7 @@ kubectl config view | grep namespace:
 
 ## 有没有对象不在命名空间中？
 
-大多数 Kubernetes 资源（如：Pod、Service、Deployment等）都位于某个命名空间中，但是命名空间资源自身并不在命名空间中。而且底层资源，例如 **节点（Node）** 和 **持久卷（PersistentVolume）**不属于任何命名空间。
+大多数 Kubernetes 资源（如：Pod、Service、Deployment等）都位于某个命名空间中，但是命名空间资源自身并不在命名空间中。而且底层资源，例如 **节点（Node）** 和 **持久卷（PersistentVolume）** 不属于任何命名空间。
 
 查看 Kubernetes 资源对应的命名空间情况：
 ```
