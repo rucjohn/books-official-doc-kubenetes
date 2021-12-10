@@ -63,8 +63,7 @@
 | app.kubernetes.io/managed-by | 管理应用程序的工具           | helm               | 字符串 |
 | app.kubernetes.io/created-by | 创建该资源的控制器或用户        | controller-manager | 字符串 |
 
-示例：
-
+简单示范：
 ```yaml
 apiVersion: apps/v1
 kind: StatefulSet
@@ -77,4 +76,104 @@ metadata:
     app.kubernetes.io/part-of: wordpress
     app.kubernetes.io/managed-by: helm
     app.kubernetes.io/created-by: controller-manager
+```
+
+### 应用和应用实例
+
+应用可以在 Kubernetes 集群中安装一次或多次。在某些情况下，可以安装在同一命名空间中。例如，可以多次为不同的站点安装不同的WordProess。
+
+应用的名称和实例的名称是分别记录的。例如，WordPress 应用的 `app.kubernetes.ip/name: wordpress`，而其实例名称 `app.kubernetes.ip/instance: wordpress-abcxyz`。这使得应用和应用的实例均可被识别，应用的每个实例都必须具有唯一的名称。
+
+### 示例
+
+为了说明使用这些标签的不同方式，以下示例具有不同的复杂性。
+
+#### 一个简单的无状态服务
+
+考虑使用 `Deployment` 和 `Service` 对象部署的简单无状态服务的情况。以下两个代码段表示如何以最简单的形式使用标签。
+
+下面的 `Deployment` 用于监督运行应用本身的 pods 。
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: tomcat
+    app.kubernetes.io/instance: tomcat-abcxyz
+```
+
+下面的 `Service` 用于暴露应用。
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: tomcat
+    app.kubernetes.io/instance: tomcat-abcxyz
+```
+
+#### 带有一个数据库的 WEB 应用程序
+
+考虑一个稍微复杂的应用：一个使用 Helm 安装的 Web 应用，其中使用了数据库。
+
+以下 `Deployment` 的开头用于应用程序：
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: tomcat
+    app.kubernetes.io/instance: tomcat-abcxyz
+    app.kubernetes.io/version: "8.0.1"
+    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/component: server
+    app.kubernetes.io/part-of: wordpress
+```
+
+下面的 `Service` 用于暴露应用。
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: tomcat
+    app.kubernetes.io/instance: tomcat-abcxyz
+    app.kubernetes.io/version: "8.0.1"
+    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/component: server
+    app.kubernetes.io/part-of: wordpress
+```
+
+MySQL 作为一个 `StatefulSet` 暴露，包含它和它所属的较大应用程序的元数据：
+
+```
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/instance: mysql-abcxyz
+    app.kubernetes.io/version: "5.7.21"
+    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wordpress
+```
+ 
+`Service` 用于暴露 MySQL。
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/instance: mysql-abcxyz
+    app.kubernetes.io/version: "5.7.21"
+    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wordpress
 ```
