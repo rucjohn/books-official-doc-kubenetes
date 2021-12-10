@@ -1,7 +1,8 @@
 # 标签和选择器
 
 标签（**Lables**）是附加到 Kubernetes 对象（比如 Pods）上的键值对。标签旨在用于指定对用户有意义和相关的对象的标识属性，但不直接暗示核心的语义。标签可有用于组织和选择对象的子集。标签可以在创建时附加到对象上，之后可以随时添加和修改。每个对象都可以定义一组 {KEY: VALUE} 标签，每个 KEY 对于给定的对象必须是唯一的。
-```
+
+```json
 {
   "metadata": {
     "labels": {
@@ -11,6 +12,7 @@
   }
 }
 ```
+
 标签能够支持高效的里查询和是监听操作，非常适合在用户界面和命令行中使用。应使用注解（**Annotations**）来记录非识别信息。
 
 ## 动机
@@ -20,18 +22,19 @@
 服务部署和批处理流水线通常是多维度的（例如，多个分区部署、多个发行序列、多个层，每层中的多个微服务等）。管理这些通常需要交叉操作，这又打破了严格分层表示的封装，尤其是由基础设施而不是用户确定的刚性层次结构。
 
 示例标签：
-- `release: stable`
-- `release: canary`
-- `environment: dev`
-- `environment: qa`
-- `environment: production`
-- `tier: frontend`
-- `tier: backend`
-- `tier: cache`
-- `partition: customerA`
-- `partition: customerB`
-- `track: daily`
-- `track: weekly`
+
+* `release: stable`
+* `release: canary`
+* `environment: dev`
+* `environment: qa`
+* `environment: production`
+* `tier: frontend`
+* `tier: backend`
+* `tier: cache`
+* `partition: customerA`
+* `partition: customerB`
+* `track: daily`
+* `track: weekly`
 
 ## 推荐使用的标签
 
@@ -41,7 +44,7 @@
 
 元数据是围绕应用程序的概念组织的。 Kubernetes 不是平台即服务 (PaaS)，没有或强制执行正式的应用程序的概念。 相反，应用程序是非正式的，并使用元数据进行描述。 应用程序包含的内容的定义是松散的。
 
-> $$\color{blue}说明：$$  
+> $$\color{blue}说明：$$\
 > 这些是推荐的标签。它们使管理应用程序变得更容易但不是任何核心工具所必需的。
 
 共享标签和注解都使用同一个前缀：`app.kubernetes.io`。没有前缀的标签是私有的。共享前缀可以确保共享标签不会干扰用户自定义的标签。
@@ -50,17 +53,18 @@
 
 为了充分利用这些标签，应该在每个资源对象上都使用它们。
 
-键（KEY） | 描述 | 示例 | 类型
---- | --- | --- | ---
-app.kubernetes.io/name | 应用程序的名称 | mysql | 字符串
-app.kubernetes.io/instance | 应用实例的名称 | mysql-abcxyz | 字符串
-app.kubernetes.io/version | 应用程序的当前版本 | 5.7.21 | 字符串
-app.kubernetes.io/component | 架构中的组件 | database | 字符串
-app.kubernetes.io/part-of | 此应用程序所属的更高级别应用程序的名称 | wordpress | 字符串
-app.kubernetes.io/managed-by | 管理应用程序的工具 | helm | 字符串
-app.kubernetes.io/created-by | 创建该资源的控制器或用户 | controller-manager | 字符串
+| 键（KEY）                       | 描述                  | 示例                 | 类型  |
+| ---------------------------- | ------------------- | ------------------ | --- |
+| app.kubernetes.io/name       | 应用程序的名称             | mysql              | 字符串 |
+| app.kubernetes.io/instance   | 应用实例的名称             | mysql-abcxyz       | 字符串 |
+| app.kubernetes.io/version    | 应用程序的当前版本           | 5.7.21             | 字符串 |
+| app.kubernetes.io/component  | 架构中的组件              | database           | 字符串 |
+| app.kubernetes.io/part-of    | 此应用程序所属的更高级别应用程序的名称 | wordpress          | 字符串 |
+| app.kubernetes.io/managed-by | 管理应用程序的工具           | helm               | 字符串 |
+| app.kubernetes.io/created-by | 创建该资源的控制器或用户        | controller-manager | 字符串 |
 
 示例：
+
 ```yaml
 apiVersion: apps/v1
 kind: StatefulSet
@@ -74,5 +78,3 @@ metadata:
     app.kubernetes.io/managed-by: helm
     app.kubernetes.io/created-by: controller-manager
 ```
-
-
