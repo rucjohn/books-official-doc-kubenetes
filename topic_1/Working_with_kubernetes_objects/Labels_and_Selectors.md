@@ -150,7 +150,7 @@ metadata:
 
 MySQL 作为一个 `StatefulSet` 暴露，包含它和它所属的较大应用程序的元数据：
 
-```
+```yaml
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
