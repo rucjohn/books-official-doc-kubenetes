@@ -50,4 +50,13 @@
 
 为了充分利用这些标签，应该在每个资源对象上都使用它们。
 
+键（KEY） | 描述 | 示例 | 类型
+--- | --- | --- | ---
+app.kubernetes.io/name | 应用程序的名称 | mysql | 字符串
+app.kubernetes.io/instance | 应用实例的名称 | mysql-abczxy | 字符串
+app.kubernetes.io/version | 应用程序的当前版本 | 5.7.21 | 字符串
+app.kubernetes.io/component | 架构中的组件 | database | 字符串
+app.kubernetes.io/part-of | 此应用程序所属的更高级别应用程序的名称 | wordpress | 字符串
+app.kubernetes.io/manage-by | 管理应用程序的工具 | helm | 字符串
+app.kubernetes.io/create-by | 创建该资源的控制器或用户 | controller-manager | 字符串
 
