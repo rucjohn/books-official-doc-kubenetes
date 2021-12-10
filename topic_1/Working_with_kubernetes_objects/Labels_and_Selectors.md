@@ -53,10 +53,26 @@
 键（KEY） | 描述 | 示例 | 类型
 --- | --- | --- | ---
 app.kubernetes.io/name | 应用程序的名称 | mysql | 字符串
-app.kubernetes.io/instance | 应用实例的名称 | mysql-abczxy | 字符串
+app.kubernetes.io/instance | 应用实例的名称 | mysql-abcxyz | 字符串
 app.kubernetes.io/version | 应用程序的当前版本 | 5.7.21 | 字符串
 app.kubernetes.io/component | 架构中的组件 | database | 字符串
 app.kubernetes.io/part-of | 此应用程序所属的更高级别应用程序的名称 | wordpress | 字符串
-app.kubernetes.io/manage-by | 管理应用程序的工具 | helm | 字符串
-app.kubernetes.io/create-by | 创建该资源的控制器或用户 | controller-manager | 字符串
+app.kubernetes.io/managed-by | 管理应用程序的工具 | helm | 字符串
+app.kubernetes.io/created-by | 创建该资源的控制器或用户 | controller-manager | 字符串
+
+示例：
+```YAML
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/instance: mysql-abcxyz
+    app.kubernetes.io/version: "5.7.21"
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wordpress
+    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/created-by: controller-manager
+```
+
 
