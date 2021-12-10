@@ -61,7 +61,7 @@ app.kubernetes.io/managed-by | 管理应用程序的工具 | helm | 字符串
 app.kubernetes.io/created-by | 创建该资源的控制器或用户 | controller-manager | 字符串
 
 示例：
-```YAML
+```yaml
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
