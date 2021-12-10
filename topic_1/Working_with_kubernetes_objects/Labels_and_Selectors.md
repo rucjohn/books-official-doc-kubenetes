@@ -36,6 +36,12 @@
 * `track: daily`
 * `track: weekly`
 
+## 语法和字符集
+
+标签是键值对
+
+* 标签键有两段：可选的前缀和名称。
+
 ## 推荐使用的标签
 
 除了 kubectl 和 dashboard 之外，可以使用其他工具来可视化管理 Kubernetes 对象。一组能用的标签可以让多个工具之间相互操作，用所有工具都能理解的能用方式描述对象。
@@ -64,6 +70,7 @@
 | app.kubernetes.io/created-by | 创建该资源的控制器或用户        | controller-manager | 字符串 |
 
 简单示范：
+
 ```yaml
 apiVersion: apps/v1
 kind: StatefulSet
@@ -162,7 +169,7 @@ metadata:
     app.kubernetes.io/component: database
     app.kubernetes.io/part-of: wordpress
 ```
- 
+
 `Service` 用于暴露 MySQL。
 
 ```yaml
