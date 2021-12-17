@@ -44,7 +44,7 @@
 
 下面是一个 Pod 配置清单示例：
 
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -57,7 +57,9 @@ spec:
     - containerPort: 80
 ```
 
-> $$\color{blue}说明：$$ 某些资源类型可能具有额外的命名约束
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>某些资源类型可能具有额外的命名约束
+{% endhint %}
 
 ## UIDs
 
