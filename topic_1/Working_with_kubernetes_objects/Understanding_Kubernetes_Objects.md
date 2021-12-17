@@ -3,9 +3,10 @@
 本页说明了 Kubernetes 对象在 Kubernetes API 中是如何表示的，以及如何在 `.yaml` 格式的文件中表示。
 
 在 Kubernetes 系统中，Kubernetes 对象是持久化的实例。Kubernetes 使用这些实例去表示整体集群的状态。具体地说，它们可以描述如下信息：
-- 哪些容器化应用程序在运行（以及运行在哪些节点上）
-- 这些应用程序可用的资源
-- 这些应用程序的运行策略，例如重启策略、升级策略和容错策略
+
+* 哪些容器化应用程序在运行（以及运行在哪些节点上）
+* 这些应用程序可用的资源
+* 这些应用程序的运行策略，例如重启策略、升级策略和容错策略
 
 Kubernetes 对象是 “目标性记录”，即一旦创建对象，Kubernetes 系统将持续工作以确保对象存在。通过创建对象，本质上是在告知 Kubernetes 系统，所需要的集群工作负载看起来是什么样子的，也就是 Kubernetes 集群的 **期望状态（Desired State）**。
 
@@ -24,7 +25,8 @@ Kubernetes 对象是 “目标性记录”，即一旦创建对象，Kubernetes 
 创建 Kubernetes 对象时，必须提供对象的 spec，用来描述该对象的期望状态，以及关于对象的一些基本信息（例如名称）。当使用 Kubernetes API 创建对象时（或者直接创建、或者基于 `kubectl`），API 请求必须在请求体中包含 JSON 格式的信息。大多数情况下，需要在 .yaml 文件中为 `kubectl` 提供这些信息。`kubectl` 在发起 API 请求时，将这些信息转换成 JSON 格式。
 
 以下是 `.yaml` 示例文件，展示了 Kubernetes Deployment 的必要字段和 spec：
-```
+
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -47,10 +49,13 @@ spec:
 ```
 
 使用类似于上面的 `.yaml` 文件来创建 Deployment 的一种方式是使用 `kubectl` 命名行接口（CLI）中的 `kubectl apply` 命令，将 `.yam` 文件作为参数。例如：
-```
+
+```bash
 kubectl apply -f https://k8s.io/examples/application/deployment.yaml --record
 ```
+
 输出：
+
 ```
 deployment.apps/nginx-deployment created
 ```
@@ -58,11 +63,11 @@ deployment.apps/nginx-deployment created
 ## 必要的字段
 
 在创建 Kubernetes 对象对应的的 `.yaml` 文件中，至少配置如下字段：
-- `apiVersion`: 创建对象所使用的 Kubernetes API 版本
-- `kind`: 创建对象的类别
-- `metadata`: 创建对象识别唯一性的数据，包括：
-  - `name`: 对象名称，必填
-  - `namespace`: 命名空间，可选
+
+* `apiVersion`: 创建对象所使用的 Kubernetes API 版本
+* `kind`: 创建对象的类别
+* `metadata`: 创建对象识别唯一性的数据，包括：
+  * `name`: 对象名称，必填
+  * `namespace`: 命名空间，可选
 
 每个 Kubernetes 对象的 `spec` 格式都不同，包含了特定于该对象的嵌套对象。[Kubernetes API 参考](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/) 能够帮助找到任何想要的对象的 `spec` 格式，也可以通过 `kubectl explain` 命令来查找 Kubernetes 对象的所有字段。
-
