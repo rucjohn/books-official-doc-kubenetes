@@ -196,3 +196,19 @@ metadata:
     app.kubernetes.io/component: database
     app.kubernetes.io/part-of: wordpress
 ```
+
+## 标签选择器（Label Selector）
+
+与 名称和 IDs 不同，Label 不支持唯一性。通常，我们希望不同对象具有相同的标签。
+
+通过 Label Selector，客户端或用户可以识别一组对象。Label Selector 是 Kubernetes 中核心的分组原语。
+
+API 目前支持两种类型的 Selector：基于等值的和基于集合的。Lable Selector 可以由逗号分隔的多个条件组成。在多个条件的情况下，必须满足所有条件，因此逗号也就相当于逻辑与(`&&`)运算符。
+
+空或未指定选择器的语义取决于上下文，使用选择器的 API 类型应记录它们的有效性和含义。
+
+说明：对于某些 API 类型（例如 `ReplicaSet`）而言，两个实例的 Label Selector 不得在命名空间内重叠，否则控制器会将其视为冲突指令而无法确定应存在多少副本。
+
+注意：对于等值的和基于集合的条件而言，不存在逻辑或(`||`)操作符。要确保过滤的条件是按照合适的方式进行组织。
+
+
