@@ -337,3 +337,7 @@ selector:
 - `matchExpressions` 是 Pod 选择器要求的列表。有效的运算符包含 `In`、`NotIn`、`Exists` 和 `DoesNotExist`。在 `In` 和 `NotIn` 的情况下，设置的值必须是非空的。
 
 来自 `matchLabels` 和 `matchExpressions` 的所有要求都按逻辑与的关系组合到一起，它们都必须满足才能匹配。
+
+#### 选择节点集合
+
+通过标签进行选择的一个场景是确定节点集合，方便 Pod 调试。有关更多信息，请参阅 [选择节点]() 文档。
