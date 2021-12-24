@@ -219,3 +219,53 @@ API 目前支持两种类型的 Selector：基于等值的和基于集合的。L
 {% hint style="warning" %}
 <mark style="color:orange;">**注意：**</mark>对于等值的和基于集合的条件而言，不存在逻辑或(`||`)操作符。要确保过滤的条件是按照合适的方式进行组织。
 {% endhint %}
+
+### 基于等值的（*Equality-based*）
+
+基于等会或基于不等会的请求，允许按标签的键和值进行过滤。匹配对象必须满足所有指定的标签约束，尽管它们也可能有额外的标签。可接受的运算符有：`=`、`==` 和 `!=` 三种。前两个表示相等，最后一个表示不相等。例如
+
+```text
+enviroment = production
+tier != frontend
+```
+也可以使用逗号将多个条件并列：
+```
+enviroment=production,tier!=frontend
+```
+
+基于等值的标签请求的其中一种使用场景是让 Pod 指定可部署的节点。例如，下面的示例中，Pod 将部署在带有 `accelerator=nvidia-tesla-p100` 标签的节点上。
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cuda-test
+spec:
+  containers:
+  - name: cuda-test
+    image: "k8s.gcr.io/cuda-vector-add:v0.1"
+    resources:
+      limits:
+        nvidia.com/gpu: 1
+  nodeSelector:
+    accelerator: nvidia-tesla-p100
+```
+
+### 基于集合的（*Set-based*）
+
+基于集合的标签请求，允许通过一组值来过滤键。支持三种操作符：`in`、`notin` 和 `exists`（只可以用于键操作）。例如：
+```
+enviroment in (production, qa)
+tier notin (frontend, backend)
+partition
+!partition
+``` 
+- 第一行：选择所有键等于 `enviroment` 并且值等于 `production` 或 `qa` 的资源。
+- 第二行：选择所键等于 `tier` 并且值不等于 `frontend` 或 `backend` 的资源，以及所有没有 `tier` 键的资源。
+- 第三行：选择所有包含 `partition` 标签的资源，并且不校验它的值。
+- 第四行：选择所有不包含 `partition` 标签的资源，并且不校验它的值。
+
+同样，逗号充当 *与* 运算符。例如：`partition, environment notin（qa)`。
+
+基于集合的标签选择器是等式的一般形式，因为 `enviroment=production` 等同于 `environment in (production)`；`!=` 和 `notin` 也是类似的。
+
+基于集合的请求可以和基于基于等值的请求混合使用。例如：`partition in (customerA,customerB),enviroment!=qa`。
