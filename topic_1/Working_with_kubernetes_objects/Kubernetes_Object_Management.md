@@ -4,7 +4,7 @@
 
 ## 管理技巧
 
-{% hint style="info" %}
+{% hint style="danger" %}
 <mark style="color:red;">**警告：**</mark>
 
 一个 Kubernetes 对象应该只使用一种技术来管理。混合和匹配技术作用在同一对象上将会导致未定义行为。
@@ -46,7 +46,7 @@ kubectl create deployment nginx --image nginx
 
 在指令式对象配置中，`kubectl` 命令指定操作（创建、替换等）和至少一个文件名，以及可选的标志。指定的文件必须包含 YAML 或 JSON 格式的对象的完整定义。
 
-{% hint style="info" %}
+{% hint style="danger" %}
 <mark style="color:red;">**警告：**</mark>
 
 `replace` 操作将现有规范替换为新提供的规范，并放弃对配置文件中缺少的对象的所有更改。此方法不应与对象 spec 被独立于配置文件进行更新的资源类型一起使用。比如，类型为 `LoadBalancer` 的服务，它的 `externalIPs` 字段就是独立于集群配置进行更新。
