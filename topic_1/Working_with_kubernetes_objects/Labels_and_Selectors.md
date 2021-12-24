@@ -216,7 +216,7 @@ API 目前支持两种类型的 Selector：基于等值的和基于集合的。L
 <mark style="color:blue;">**说明：**</mark>对于某些 API 类型（例如 `ReplicaSet`）而言，两个实例的 Label Selector 不得在命名空间内重叠，否则控制器会将其视为冲突指令而无法确定应存在多少副本。
 {% endhint %}
 
-{% hint style="danger" %}
+{% hint style="tip" %}
 <mark style="color:orange;">**注意：**</mark>对于等值的和基于集合的条件而言，不存在逻辑或(`||`)操作符。要确保过滤的条件是按照合适的方式进行组织。
 {% endhint %}
 
