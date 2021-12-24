@@ -11,6 +11,7 @@
     * [对象名称和 IDs](topic\_1/Working\_with\_kubernetes\_objects/Object\_Names\_and\_IDs.md)
     * [命名空间](topic\_1/Working\_with\_kubernetes\_objects/Namespaces.md)
     * [标签和选择器](topic\_1/Working\_with\_kubernetes\_objects/Labels\_and\_Selectors.md)
+    * [注解](topic_1/Working_with_kubernetes_objects/Annotations.md)
 * [入门](Getting\_started/README.md)
   * [生产环境](Getting\_started/Production\_Environment/README.md)
     * [容器运行时](Getting\_started/Production\_Environment/Container\_runtime.md)
