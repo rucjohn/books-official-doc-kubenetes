@@ -34,3 +34,29 @@ metadata:
 * 从最终用户到实现修改行为或使用非标准功能的指令。
 
 可以将此类信息存储在外部数据库或目录中而不使用 annotations，但这样做使得开发人员很难生成用于部署、管理、自检的客户端共享库和工具。
+
+## 语法和字符集
+
+Annotations 存储的形式是键值对。有效的键分为两部分：
+- 前缀和名称，以 `/` 分隔。
+- 名称段是必选项，并且必须在 63 个字符以内，以字母数字字符（`[a-z0-9A-Z]`）开头和结尾。
+- 名称段允许使用 `-`、`_`、`.` 和字母数字。
+- 前缀是可选的。如果指定，则前缀必须是 DNS 子域：一系列由 `.` 分隔的 DNS 标签，总计不超过 253 个字符，后跟 `/`。
+- 如果省略前缀，则假定 annotations 对用户是私有的。
+- 向用户对象添加 annotations 的自动化系统组件（例如：`kube-scheduler`、`kube-controller-manager`、`kube-apiserver`、`kubectl` 或其他第三方自动化）必须指定前缀。
+
+例如，下面是一个 Pod 的配置文件，其 annotations 中包含 `imageregistry: https://hub.docker.com/`：
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: annotations-demo
+  annotations:
+    imageregistry: "https://hub.docker.com"
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.7.9
+    ports:
+    - containerPort: 80
+```
