@@ -274,3 +274,66 @@ partition
 基于集合的标签选择器是等式的一般形式，因为 `enviroment=production` 等同于 `environment in (production)`；`!=` 和 `notin` 也是类似的。
 
 基于集合的请求可以和基于基于等值的请求混合使用。例如：`partition in (customerA,customerB),enviroment!=qa`。
+
+## API
+
+### LIST 和 WATCH 过滤
+
+LIST 和 WATCH 操作可以使用查询参数指定标签选择器过滤一组对象。两种请求都是允许的。
+- 基于等值的：`?labelSelector=environment%3Dproduction,tier%3Dfrontend`
+- 基于集合的：`labelSelector=environment+in+%28production%2Cqa%29%2Ctier+in+%28frontend%29`
+
+两种标签选择器样式均可以通过 REST 客户端列出和查看资源。例如，使用 `kubectl` 定位 `apiserver`：
+```bash
+kubectl get pods -l environment=production,tier=frontend
+kubectl get pods -l 'environment in (production),tier in (frontend)'
+```
+
+如前所述，基于集合的请求更具表现力。例如
+```bash
+# 实现值的或操作
+kubectl get pods -l 'environment in (production, qa)'
+# 实现不匹配操作
+kubectl get pods -l 'environment,enviroment notin (frontend)'
+```
+
+### 在 API 对象中设置引用
+
+一些 Kubernetes 对象，例如 `Services` 和 `replicationcontrollers`，也使用了标签选择器去指定了其他资源的集合，例如 `Pods`。
+
+#### Service 和 ReplicationController
+
+一个 `Service` 指向的一组 Pods 是由标签选择器定义的。同样，一个 `ReplicationController` 应该管理的 Pods 的数量也是由标签选择器定义的。
+
+两个对象的标签选择器都是在 `json` 或 `yaml` 文件中映射定义的，并且只支持基于等值的选择器：
+```json
+"selector": {
+    "component": "redis"
+} 
+```
+或者
+```yaml
+selector:
+  componet: redis
+```
+
+这个选择器等价于 `component=redis` 或 `component in (redis)`。
+
+#### 支持基于集合请求的资源
+
+比较新的资源，例如 `Job`、`Deployment`、`ReplicaSet` 和 `DaemonSet`，也支持基于集合的请求。
+
+```yaml
+selector:
+  matchlabels:
+    component: redis
+  matchExpressions:
+    - {key: tier, operator: In, values: [cache]}
+    - {key: environment, operator: NotIn, values: [dev]}
+```
+
+- `matchLabels` 是由 `key: value` 组成的映射。
+- `matchlabels` 映射中的单个 `key: value` 等同于 `matchExpressions` 的元素，`key` 字段为 "key"，`operator` 为 "In"，`values` 数组仅包含 "value"。
+- `matchExpressions` 是 Pod 选择器要求的列表。有效的运算符包含 `In`、`NotIn`、`Exists` 和 `DoesNotExist`。在 `In` 和 `NotIn` 的情况下，设置的值必须是非空的。
+
+来自 `matchLabels` 和 `matchExpressions` 的所有要求都按逻辑与的关系组合到一起，它们都必须满足才能匹配。
