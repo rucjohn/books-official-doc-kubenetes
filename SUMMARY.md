@@ -17,6 +17,8 @@
     * [属主和附属](Overview/Working-with-kubernetes-objects/Owners-and-Dependents.md)
 * [第二章 Kubernetes 架构](topic-2/README.md)
   * [节点](topic-2/Nodes.md)
+* [第十章 调度，抢占和驱逐](Scheduling-Preemption-and-Eviction/README.md)
+  * [将 Pod 分配给节点](Scheduling-Preemption-and-Eviction/Assigning-Pods-to-Nodes.md)
 * [入门](Getting\_started/README.md)
   * [生产环境](Getting\_started/Production\_Environment/README.md)
     * [容器运行时](Getting\_started/Production\_Environment/Container\_runtime.md)
