@@ -22,6 +22,7 @@
 * [API](README.md)
   * [访问API](api/fang-wen-api/README.md)
     * [使用准入控制器](API/API-Access-Control/Using-Admission-Controllers.md)
+    * [使用 Node 鉴权](API/API-Access-Control/Using-Node-Authorization.md)
 * [入门](Getting\_started/README.md)
   * [生产环境](Getting\_started/Production\_Environment/README.md)
     * [容器运行时](Getting\_started/Production\_Environment/Container\_runtime.md)
