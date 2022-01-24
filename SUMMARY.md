@@ -15,6 +15,7 @@
     * [字段选择器](topic_1/Working_with_kubernetes_objects/Field_Selectors.md)
     * [Finalizers](topic_1/Working_with_kubernetes_objects/Finalizers.md)
     * [属主和附属](topic_1/Working_with_kubernetes_objects/Owners_and_Dependents.md)
+* [第二章 Kubernetes 架构](topic-2/README.md)
 * [入门](Getting\_started/README.md)
   * [生产环境](Getting\_started/Production\_Environment/README.md)
     * [容器运行时](Getting\_started/Production\_Environment/Container\_runtime.md)
