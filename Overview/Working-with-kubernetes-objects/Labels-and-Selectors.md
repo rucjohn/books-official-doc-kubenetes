@@ -1,6 +1,6 @@
 # 标签和选择器
 
-标签（**Lables**）是附加到 Kubernetes 对象（比如 Pods）上的键值对。标签旨在用于指定对用户有意义和相关的对象的标识属性，但不直接暗示核心的语义。标签可有用于组织和选择对象的子集。标签可以在创建时附加到对象上，之后可以随时添加和修改。每个对象都可以定义一组 {KEY: VALUE} 标签，每个 KEY 对于给定的对象必须是唯一的。
+标签（_**Lables**_）是附加到 Kubernetes 对象（比如 Pods）上的键值对。标签旨在用于指定对用户有意义和相关的对象的标识属性，但不直接暗示核心的语义。标签可有用于组织和选择对象的子集。标签可以在创建时附加到对象上，之后可以随时添加和修改。每个对象都可以定义一组 {KEY: VALUE} 标签，每个 KEY 对于给定的对象必须是唯一的。
 
 ```json
 {
@@ -202,7 +202,7 @@ metadata:
     app.kubernetes.io/part-of: wordpress
 ```
 
-## 标签选择器（Label Selector）
+## 标签选择器（_Label Selector_）
 
 与 [名称和 IDs 不同](Object\_Names\_and\_IDs.md)，Label 不支持唯一性。通常，我们希望不同对象具有相同的标签。
 
@@ -280,16 +280,19 @@ partition
 ### LIST 和 WATCH 过滤
 
 LIST 和 WATCH 操作可以使用查询参数指定标签选择器过滤一组对象。两种请求都是允许的。
-- 基于等值的：`?labelSelector=environment%3Dproduction,tier%3Dfrontend`
-- 基于集合的：`labelSelector=environment+in+%28production%2Cqa%29%2Ctier+in+%28frontend%29`
+
+* 基于等值的：`?labelSelector=environment%3Dproduction,tier%3Dfrontend`
+* 基于集合的：`labelSelector=environment+in+%28production%2Cqa%29%2Ctier+in+%28frontend%29`
 
 两种标签选择器样式均可以通过 REST 客户端列出和查看资源。例如，使用 `kubectl` 定位 `apiserver`：
+
 ```bash
 kubectl get pods -l environment=production,tier=frontend
 kubectl get pods -l 'environment in (production),tier in (frontend)'
 ```
 
 如前所述，基于集合的请求更具表现力。例如
+
 ```bash
 # 实现值的或操作
 kubectl get pods -l 'environment in (production, qa)'
@@ -306,12 +309,15 @@ kubectl get pods -l 'environment,enviroment notin (frontend)'
 一个 `Service` 指向的一组 Pods 是由标签选择器定义的。同样，一个 `ReplicationController` 应该管理的 Pods 的数量也是由标签选择器定义的。
 
 两个对象的标签选择器都是在 `json` 或 `yaml` 文件中映射定义的，并且只支持基于等值的选择器：
+
 ```json
 "selector": {
     "component": "redis"
 } 
 ```
+
 或者
+
 ```yaml
 selector:
   componet: redis
@@ -332,12 +338,12 @@ selector:
     - {key: environment, operator: NotIn, values: [dev]}
 ```
 
-- `matchLabels` 是由 `key: value` 组成的映射。
-- `matchlabels` 映射中的单个 `key: value` 等同于 `matchExpressions` 的元素，`key` 字段为 "key"，`operator` 为 "In"，`values` 数组仅包含 "value"。
-- `matchExpressions` 是 Pod 选择器要求的列表。有效的运算符包含 `In`、`NotIn`、`Exists` 和 `DoesNotExist`。在 `In` 和 `NotIn` 的情况下，设置的值必须是非空的。
+* `matchLabels` 是由 `key: value` 组成的映射。
+* `matchlabels` 映射中的单个 `key: value` 等同于 `matchExpressions` 的元素，`key` 字段为 "key"，`operator` 为 "In"，`values` 数组仅包含 "value"。
+* `matchExpressions` 是 Pod 选择器要求的列表。有效的运算符包含 `In`、`NotIn`、`Exists` 和 `DoesNotExist`。在 `In` 和 `NotIn` 的情况下，设置的值必须是非空的。
 
 来自 `matchLabels` 和 `matchExpressions` 的所有要求都按逻辑与的关系组合到一起，它们都必须满足才能匹配。
 
 #### 选择节点集合
 
-通过标签进行选择的一个场景是确定节点集合，方便 Pod 调试。有关更多信息，请参阅 [选择节点]() 文档。
+通过标签进行选择的一个场景是确定节点集合，方便 Pod 调试。有关更多信息，请参阅 [选择节点](Labels-and-Selectors.md) 文档。
