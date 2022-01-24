@@ -1,6 +1,6 @@
 # 节点
 
-Kubernetes 通过将容器放在节点（Node）上运行的 Pod 中来执行工作负载。
+Kubernetes 通过将容器放在节点（_**Node**_）上运行的 Pod 中来执行工作负载。
 
 节点可以是一个虚拟机或者物理机器，取决 于所在的集群配置。每个节点包含运行 Pods 所需的服务；这些节点由控制平面负责管理。
 
@@ -11,10 +11,12 @@ Kubernetes 通过将容器放在节点（Node）上运行的 Pod 中来执行工
 ## 管理
 
 有两种方式向 apiserver 添加节点：
+
 1. 节点上的 `kubelet` 向控制平面注册；
 2. 手动添加一个 Node 对象。
 
 当创建了 Node 对象或者节点上的 `kubelet` 执行了自注册操作之后，控制平面会检查新的 Node 对象是否合法。例如，如果使用下面的配置来创建 Node 对象：
+
 ```json
 {
   "kind": "Node",
@@ -29,15 +31,14 @@ Kubernetes 通过将容器放在节点（Node）上运行的 Pod 中来执行工
 ```
 
 Kubernetes 会在内部创建一个 Node 对象作为节点的表示。Kubernetes 检查 `kubelet` 向 apiserver 注册节点时使用的 `metadata.name` 字段是否匹配。
-- 如果节点是健康的（即所有必要的服务都在运行中），则该节点可以用来运行 Pod。
-- 否则，直到就放假节点变为健康之前，所有的集群活动都会忽略该节点。
 
-说明：
+* 如果节点是健康的（即所有必要的服务都在运行中），则该节点可以用来运行 Pod。
+* 否则，直到就放假节点变为健康之前，所有的集群活动都会忽略该节点。
+
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>&#x20;
+
 Kubernetes 保留无效节点的对象，并持续检查该节点的健康状态。只有当人为或者控制器显式地删除该 Node 对象，才会停止健康检查操作。
+{% endhint %}
 
-Node 对象的名称必须是合法的 DNS 子域名。
-
-
-
-
-
+Node 对象的名称必须是合法的 [DNS 子域名](../topic\_1/Working\_with\_kubernetes\_objects/Object\_Names\_and\_IDs.md)。
