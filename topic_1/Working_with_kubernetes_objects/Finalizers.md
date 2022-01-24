@@ -37,3 +37,14 @@ Finalizers 通常不指定要执行的代码。相反，它们通常是特定资
 * 当一个 `PersistentVolume` 对象被 Pod 使用时，Kubernetes 会添加 `pv-protection` Finalizer。
 * 当试图删除 `PersistentVolume`时，它将进入 `Terminating` 状态，但是控制器判断该 Finalizer 存在而无法删除该资源。
 * 当 Pod 停止使用 `PersistentVolume` 时，Kubernetes 清除 `pv-protection` Finalizer，控制器就可以删除该卷。
+
+## 属主引用、标签和 Finalizers
+
+与标签类似，属主引用描述了 Kubernetes 中对象之间的关系，但它们作用不同。
+
+当一个控制器管理类似于 Pod 的对象时，它使用标签来跟踪相关对象组的变化。例如，当 Job 创建一个或多个 Pod 时，Job 控制器会给这些 Pod 应用上标签，并跟踪集群中的具有相同标签的 Pod 变化。Job 控制器还为这些 Pod 添加了属主引用，指向创建 Pod 的 Job。如果在这些 Pod 运行的时候删除了 Job，Kubernetes 会使用属主引用（而不是标签）来确定集群中哪些 Pod 需要清理。
+
+当 Kubernetes 识别到要删除的资源上的属主引用时，它也会处理 Finalizers。
+
+在某些情况下， Finalizers 会阻止依赖对象的删除，这可能导致目标属主对象，保持在只读状态下的时间比预期的长，且没有被完全删除。在这些情况下，应该检查目标属主和附属对象上的 Finalizers 和属主引用，来排查原因。
+
