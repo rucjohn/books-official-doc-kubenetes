@@ -22,7 +22,7 @@ Kubernetes 支持多个虚拟集群，它们底层依赖于同一个物理集群
 
 使用以下命令列出集群中所有的命名空间：
 
-```
+```bash
 kubctl get namespace
 ```
 
