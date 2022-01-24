@@ -11,7 +11,9 @@ Finalizers 是带命名空间的键，告诉 Kubernetes 等到特定的条件被
 可以使用 Finalizer 控制资源的垃圾收集。例如，可以定义一个 Finalizer，在删除目标资源前清理相关资源或基础设施。
 
 {% hint style="info" %}
-<mark style="color:blue;">**垃圾收集：**</mark>Kubernetes 用于清理集群资源的各种机制的统称
+<mark style="color:blue;">**说明：**</mark>
+
+垃圾收集：Kubernetes 用于清理集群资源的各种机制的统称
 {% endhint %}
 
 可以通过使用 Finalizer 提醒控制器在删除目标资源前执行特定的清理任务，来控制资源的垃圾收集。
