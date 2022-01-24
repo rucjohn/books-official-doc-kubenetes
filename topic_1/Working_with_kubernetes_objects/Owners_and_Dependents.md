@@ -16,8 +16,16 @@
 <mark style="color:blue;">**说明：**</mark>
 
 根据设计，Kubernetes 不允许跨命名空间指定属主。命名空间范围的附属可以指定集群范围或命名空间范围的属主。命名空间范围的属主必须与附属处于相同的命名空间。如果命名空间范围的属主附属不在同一命名空间下，那么该属主引用就会被认定为缺失，并且当附属的所有属主引用都被确定不在存在之后，该附属就会被删除。
+{% endhint %}
+
+{% hint style="warning" %}
+<mark style="color:orange;">**警告：**</mark>
 
 集群范围的附属只能指定集群范围的属主。从 v1.20 版本后，如果一个集群范围的附属指定了一个命名空间范围类型的属主，那么该附属就会被认为是拥有一个不可解析的属主引用，并且它不能够被垃圾回收。
+{% endhint %}
+
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>
 
 从 v1.20 版本后，如果垃圾收集器检测到无效的跨命名空间的属主引用，或者一个集群范围的附属指定了一个命名空间范围类型的属主，那么它就会报告一个警告事件。该事件的原因是 `OwnerRefInvalidNamespace`，`involvedObject` 属性中包含无效的附属。可以运行 `kubectl get events -A --field-selector=reson=OwnerRefinvalidNamespace` 来获取该类型的事件。
 {% endhint %}
