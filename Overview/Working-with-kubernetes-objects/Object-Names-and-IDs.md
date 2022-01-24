@@ -4,7 +4,7 @@
 
 每个对象也有一个 UID 来标识在整个集群中的唯一性。
 
-对于用户提供的非唯一性的属性，Kubernetes 提供了 _**标签（Lables）**_ 和 _**注解（Annotation）**_ 机制。
+对于用户提供的非唯一性的属性，Kubernetes 提供了 **标签（Lables）** 和 **注解（Annotation）** 机制。
 
 ## 名称
 
