@@ -36,31 +36,24 @@ Kubernetes 会在内部创建一个 Node 对象作为节点的表示。Kubernete
 * 否则，直到就放假节点变为健康之前，所有的集群活动都会忽略该节点。
 
 {% hint style="info" %}
-<mark style="color:blue;">**说明：**</mark>&#x20;
+<mark style="color:blue;">**说明：**</mark>
 
 Kubernetes 保留无效节点的对象，并持续检查该节点的健康状态。只有当人为或者控制器显式地删除该 Node 对象，才会停止健康检查操作。
 {% endhint %}
 
-Node 对象的名称必须是合法的 [DNS 子域名](../topic\_1/Working\_with\_kubernetes\_objects/Object\_Names\_and\_IDs.md)。
+Node 对象的名称必须是合法的 [DNS 子域名](../Overview/Working-with-kubernetes-objects/Object-Names-and-IDs.md)。
 
 ### 节点自注册
 
-当 kubelet 标志 --register-node=true（默认）时，它会尝试向 apiserver 注册自己。这是首选模式，被绝大多数发行版选用。
+当 kubelet 标志 `--register-node=true`（默认）时，它会尝试向 apiserver 注册自己。这是首选模式，被绝大多数发行版选用。
 
 对于自注册模式，kubelet 使用下列参数启动：
-- --kubeconfig：用于向 apiserver 表明身份的凭据路径。
-- --cloud-provider：与某个云驱动进行通信以读取与自身相关的元数据的方式。
-- --register-node：自动向 apiserver 注册。
-- --register-with-taints：使用所给的污点列表（逗号分隔的 <key>=<value>:<effect>）注册节点。当 register-node=false 时无效。
-- --node-ip：节点 IP 地址。
-- --node-labels：在集群中注册节点时要添加的标签
 
-
-
-
-
-
-
-
-
+* `--kubeconfig`：用于向 apiserver 表明身份的凭据路径。
+* `--cloud-provider`：与某个云驱动进行通信以读取与自身相关的元数据的方式。
+* `--register-node`：自动向 apiserver 注册。
+* `--register-with-taints`：使用所给的污点列表（逗号分隔的 =:）注册节点。当 `--register-node=false` 时无效。
+* `--node-ip`：节点 IP 地址。
+* `--node-labels`：在集群中注册节点时要添加的标签。
+* `--node-status-update-frequency`：指定 kubelet 向控制平面发送状态的频率。
 
