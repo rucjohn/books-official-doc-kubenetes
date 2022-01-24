@@ -54,6 +54,5 @@ Node 对象的名称必须是合法的 [DNS 子域名](../Overview/Working-with-
 * `--register-node`：自动向 apiserver 注册。
 * `--register-with-taints`：使用所给的污点列表（逗号分隔的 =:）注册节点。当 `--register-node=false` 时无效。
 * `--node-ip`：节点 IP 地址。
-* `--node-labels`：在集群中注册节点时要添加的标签。
+* `--node-labels`：在集群中注册节点时要添加的标签。（参见 [NodeRestriction 准入控制器](../API/API-Access-Control/Using-Admission-Controllers.md) 所实施的标签限制）
 * `--node-status-update-frequency`：指定 kubelet 向控制平面发送状态的频率。
-
