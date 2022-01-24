@@ -13,7 +13,7 @@
     * [标签和选择器](topic\_1/Working\_with\_kubernetes\_objects/Labels\_and\_Selectors.md)
     * [注解](topic_1/Working_with_kubernetes_objects/Annotations.md)
     * [Finalizers](topic_1/Working_with_kubernetes_objects/Finalizers.md)
-    * [属主和依赖](topic_1/Working_with_kubernetes_objects/Owners_and_Dependents.md)
+    * [属主和附属](topic_1/Working_with_kubernetes_objects/Owners_and_Dependents.md)
 * [入门](Getting\_started/README.md)
   * [生产环境](Getting\_started/Production\_Environment/README.md)
     * [容器运行时](Getting\_started/Production\_Environment/Container\_runtime.md)
