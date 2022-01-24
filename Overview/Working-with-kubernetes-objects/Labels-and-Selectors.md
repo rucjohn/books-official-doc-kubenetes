@@ -204,7 +204,7 @@ metadata:
 
 ## 标签选择器（_Label Selector_）
 
-与 [名称和 IDs 不同](Object\_Names\_and\_IDs.md)，Label 不支持唯一性。通常，我们希望不同对象具有相同的标签。
+与 [名称和 IDs 不同](Object-Names-and-IDs.md)，Label 不支持唯一性。通常，我们希望不同对象具有相同的标签。
 
 通过 Label Selector，客户端或用户可以识别一组对象。Label Selector 是 Kubernetes 中核心的分组原语。
 
