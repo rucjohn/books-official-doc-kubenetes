@@ -346,4 +346,4 @@ selector:
 
 #### 选择节点集合
 
-通过标签进行选择的一个场景是确定节点集合，方便 Pod 调试。有关更多信息，请参阅 [选择节点](Labels-and-Selectors.md) 文档。
+通过标签进行选择的一个场景是确定节点集合，方便 Pod 调试。有关更多信息，请参阅 [选择节点 ](../../Scheduling-Preemption-and-Eviction/Assigning-Pods-to-Nodes.md)文档。
