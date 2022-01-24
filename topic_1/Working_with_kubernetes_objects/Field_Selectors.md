@@ -34,3 +34,41 @@ kubectl get ingress --field-selector foo.bar=baz
 ```
 Error from server (BadRequest): Unable to find "ingresses" that match label selector "", field selector "foo.bar=baz": "foo.bar" is not a known field selector: only "metadata.name", "metadata.namespace"
 ```
+
+## 支持的操作符
+
+可以在字段选择器中使用 =、== 和 != 操作符。例如，下面例子将筛选所有不属于 default 命名空间的 Kubernetes 服务：
+```bash
+kubectl get services --all-namespaces --field-selector metadata.namespace!=default
+```
+
+注意：= 和 == 的意义是相同的。
+
+## 链式选择器
+
+同 Lables 和其他选择器一样，字段选择器可以通过使用逗号分隔的列表组成一个选择链。下面例子中将筛选 status.phase 字段不等到 Running，同时 spec.restartPolicy 字段等于 Alway 的所有 Pod：
+```
+kubectl get pods --field-selector=status.phase!=Running,spec.restartPolicy=Always
+```
+
+## 多种资源类型
+
+能够跨多种资源类型来使用字段选择器。下面例子是将筛选出所有不在 default 命名空间中的 StatefulSet 和 Service：
+```
+kubectl get statefulsets,services --all-namespaces --field-selector metadata.namespace!=default
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
