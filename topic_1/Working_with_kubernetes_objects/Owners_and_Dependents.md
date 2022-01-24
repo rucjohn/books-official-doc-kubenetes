@@ -29,3 +29,11 @@
 
 从 v1.20 版本后，如果垃圾收集器检测到无效的跨命名空间的属主引用，或者一个集群范围的附属指定了一个命名空间范围类型的属主，那么它就会报告一个警告事件。该事件的原因是 `OwnerRefInvalidNamespace`，`involvedObject` 属性中包含无效的附属。可以运行 `kubectl get events -A --field-selector=reson=OwnerRefinvalidNamespace` 来获取该类型的事件。
 {% endhint %}
+
+## 属主关系与 Finalizer
+
+当告诉 Kubernetes 删除一个资源，apiserver 允许控制器处理该资源的任何 Finalizer 规则。Finalizer 防止意外删除集群所依赖的、用于正常动作的资源。例如，如果试图删除一个仍被 Pod 使用的 `persistentVolume`，该资源不会被立即删除，因为 `PersistentVolume` 有 `kubernetes.io/pv-protection` Finalizer。相反，它将进入 `Termination` 状态，直到 Kubernetes 清除这个 Finalizer，而这种情况只会发生在 `PersistentVolume` 不再被挂载到 Pod 上时。
+
+当你使用孤立级联删除时，Kubernetes 也会向属主资源添加 Finalizer：
+- 在前台删除中，会添加 `foreground` Finalizer，这样控制器必须在删除了拥有 `ownerReferences.blockOwnerDeletion=true` 的附属资源后，才能删除属主对象。
+- 如果指定了孤立删除策略，会添加 `orphan` Finalizer，这样控制器在删除属主对象后，会忽略附属资源。
