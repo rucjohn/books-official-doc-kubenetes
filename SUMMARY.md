@@ -12,6 +12,7 @@
     * [命名空间](topic\_1/Working\_with\_kubernetes\_objects/Namespaces.md)
     * [标签和选择器](topic\_1/Working\_with\_kubernetes\_objects/Labels\_and\_Selectors.md)
     * [注解](topic_1/Working_with_kubernetes_objects/Annotations.md)
+    * [字段选择器](topic_1/Working_with_kubernetes_objects/Field_Selectors.md)
     * [Finalizers](topic_1/Working_with_kubernetes_objects/Finalizers.md)
     * [属主和附属](topic_1/Working_with_kubernetes_objects/Owners_and_Dependents.md)
 * [入门](Getting\_started/README.md)
