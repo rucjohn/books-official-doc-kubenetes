@@ -59,3 +59,30 @@ Node 对象的名称必须是合法的 [DNS 子域名](../Overview/Working-with-
 
 启用 [节点授权模式](../API/API-Access-Control/Using-Node-Authorization.md) 和 [NodeRestriction 准入控制器](../API/API-Access-Control/Using-Admission-Controllers.md#noderestriction) 时，仅授权 `kubelet` 创建或创建其自己节点的资源。
 
+### 手动节点管理
+
+可以使用 `kubectl` 来创建和修改 Node 对象。
+
+如果希望手动创建节点对象时，请设置 kubelet 标志 `--register-node=false`。
+
+可以修改 Node 对象（忽略 `--register-node` 参数）。例如，修改节点上的标签或标记其为不可调度。
+
+可以结合使用节点上的标签和 Pod 上的选择器来控制调度。例如，可以限制某个 Pod 只能在符合要求的节点上运行。
+
+如果标记节点为不可调度（unschedulable），将阻止新 Pod 调度到该节点之上，但不会影响任何已经在其上的 Pod。这是重启节点或者执行其他维护操作之前的一个有用的准备步骤。
+
+要标记一个节点为不可调度，执行以下命令：
+```bash
+kubectl cordon $NODENAME
+```
+
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>
+
+被 DaemonSet 控制器创建的 Pod 能够容忍节点的不可调度属性。DaemonSet 通常提供节点本地的服务，即使节点上的负载应用已经被腾空，这些服务也仍需运行在节点之上。
+{% endhint %}
+
+
+
+
+
