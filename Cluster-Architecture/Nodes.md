@@ -8,7 +8,7 @@ Kubernetes 通过将容器放在节点（_**Node**_）上运行的 Pod 中来执
 
 节点上的组件包含 kubelet、容器运行时以及 kube-proxy。
 
-## (管理)[#Management]
+## 管理
 
 有两种方式向 apiserver 添加节点：
 
@@ -55,5 +55,5 @@ Node 对象的名称必须是合法的 [DNS 子域名](../Overview/Working-with-
 * `--register-with-taints`：使用所给的污点列表（逗号分隔的 =:）注册节点。当 `--register-node=false` 时无效。
 * `--node-ip`：节点 IP 地址。
 * `--node-labels`：在集群中注册节点时要添加的标签。
-* `--node-status-update-frequency`：指定 kubelet 向控制平面发送状态的[频率](#Management)。
+* `--node-status-update-frequency`：指定 kubelet 向控制平面发送状态的[频率](#管理)。
 
