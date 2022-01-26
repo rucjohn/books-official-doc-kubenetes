@@ -20,10 +20,13 @@
 * [第十章 调度，抢占和驱逐](Scheduling-Preemption-and-Eviction/README.md)
   * [将 Pod 分配给节点](Scheduling-Preemption-and-Eviction/Assigning-Pods-to-Nodes.md)
   * [污点和容忍度](Scheduling-Preemption-and-Eviction/Taints-and-Toleratiions.md)
+* [管理集群](Adminster-a-Cluster/README.md)
+  * [为系统守护进程预留计算资源](Adminster-a-Cluster/Reserve-Compute-Resources-for-System-Daemons.md)
 * [API](API/README.md)
   * [访问API](API/API-Access-Control/README.md)
     * [使用准入控制器](API/API-Access-Control/Using-Admission-Controllers.md)
     * [使用 Node 鉴权](API/API-Access-Control/Using-Node-Authorization.md)
+
 * [入门](Getting\_started/README.md)
   * [生产环境](Getting\_started/Production\_Environment/README.md)
     * [容器运行时](Getting\_started/Production\_Environment/Container\_runtime.md)
