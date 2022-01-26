@@ -19,7 +19,7 @@
   * [节点](Cluster-Architecture/Nodes.md)
 * [第十章 调度，抢占和驱逐](Scheduling-Preemption-and-Eviction/README.md)
   * [将 Pod 分配给节点](Scheduling-Preemption-and-Eviction/Assigning-Pods-to-Nodes.md)
-  * [污点和容忍度]((Scheduling-Preemption-and-Eviction/Taints-and-Toleratiions.md)
+  * [污点和容忍度](Scheduling-Preemption-and-Eviction/Taints-and-Toleratiions.md)
 * [API](API/README.md)
   * [访问API](API/API-Access-Control/README.md)
     * [使用准入控制器](API/API-Access-Control/Using-Admission-Controllers.md)
