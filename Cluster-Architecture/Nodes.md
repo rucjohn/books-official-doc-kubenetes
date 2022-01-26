@@ -87,10 +87,10 @@ kubectl cordon $NODENAME
 
 一个节点的状态包含以下信息：
 
-* [地址](Nodes.md#di-zhi)
-* [状况](Nodes.md#zhuang-kuang)
-* [容量与可分配](Nodes.md#rong-liang-yu-ke-fen-pei)
-* [信息](Nodes.md#xin-xi)
+* [地址](Nodes.md#addresses)
+* [状况](Nodes.md#conditions)
+* [容量与可分配](Nodes.md#capacity-and-allocatable)
+* [信息](Nodes.md#info)
 
 可以使用 `kubectl` 来查看节点状态和其他细节：
 
