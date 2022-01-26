@@ -224,7 +224,7 @@ Events:              <none>
 ]
 ```
 
-* 如果 Ready 条件的 `status` 处于 `Unknown` 或 `False` 状态的时间超过了 `pod-eviction-timeout` 值（一个传递给 kube-controller-manager 的参数），[节点控制器](Nodes.md#jie-dian-kong-zhi-qi) 会对节点上的所有 Pod 触发 驱逐 API 。默认的逐出超时时长为 **5分钟**。
+* 如果 Ready 条件的 `status` 处于 `Unknown` 或 `False` 状态的时间超过了 `pod-eviction-timeout` 值（一个传递给 kube-controller-manager 的参数），[节点控制器](Nodes.md#node-controller) 会对节点上的所有 Pod 触发 驱逐 API 。默认的逐出超时时长为 **5分钟**。
 * 某些情况下，当节点不可达时， apiserver 不能和节点的 kubelet 通信。在重新与 apiserver 建立连接之前，无法将删除 pod 的消息发送到 kubelet。与此同时，被计划删除的 Pod 可能会继续在游离的节点上运行。
 
 {% hint style="info" %}
