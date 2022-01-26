@@ -26,6 +26,9 @@
   * [访问API](API/API-Access-Control/README.md)
     * [使用准入控制器](API/API-Access-Control/Using-Admission-Controllers.md)
     * [使用 Node 鉴权](API/API-Access-Control/Using-Node-Authorization.md)
+  * [Kubernetes API](API/Kubernetes-API/README.md)
+    * [集群资源](API/Kubernetes-API/Cluster-Resources/README.md)
+      * [Lease](API/Kubernetes-API/Cluster-Resources/Lease.md)
 
 * [入门](Getting\_started/README.md)
   * [生产环境](Getting\_started/Production\_Environment/README.md)
