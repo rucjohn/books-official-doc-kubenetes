@@ -98,7 +98,7 @@ kubectl cordon $NODENAME
 kubectl describe node <节点名称>
 ```
 
-输出以下内容：
+例如，输出以下内容：
 
 ```
 Name:               master-1
@@ -208,3 +208,40 @@ Events:              <none>
 
 如果使用命令行工具来打印已保护（Cordoned）节点的细节，其中 Condition 字段可能包括 SchedulingDisabled。该状况不是 Kubernetes API 中定义的 Condition，被保护的节点在其规范中被标记为不可调度（Unschedulable）。
 {% endhint %}
+
+在 Kubernetes API 中，节点的状况表示节点资源中 `.status` 的一部分。例如，以下 JSON 结构描述了一个健康节点：
+```json
+"conditions": [
+  {
+    "type": "Ready",
+    "status": "True",
+    "reason": "KubeletReady",
+    "message": "kubelet is posting ready status",
+    "lastHeartbeatTime": "2022-1-26 10:34:06",
+    "lastTransitionTime": "2021-12-10T17:51:05Z",
+  }
+]
+```
+
+- 如果 Ready 条件的 `status` 处于 `Unknown` 或 `False` 状态的时间超过了 `pod-eviction-timeout` 值（一个传递给 kube-controller-manager 的参数），[节点控制器](Nodes.md#节点控制器) 会对节点上的所有 Pod 触发 驱逐 API 。默认的逐出超时时长为 **5分钟**。
+- 某些情况下，当节点不可达时， apiserver 不能和节点的 kubelet 通信。在重新与 apiserver 建立连接之前，无法将删除 pod 的消息发送到 kubelet。与此同时，被计划删除的 Pod 可能会继续在游离的节点上运行。
+
+节点控制器不会强制删除 Pod，直到确认它们已经在集群中停止运行。可以看到这些可能在无法访问的节点上运行的 Pod 处于 `Terminating` 或 `Unknown` 状态。如果节点永久离开集群，Kubernetes 无法从底层基础设施推断出，集群管理员可能需要手动删除节点对象。从 Kubernetes 中删除节点对象，将导致节点上的所有运行的 Pod 对象从 apiserver 中删除并释放它们的名称。
+
+当节点出现问题时，Kubernetes 控制平面会自动创建与影响节点的条件相匹配的 [污点]()，当调度器将 Pod 指派给某节点时，会考虑节点上的污点。Pod 则可以通容忍度（Toleration），表达所能容忍的污点。
+
+
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>
+
+API 发起的驱逐是一个先调用 Eviction API 创建驱逐对象，再由该对象体面地中止 Pod 的过程。
+{% endhint %}
+
+
+
+
+
+
+
+
+
