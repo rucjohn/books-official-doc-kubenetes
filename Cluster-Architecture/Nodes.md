@@ -229,7 +229,7 @@ Events:              <none>
 
 节点控制器不会强制删除 Pod，直到确认它们已经在集群中停止运行。可以看到这些可能在无法访问的节点上运行的 Pod 处于 `Terminating` 或 `Unknown` 状态。如果节点永久离开集群，Kubernetes 无法从底层基础设施推断出，集群管理员可能需要手动删除节点对象。从 Kubernetes 中删除节点对象，将导致节点上的所有运行的 Pod 对象从 apiserver 中删除并释放它们的名称。
 
-当节点出现问题时，Kubernetes 控制平面会自动创建与影响节点的条件相匹配的 [污点](Nodes.md)，当调度器将 Pod 指派给某节点时，会考虑节点上的污点。Pod 则可以通容忍度（Toleration），表达所能容忍的污点。
+当节点出现问题时，Kubernetes 控制平面会自动创建与影响节点的条件相匹配的 [污点](../Scheduling-Preemption-and-Eviction/Taints-and-Toleratiions.md)，当调度器将 Pod 指派给某节点时，会考虑节点上的污点。Pod 则可以通容忍度（Toleration），表达所能容忍的污点。
 
 {% hint style="info" %}
 <mark style="color:blue;">**说明：**</mark>
