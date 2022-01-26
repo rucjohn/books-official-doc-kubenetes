@@ -82,6 +82,128 @@ kubectl cordon $NODENAME
 被 DaemonSet 控制器创建的 Pod 能够容忍节点的不可调度属性。DaemonSet 通常提供节点本地的服务，即使节点上的负载应用已经被腾空，这些服务也仍需运行在节点之上。
 {% endhint %}
 
+## 节点状态
+
+一个节点的状态包含以下信息：
+- [地址](#地址)
+- [状况](#状况)
+- [容量与可分配](#容量与可分配)
+- [信息](#信息)
+
+可以使用 `kubectl` 来查看节点状态和其他细节：
+```bash
+kubectl describe node <节点名称>
+```
+输出以下内容：
+```
+Name:               master-1
+Roles:              control-plane,master,worker
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/os=linux
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=master-1
+                    kubernetes.io/os=linux
+                    node-role.kubernetes.io/control-plane=
+                    node-role.kubernetes.io/master=
+                    node-role.kubernetes.io/worker=
+                    test=ok
+Annotations:        kubeadm.alpha.kubernetes.io/cri-socket: /var/run/dockershim.sock
+                    node.alpha.kubernetes.io/ttl: 0
+                    projectcalico.org/IPv4Address: 192.168.124.101/24
+                    projectcalico.org/IPv4IPIPTunnelAddr: 10.233.106.0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Mon, 11 Oct 2021 17:13:48 +0800
+Taints:             <none>
+Unschedulable:      false
+Lease:
+  HolderIdentity:  master-1
+  AcquireTime:     <unset>
+  RenewTime:       Wed, 26 Jan 2022 10:38:12 +0800
+Conditions:
+  Type                 Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----                 ------  -----------------                 ------------------                ------                       -------
+  NetworkUnavailable   False   Wed, 12 Jan 2022 17:37:15 +0800   Wed, 12 Jan 2022 17:37:15 +0800   CalicoIsUp                   Calico is running on this node
+  MemoryPressure       False   Wed, 26 Jan 2022 10:34:06 +0800   Thu, 13 Jan 2022 12:41:32 +0800   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure         False   Wed, 26 Jan 2022 10:34:06 +0800   Fri, 10 Dec 2021 17:51:05 +0800   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure          False   Wed, 26 Jan 2022 10:34:06 +0800   Fri, 10 Dec 2021 17:51:05 +0800   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready                True    Wed, 26 Jan 2022 10:34:06 +0800   Fri, 10 Dec 2021 17:51:05 +0800   KubeletReady                 kubelet is posting ready status
+Addresses:
+  InternalIP:  192.168.124.101
+  Hostname:    master-1
+Capacity:
+  cpu:                2
+  ephemeral-storage:  48002152Ki
+  hugepages-2Mi:      0
+  memory:             5944880Ki
+  pods:               110
+Allocatable:
+  cpu:                1600m
+  ephemeral-storage:  48002152Ki
+  hugepages-2Mi:      0
+  memory:             5258891260
+  pods:               110
+System Info:
+  Machine ID:                 845be1f7030d4956bd2cda32a605526c
+  System UUID:                845BE1F7-030D-4956-BD2C-DA32A605526C
+  Boot ID:                    b7f04b50-e911-4a54-a3bc-8182cb46dce8
+  Kernel Version:             3.10.0-957.el7.x86_64
+  OS Image:                   CentOS Linux 7 (Core)
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  docker://20.10.8
+  Kubelet Version:            v1.20.4
+  Kube-Proxy Version:         v1.20.4
+PodCIDR:                      10.233.64.0/24
+PodCIDRs:                     10.233.64.0/24
+Non-terminated Pods:          (8 in total)
+  Namespace                   Name                                CPU Requests  CPU Limits  Memory Requests  Memory Limits  AGE
+  ---------                   ----                                ------------  ----------  ---------------  -------------  ---
+  default                     nginx111-55b8654cf7-fdkf8           0 (0%)        0 (0%)      0 (0%)           0 (0%)         26d
+  kube-system                 calico-node-vp47z                   250m (15%)    0 (0%)      0 (0%)           0 (0%)         36d
+  kube-system                 kube-apiserver-master-1             250m (15%)    0 (0%)      0 (0%)           0 (0%)         35d
+  kube-system                 kube-controller-manager-master-1    200m (12%)    0 (0%)      0 (0%)           0 (0%)         36d
+  kube-system                 kube-proxy-lpqh5                    0 (0%)        0 (0%)      0 (0%)           0 (0%)         36d
+  kube-system                 kube-scheduler-master-1             100m (6%)     0 (0%)      0 (0%)           0 (0%)         106d
+  kube-system                 nodelocaldns-g2jfh                  100m (6%)     0 (0%)      70Mi (1%)        170Mi (3%)     36d
+  kube-system                 snapshot-controller-0               0 (0%)        0 (0%)      0 (0%)           0 (0%)         106d
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests    Limits
+  --------           --------    ------
+  cpu                900m (56%)  0 (0%)
+  memory             70Mi (1%)   170Mi (3%)
+  ephemeral-storage  0 (0%)      0 (0%)
+  hugepages-2Mi      0 (0%)      0 (0%)
+Events:              <none>
+```
+
+
+### 地址
+
+以下字段的用法取决于云服务商或物理机配置。
+- `HostName`：由节点的内核设置。可以通过 kubelet 的 `--hostname-override` 参数覆盖。
+- `ExternalIP`：通常是节点的可外部路由（由集群外可访问的）的 IP 地址。
+- `InternalIP`：通常是节点的仅可在集群内部路由的 IP 地址。
+
+### 状况
+
+`conditions` 字段描述了所有 Running 节点的状态。
+
+节点状况 | 描述
+--- | ---
+Ready | True：节点是健康的，并且已经准备好接收 Pod。<br>False：节点不健康且不能接收 Pod。<br>Unknown：表示节点控制器在最近 `node-monitor-grace-period` 期间（默认 40 秒）没有收到节点的信息。
+DiskPressure | True 表示节点存在磁盘空间压力，即可用磁盘空间低；否则为 False。
+
+
+
+
+
+
+
+
+
+
+
 
 
 
