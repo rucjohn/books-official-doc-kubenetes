@@ -72,6 +72,7 @@ Node 对象的名称必须是合法的 [DNS 子域名](../Overview/Working-with-
 如果标记节点为不可调度（unschedulable），将阻止新 Pod 调度到该节点之上，但不会影响任何已经在其上的 Pod。这是重启节点或者执行其他维护操作之前的一个有用的准备步骤。
 
 要标记一个节点为不可调度，执行以下命令：
+
 ```bash
 kubectl cordon $NODENAME
 ```
@@ -85,16 +86,20 @@ kubectl cordon $NODENAME
 ## 节点状态
 
 一个节点的状态包含以下信息：
-- [地址](#地址)
-- [状况](#状况)
-- [容量与可分配](#容量与可分配)
-- [信息](#信息)
+
+* [地址](Nodes.md#di-zhi)
+* 状况
+* 容量与可分配
+* 信息
 
 可以使用 `kubectl` 来查看节点状态和其他细节：
+
 ```bash
 kubectl describe node <节点名称>
 ```
+
 输出以下内容：
+
 ```
 Name:               master-1
 Roles:              control-plane,master,worker
@@ -177,34 +182,29 @@ Allocated resources:
 Events:              <none>
 ```
 
-
 ### 地址
 
 以下字段的用法取决于云服务商或物理机配置。
-- `HostName`：由节点的内核设置。可以通过 kubelet 的 `--hostname-override` 参数覆盖。
-- `ExternalIP`：通常是节点的可外部路由（由集群外可访问的）的 IP 地址。
-- `InternalIP`：通常是节点的仅可在集群内部路由的 IP 地址。
+
+* `HostName`：由节点的内核设置。可以通过 kubelet 的 `--hostname-override` 参数覆盖。
+* `ExternalIP`：通常是节点的可外部路由（由集群外可访问的）的 IP 地址。
+* `InternalIP`：通常是节点的仅可在集群内部路由的 IP 地址。
 
 ### 状况
 
 `conditions` 字段描述了所有 Running 节点的状态。
 
-节点状况 | 描述
---- | ---
-Ready | True：节点是健康的，并且已经准备好接收 Pod。<br>False：节点不健康且不能接收 Pod。<br>Unknown：表示节点控制器在最近 `node-monitor-grace-period` 期间（默认 40 秒）没有收到节点的信息。
-DiskPressure | True 表示节点存在磁盘空间压力，即可用磁盘空间低；否则为 False。
+| 节点状况                                                  | 描述                                                                                                                                            |
+| ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| Ready                                                 | <p>True：节点是健康的，并且已经准备好接收 Pod。<br>False：节点不健康且不能接收 Pod。<br>Unknown：表示节点控制器在最近 <code>node-monitor-grace-period</code> 期间（默认 40 秒）没有收到节点的信息。</p> |
+| DiskPressure                                          | True 表示节点存在磁盘空间压力，即节点可用磁盘空间低；否则为 False。                                                                                                       |
+| MemoryPressure                                        | True 表示节点存在内存压力，即节点可用内存低，否则为 False                                                                                                            |
+| PIDPressure                                           | True 表示节点存在进程压力，即节点上进程过程多，否则为 False                                                                                                           |
+| NetworkUnavailable                                    | True 表示节点网络配置不正确，否则为 False                                                                                                                    |
+| <mark style="color:orange;">SchedulingDisabled</mark> | <mark style="color:orange;">节点被保护，被标记为不可能调度</mark>                                                                                            |
 
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+如果使用命令行工具来打印已保护（Cordoned）节点的细节，其中 Condition 字段可能包括 SchedulingDisabled。该状况不是 Kubernetes API 中定义的 Condition，被保护的节点在其规范中被标记为不可调度（Unschedulable）。
+{% endhint %}
