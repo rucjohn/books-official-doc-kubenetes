@@ -88,7 +88,7 @@ kubectl cordon $NODENAME
 一个节点的状态包含以下信息：
 
 * [地址](Nodes.md#地址)
-* 状况](Nodes.md#状况)
+* [状况](Nodes.md#状况)
 * 容量与可分配
 * 信息
 
