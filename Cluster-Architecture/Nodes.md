@@ -87,8 +87,8 @@ kubectl cordon $NODENAME
 
 一个节点的状态包含以下信息：
 
-* [地址](Nodes.md#di-zhi)
-* 状况
+* [地址](Nodes.md#地址)
+* 状况](Nodes.md#状况)
 * 容量与可分配
 * 信息
 
@@ -237,7 +237,13 @@ Events:              <none>
 API 发起的驱逐是一个先调用 Eviction API 创建驱逐对象，再由该对象体面地中止 Pod 的过程。
 {% endhint %}
 
+### 容量与可分配
 
+### 信息
+
+## 心跳
+
+## 节点控制器
 
 
 
