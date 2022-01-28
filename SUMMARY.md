@@ -18,7 +18,7 @@
 * [第二章 Kubernetes 架构](Cluster-Architecture/README.md)
   * [节点](Cluster-Architecture/Nodes.md)
 * [第四章 Kubernetes 工作负载](Workloads/README.md)
-  * [Pods](Pods/Nodes.md)
+  * [Pods](workloads/pods/README.md)
     * [Pod 生命周期](Workloads/Pods/Pod-Lifecycle.md)
 * [第十章 调度，抢占和驱逐](Scheduling-Preemption-and-Eviction/README.md)
   * [将 Pod 分配给节点](Scheduling-Preemption-and-Eviction/Assigning-Pods-to-Nodes.md)
@@ -33,7 +33,6 @@
   * [Kubernetes API](API/Kubernetes-API/README.md)
     * [集群资源](API/Kubernetes-API/Cluster-Resources/README.md)
       * [Lease](API/Kubernetes-API/Cluster-Resources/Lease.md)
-
 * [入门](Getting\_started/README.md)
   * [生产环境](Getting\_started/Production\_Environment/README.md)
     * [容器运行时](Getting\_started/Production\_Environment/Container\_runtime.md)
