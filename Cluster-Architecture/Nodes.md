@@ -338,7 +338,7 @@ kubelet 会尝试检测节点系统关闭事件并终止在节点上运行的 Po
 在优雅关闭节点过程中，kubelet 分两个阶段来终止 Pods：
 
 1. 终止在节点上运行的常规 Pod
-2. 终止在节点上运行的关键 Pod
+2. 终止在节点上运行的[关键 Pod](../Adminster-a-Cluster/Guaranteed-Scheduling-For-Critical-Add-On-Pods.md#marking-pod-as-critical)
 
 优雅关闭节点特性对应 两个 `KubeletConfiguration` 选项：
 
@@ -347,7 +347,8 @@ kubelet 会尝试检测节点系统关闭事件并终止在节点上运行的 Po
 
 例如，如果设置了 `ShutdownGracePeriod=30s` 和 `ShutdownGracePeriodCriticalPods=10s`，则 kubelet 将延迟 30 秒关闭节点。在关闭期间，将保留 20 （30 - 10）秒用于优雅终止常规 Pod，保留最后 10 秒用于终止关键 Pod。
 
-说明：
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>
 
 当 Pod 在正常节点关闭期间被驱逐时，它们会被标记为 `failed`。运行 `kubelet get pods` 将被驱逐的 pod 的状态显示为 `Shutdown`。并且，`kubelet describe pod` 表示 pod 因节点关闭而被驱逐。
 
@@ -357,11 +358,12 @@ Reason:         Shutdown
 Message:        Node is shutting, evicting pods
 ```
 
-`failed` 的 pod 对象将被保留，直到被明确 删除或 由 GC 清理。与突然的节点终止相比这是一种行为变化。
+`failed` 的 pod 对象将被保留，直到被明确 删除或 由[ GC 清理](../Workloads/Pods/Pod-Lifecycle.md#garbage-collection-of-failed-pods)。与突然的节点终止相比这是一种行为变化。
+{% endhint %}
 
 ## 交换内存管理
 
-FEATURE STATE: Kubernetes v1.22 \[alpha]
+FEATURE STATE: _<mark style="color:orange;">Kubernetes v1.22 \[alpha]</mark>_
 
 在 Kubernetes 1.22 之前，节点不支持使用交换内存，并且默认情况下，如果在节点上检测到交换内存配置，kubelet 将无法启动。在 v1.22 之后，可以在每个节点的基础上启用交换内存支持。
 
