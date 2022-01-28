@@ -19,7 +19,7 @@
   * [节点](Cluster-Architecture/Nodes.md)
 * [第四章 Kubernetes 工作负载](Workloads/README.md)
   * [Pods](Pods/Nodes.md)
-    * [Pod 生命周期] (Workloads/Pods/Pod-Lifecycle.md)
+    * [Pod 生命周期](Workloads/Pods/Pod-Lifecycle.md)
 * [第十章 调度，抢占和驱逐](Scheduling-Preemption-and-Eviction/README.md)
   * [将 Pod 分配给节点](Scheduling-Preemption-and-Eviction/Assigning-Pods-to-Nodes.md)
   * [污点和容忍度](Scheduling-Preemption-and-Eviction/Taints-and-Toleratiions.md)
