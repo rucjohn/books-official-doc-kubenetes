@@ -26,6 +26,7 @@
 * [管理集群](Adminster-a-Cluster/README.md)
   * [控制节点上的拓扑管理策略](Adminster-a-Cluster/Control-Topology-Management-Policies-on-a-node.md)
   * [为系统守护进程预留计算资源](Adminster-a-Cluster/Reserve-Compute-Resources-for-System-Daemons.md)
+  * [关键插件 Pod 的调度保证](Adminster-a-Cluster/Guaranteed-Scheduling-For-Critical-Add-On-Pods.md)
 * [API](API/README.md)
   * [访问API](API/API-Access-Control/README.md)
     * [使用准入控制器](API/API-Access-Control/Using-Admission-Controllers.md)
