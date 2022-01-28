@@ -21,6 +21,7 @@
   * [将 Pod 分配给节点](Scheduling-Preemption-and-Eviction/Assigning-Pods-to-Nodes.md)
   * [污点和容忍度](Scheduling-Preemption-and-Eviction/Taints-and-Toleratiions.md)
 * [管理集群](Adminster-a-Cluster/README.md)
+  * [控制节点上的拓扑管理策略](Adminster-a-Cluster/Control-Topology-Management-Policies-on-a-node.md)
   * [为系统守护进程预留计算资源](Adminster-a-Cluster/Reserve-Compute-Resources-for-System-Daemons.md)
 * [API](API/README.md)
   * [访问API](API/API-Access-Control/README.md)
