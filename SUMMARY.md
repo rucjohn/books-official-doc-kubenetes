@@ -17,6 +17,7 @@
     * [属主和附属](Overview/Working-with-kubernetes-objects/Owners-and-Dependents.md)
 * [第二章 Kubernetes 架构](Cluster-Architecture/README.md)
   * [节点](Cluster-Architecture/Nodes.md)
+  * [控制平面节点通信](Cluster-Architecture/Control-Plane-Node-Communication.md)
 * [第四章 Kubernetes 工作负载](Workloads/README.md)
   * [Pods](workloads/pods/README.md)
     * [Pod 生命周期](Workloads/Pods/Pod-Lifecycle.md)
