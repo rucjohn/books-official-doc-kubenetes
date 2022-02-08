@@ -6,13 +6,11 @@
 
 ## 容器状态
 
-### Waiting（等待）
+### Waiting（等待） <a href="#waiting" id="waiting"></a>
 
-### Running（运行中）
+### Running（运行中） <a href="#running" id="running"></a>
 
-### Terminated（已终止）
-
-
+### Terminated（已终止） <a href="#terminated" id="terminated"></a>
 
 ## Pod 的终止 <a href="#termination-of-pods" id="termination-of-pods"></a>
 
