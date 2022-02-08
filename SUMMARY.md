@@ -19,6 +19,7 @@
   * [节点](Cluster-Architecture/Nodes.md)
   * [控制平面节点通信](Cluster-Architecture/Control-Plane-Node-Communication.md)
   * [控制器](Cluster-Architecture/Controllers.md)
+  * [CRI](Cluster-Architecture/Container-Runtime-Interface.md)
 * [第四章 Kubernetes 工作负载](Workloads/README.md)
   * [Pods](workloads/pods/README.md)
     * [Pod 生命周期](Workloads/Pods/Pod-Lifecycle.md)
