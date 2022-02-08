@@ -22,7 +22,7 @@
   * [CRI](Cluster-Architecture/Container-Runtime-Interface.md)
   * [垃圾回收](Cluster-Architecture/Garbage-Collection.md)
 * [第三章 容器](Containers/README.md)
-  * [镜像](containers/jing-xiang.md)
+  * [镜像](containers/Images.md)
 * [第四章 Kubernetes 工作负载](Workloads/README.md)
   * [Pods](workloads/pods/README.md)
     * [Pod 生命周期](Workloads/Pods/Pod-Lifecycle.md)
