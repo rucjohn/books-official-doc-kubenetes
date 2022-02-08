@@ -4,4 +4,5 @@
 
 ## 节点到控制平面
 
-Kubernetes 采用的是星型（Hub-and-Spoke）API 模式。所有从集群（或所运行的 Pods）发出的 API 都汇聚到 apiserver。其他控制平面组成均未设计成可对外暴露服务。apiserver 被配置在一个安全的 HTTPS 端口（默认是 6443）监听远程连接请求，并启动一种或多种形式的客户端身份认证机制。
+Kubernetes 采用的是星型（Hub-and-Spoke）API 模式。所有从集群（或所运行的 Pods）发出的 API 都汇聚到 apiserver。其他控制平面组成均未设计成可对外暴露服务。apiserver 使用安全的 HTTPS 端口（默认是 _**6443**_）监听远程连接请求，并启用客户端 [身份认证](../API/API-Access-Control/Authenticating.md) 机制，尤其是在允许匿名请求或服务账户令牌的情况下。
+
