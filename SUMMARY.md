@@ -34,6 +34,7 @@
   * [控制节点上的拓扑管理策略](Adminster-a-Cluster/Control-Topology-Management-Policies-on-a-node.md)
   * [为系统守护进程预留计算资源](Adminster-a-Cluster/Reserve-Compute-Resources-for-System-Daemons.md)
   * [关键插件 Pod 的调度保证](Adminster-a-Cluster/Guaranteed-Scheduling-For-Critical-Add-On-Pods.md)
+  * [通过配置文件设置 Kubelet 参数](Adminster-a-Cluster/Set-Kubelet-paramenters-via-a-config-file.md)
 * [API](API/README.md)
   * [访问API](API/API-Access-Control/README.md)
     * [用户认证](API/API-Access-Control/Authenticating.md)
