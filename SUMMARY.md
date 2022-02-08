@@ -54,7 +54,7 @@
     * [使用 kubeadm 进行管理](Task/Management\_cluster/Manage\_with\_kubeadm/README.md)
       * [使用 kubeadm 进行证书管理](Task/Management\_cluster/Manage\_with\_kubeadm/Use\_kubeadm\_for\_certificate\_management.md)
       * [配置 cgroup 驱动](Task/Management\_cluster/Manage\_with\_kubeadm/Configure\_cgroup\_driver.md)
-  * [Kubernetes 扩展](Tasks/Extend-Kubernetes/README.md)
+  * [扩展 Kubernetes](Tasks/Extend-Kubernetes/README.md)
     * [设置 Konnectivity 服务](Tasks/Extend-Kubernetes/Set-up-Konnectivity-service.md)
 * [参考](Reference/README.md)
   * [访问 API](Reference/API\_access\_control/README.md)
