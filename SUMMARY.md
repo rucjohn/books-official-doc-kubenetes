@@ -24,6 +24,7 @@
 * [第四章 Kubernetes 工作负载](Workloads/README.md)
   * [Pods](workloads/pods/README.md)
     * [Pod 生命周期](Workloads/Pods/Pod-Lifecycle.md)
+  * [已完成资源的 TTL 控制器](Workloads/Automatic-Clean-up-for-Finished-jobs.md)
 * [第十章 调度，抢占和驱逐](Scheduling-Preemption-and-Eviction/README.md)
   * [将 Pod 分配给节点](Scheduling-Preemption-and-Eviction/Assigning-Pods-to-Nodes.md)
   * [污点和容忍度](Scheduling-Preemption-and-Eviction/Taints-and-Toleratiions.md)
