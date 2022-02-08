@@ -30,6 +30,7 @@
   * [关键插件 Pod 的调度保证](Adminster-a-Cluster/Guaranteed-Scheduling-For-Critical-Add-On-Pods.md)
 * [API](API/README.md)
   * [访问API](API/API-Access-Control/README.md)
+    * [用户认证](API/API-Access-Control/Authenticating.md)
     * [使用准入控制器](API/API-Access-Control/Using-Admission-Controllers.md)
     * [使用 Node 鉴权](API/API-Access-Control/Using-Node-Authorization.md)
   * [Kubernetes API](API/Kubernetes-API/README.md)
@@ -49,7 +50,7 @@
       * [配置 cgroup 驱动](Task/Management\_cluster/Manage\_with\_kubeadm/Configure\_cgroup\_driver.md)
 * [参考](Reference/README.md)
   * [访问 API](Reference/API\_access\_control/README.md)
-    * [用户认证](Reference/API\_access\_control/Authenticating.md)
+    
     * [Bootstrap Tokens 认证](Reference/API\_access\_control/Authenticating\_with\_Bootstrap\_Tokens.md)
     * [\[鉴权概述\](Reference/API\_access\_control/Authorization\_ Overview.md)](reference/api\_access\_control/jian-quan-gai-shu-referenceapiaccesscontrolauthorization-overview.md.md)
   * [Kubeadm](Reference/Kubeadm/README.md)
