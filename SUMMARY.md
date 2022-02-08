@@ -38,6 +38,7 @@
       * [Lease](API/Kubernetes-API/Cluster-Resources/Lease.md)
 * [工具](Tools/README.md)
   * [组件工具](Tools/Compoent-tools//README.md)
+    * [kubelet 认证/鉴权](Tools/Compoent-tools/kubelet-authentication-authorization.md)
     * [TLS 启动引导](Tools/Compoent-tools/TLS-bootstrapping.md)
 
 
