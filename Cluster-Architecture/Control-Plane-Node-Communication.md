@@ -49,7 +49,7 @@ SSH 隧道目前**已废弃**。除非能了解其中细节，否则不应使用
 
 ### Konnectivity 服务
 
-FEATURE STATE: Kubernetes v1.18 \[beta]
+**FEATURE STATE:** _<mark style="color:orange;">Kubernetes v1.18 \[beta]</mark>_
 
 作为 SSH 隧道的替代方案，Konnectivity 服务提供 TCP 代理，以便支持从控制平面到集群的通信。Konnectivity 服务包含两个部分：Konnectivity 服务端和 Konnectivity 代理，分别运行在控制平面网络和节点网络中。Konnectivity 代理 建立并维持到 Konnectivity 服务端的网络连接。启用 Konnectivity 服务之后，所有控制平面到节点的通信都通过这些连接传输。
 
