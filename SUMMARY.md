@@ -36,6 +36,11 @@
   * [Kubernetes API](API/Kubernetes-API/README.md)
     * [集群资源](API/Kubernetes-API/Cluster-Resources/README.md)
       * [Lease](API/Kubernetes-API/Cluster-Resources/Lease.md)
+* [工具](Tools/README.md)
+  * [组件工具](Tools/Compoent-tools//README.md)
+    * [TLS 启动引导](Tools/Compoent-tools/TLS-bootstrapping.md)
+
+
 * [入门](Getting\_started/README.md)
   * [生产环境](Getting\_started/Production\_Environment/README.md)
     * [容器运行时](Getting\_started/Production\_Environment/Container\_runtime.md)
@@ -57,5 +62,3 @@
     * [kubeadm init](Reference/Kubeadm/Kubeadm\_init.md)
     * [kubeadm token](Reference/Kubeadm/Kubeadm\_token.md)
     * [kubeadm config](Reference/Kubeadm/Kubeadm\_config.md)
-  * [组件工具](Reference/Component\_tools/README.md)
-    * [TLS 引导](Reference/Component\_tools/TLS\_bootstrapping.md)
