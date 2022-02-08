@@ -70,7 +70,7 @@ Kubernetes 检查 并删除不再具有属主引用的对象，例如，删除 R
 
 kubelet **每五分钟**对未使用的镜像执行一次垃圾回收，**每分钟**对未使用的容器执行一次垃圾回收。应该避免使用外部垃圾回收工具，因为这些工具会破坏 kubelet 的垃圾回收行动。
 
-要为未使用的容器和镜像配置垃圾回收选项，请使用 [配置文件](Garbage-Collection.md) 调整 kubelet，并使用 kubeletConfiguration 资源类型更改与垃圾回收相关的参数。
+要为未使用的容器和镜像配置垃圾回收选项，请使用 [配置文件](../Adminster-a-Cluster/Set-Kubelet-paramenters-via-a-config-file.md) 调整 kubelet，并使用 kubeletConfiguration 资源类型更改与垃圾回收相关的参数。
 
 ### 容器镜像生命周期
 

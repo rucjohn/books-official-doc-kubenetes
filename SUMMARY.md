@@ -22,7 +22,7 @@
   * [CRI](Cluster-Architecture/Container-Runtime-Interface.md)
   * [垃圾回收](Cluster-Architecture/Garbage-Collection.md)
 * [第三章 容器](Containers/README.md)
-  * [镜像](Containers/Images/README.md)
+  * [镜像](containers/jing-xiang.md)
 * [第四章 Kubernetes 工作负载](Workloads/README.md)
   * [Pods](workloads/pods/README.md)
     * [Pod 生命周期](Workloads/Pods/Pod-Lifecycle.md)
@@ -47,11 +47,9 @@
     * [集群资源](API/Kubernetes-API/Cluster-Resources/README.md)
       * [Lease](API/Kubernetes-API/Cluster-Resources/Lease.md)
 * [工具](Tools/README.md)
-  * [组件工具](Tools/Compoent-tools//README.md)
+  * [组件工具](Tools/Compoent-tools/README.md)
     * [kubelet 认证/鉴权](Tools/Compoent-tools/kubelet-authentication-authorization.md)
     * [TLS 启动引导](Tools/Compoent-tools/TLS-bootstrapping.md)
-
-
 * [入门](Getting\_started/README.md)
   * [生产环境](Getting\_started/Production\_Environment/README.md)
     * [容器运行时](Getting\_started/Production\_Environment/Container\_runtime.md)
