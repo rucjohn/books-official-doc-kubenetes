@@ -62,7 +62,7 @@
     * [使用 kubeadm 进行管理](Task/Management\_cluster/Manage\_with\_kubeadm/README.md)
       * [使用 kubeadm 进行证书管理](Task/Management\_cluster/Manage\_with\_kubeadm/Use\_kubeadm\_for\_certificate\_management.md)
       * [配置 cgroup 驱动](Task/Management\_cluster/Manage\_with\_kubeadm/Configure\_cgroup\_driver.md)
-  * [配置 Pods 和容器](Tasks/Configure-Pods-and-Containers/READMA.md)
+  * [配置 Pods 和容器](task/pei-zhi-pods-he-rong-qi/README.md)
     * [为 Pod 配置服务账户](Tasks/Configure-Pods-and-Containers/Configure-Service-Accounts-for-Pods.md)
     * [从私有仓库拉取镜像](Tasks/Configure-Pods-and-Containers/Pull-an-Image-from-a-Private-Registry.md)
   * [扩展 Kubernetes](Tasks/Extend-Kubernetes/README.md)
