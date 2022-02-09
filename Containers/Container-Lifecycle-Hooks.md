@@ -37,3 +37,33 @@
 如果 `PostStart` 或 `PreStop` 回调失败，它会杀死容器。
 
 用户应该使他们的回调处理程序尽可能的轻量级。但也需要考虑长时间运行的命令也有用的情况，比如在停止容器前保存状态。
+
+
+### 回调递送保证
+
+回调的递送应该是至少一次，这意味着对于任何给定的事件，例如 `PostStart` 或 `PreStop`，回调可以被调用多次。如何正确处理被多次调用的情况，是回调实现所要考虑的问题。
+
+通常情况下，只会进行单次递送。例如，如果 HTTP 回调接收器宕机，无法接收流量，则不会尝试重新发送。然而，偶尔也会发生重新递送的可能。例如，如果 kubelet 在发送回调的过程中重新启动，回调可能会在 kubelet 恢复后重新发送。
+
+### 调试回调处理程序
+
+回调处理程序的日志不会在 Pod 事件中公开。如果处理程序由于某些原因失败，它将发送一个事件。
+- 对于 `PostStart`，这是 `FailedPostStartHook` 事件
+- 对于 `PreStop`，这是 `FailedPreStopHook` 事件
+
+可以通过运行 `kubectl describe pod <POD NAME>` 命令来查看事件。下面是运行这个命令的一些事件输出示例：
+```
+Events:
+  FirstSeen    LastSeen    Count    From                            SubobjectPath        Type        Reason        Message
+  ---------    --------    -----    ----                            -------------        --------    ------        -------
+  1m        1m        1    {default-scheduler }                                Normal        Scheduled    Successfully assigned test-1730497541-cq1d2 to gke-test-cluster-default-pool-a07e5d30-siqd
+  1m        1m        1    {kubelet gke-test-cluster-default-pool-a07e5d30-siqd}    spec.containers{main}    Normal        Pulling        pulling image "test:1.0"
+  1m        1m        1    {kubelet gke-test-cluster-default-pool-a07e5d30-siqd}    spec.containers{main}    Normal        Created        Created container with docker id 5c6a256a2567; Security:[seccomp=unconfined]
+  1m        1m        1    {kubelet gke-test-cluster-default-pool-a07e5d30-siqd}    spec.containers{main}    Normal        Pulled        Successfully pulled image "test:1.0"
+  1m        1m        1    {kubelet gke-test-cluster-default-pool-a07e5d30-siqd}    spec.containers{main}    Normal        Started        Started container with docker id 5c6a256a2567
+  38s        38s        1    {kubelet gke-test-cluster-default-pool-a07e5d30-siqd}    spec.containers{main}    Normal        Killing        Killing container with docker id 5c6a256a2567: PostStart handler: Error executing in Docker Container: 1
+  37s        37s        1    {kubelet gke-test-cluster-default-pool-a07e5d30-siqd}    spec.containers{main}    Normal        Killing        Killing container with docker id 8df9fdfd7054: PostStart handler: Error executing in Docker Container: 1
+  38s        37s        2    {kubelet gke-test-cluster-default-pool-a07e5d30-siqd}                Warning        FailedSync    Error syncing pod, skipping: failed to "StartContainer" for "main" with RunContainerError: "PostStart handler: Error executing in Docker Container: 1"
+  1m         22s         2     {kubelet gke-test-cluster-default-pool-a07e5d30-siqd}    spec.containers{main}    Warning        FailedPostStartHook
+```
+
