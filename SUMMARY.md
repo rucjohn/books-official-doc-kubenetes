@@ -25,6 +25,7 @@
   * [镜像](Containers/Images.md)
   * [容器环境](Containers/Container-Environment.md)
   * [容器运行时类](Containers/Runtime-Class.md)
+  * [容器生命周期回调](Containers/Container-Lifecycle-Hooks.md)
 * [第四章 Kubernetes 工作负载](Workloads/README.md)
   * [Pods](workloads/pods/README.md)
     * [Pod 生命周期](Workloads/Pods/Pod-Lifecycle.md)
