@@ -27,7 +27,7 @@
   * [容器运行时类](Containers/Runtime-Class.md)
   * [容器生命周期回调](Containers/Container-Lifecycle-Hooks.md)
 * [第四章 工作负载](Workloads/README.md)
-  * [Pods](workloads/pods/README.md)
+  * [Pods](Workloads/Pods/README.md)
     * [Pod 生命周期](Workloads/Pods/Pod-Lifecycle.md)
   * [已完成资源的 TTL 控制器](Workloads/Automatic-Clean-up-for-Finished-jobs.md)
 * [第六章 存储](Storage/README.md)
