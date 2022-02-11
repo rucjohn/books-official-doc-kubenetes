@@ -72,9 +72,67 @@ Pod 原生地为其成员容器提供了两种共享资源：网络和存储。
 
 
 
+## Pod 工作
 
-当 Pod 手动创建或间接地由控制器创建时，它被调度到集群的某个节点上运行。Pod 会保持在该节点上运行，直到 Pod 结束执行、Pod 对象被删除、Pod 因资源不足而被驱逐，或者节点失效为止。
+很少直接在 Kubernetes 创建单独的 Pod，即使是单例 Pod。这是因为 Pod 被设计为相对短暂的、一次性的实体。当 Pod 手动创建或间接地由控制器创建时，它被调度到集群的某个节点上运行。Pod 会保持在该节点上运行，直到 Pod 结束执行、Pod 对象被删除、Pod 因资源不足而被驱逐，或者节点失效为止。
 
 说明：
 
 重启 Pod 中的容器不应与重启 Pod 混淆。Pod 不是进程，而容器运行的环境。在被删除之间，Pod 会一直存在。
+
+当为 Pod 对象创建清单时，要确保所指定的 Pod 名称必须是合法的 DNS 子域名。
+
+### Pod 和控制器
+
+可以使用工作负载资源来创建和管理多个 Pod。工作负载控制器能够在 Pod 发生故障时管理副本、滚动更新，以及自动修复。例如，如果一个节点发生故障，控制器会注意到该节点上的 Pod 已停止工作并创建一个替换 Pod。调度程序将替换 Pod 放置到一个健康的节点上。
+
+常见的工作负载资源：
+- Deployment
+- StatefulSet
+- DaemonSet
+
+### Pod 模板
+
+工作负载资源控制器通常使用 Pod 模板（**Pod Template**）来创建 Pod 并管理它们。
+
+Pod 模板是包含在工作负载对象中的规范，用来创建 Pod。这些负载资源包括 Deployment、Job 和 DaemonSet等。
+
+工作负载控制器会使用 `PodTemplate` 来生成实际的 Pod。`PodTemplate` 是用来运行应用时指定的负载资源的目标状态的一部分。
+
+下面的示例是一个简单的 Job 清单，其中的 `template` 指示启动一个容器。该 Pod 中的容器会打印一条消息之后暂停。
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello
+spec:
+  template:
+    # This is the pod template
+    spec:
+      containers:
+      - name: hello
+        image: busybox
+        command: ['sh', '-c', 'echo "Hello, Kubernetes!" && sleep 3600']
+      restartPolicy: onFailure
+    # The pod template ends here
+```
+
+修改 Pod 模板或者切换到新的 Pod 模板对已经存在的 Pod 没有直接影响。相反，新的 Pod 会被创建出来。例如，StatefulSet 控制器确保正在运行的 Pod 与 StatefulSet 对象的当前 Pod 模板匹配。如果编辑了 StatefulSet 并更改其 pod 模板，则 StatefulSet 根据更新后的模板创建新的 Pod，待 Pod 创建成功后，删除旧的 Pod，直至所有 Pod 替换完成。
+
+每个工作负载资源都实现了自己的规则 来处理对 pod 模板的更改。如果想详细了解 StatefulSet，请参阅 StatefulSet 基础教程中的更新策略。
+
+在节点上，kubelet 不直接监测或管理与 pod 模板相关的细节或模板的更新，这些细节 都被抽象出来。这种抽象和关注点分享简化了整个系统的语义，并且使得用户可以在不改变现有代码的前提下就能扩展集群的行为。
+
+## Pod 更新与替换
+
+如上所述，当工作负载资源的 pod 模板发生变更时，控制器会根据更新的模板创建新的 Pod，而不是更新或修复现有的 Pod。
+
+Kubernetes 不会阻止直接管理 Pod。对运行中的 Pod 的某些字段 执行就地更新操作还是可能。不过，像 `patch` 和 `replace` 这类更新操作有一些限制：
+- Pod 的绝大多数元数据都是不可变的。例如，不可以改变其 `namespace`、`name`、`uid`
+
+
+
+
+
+
+
