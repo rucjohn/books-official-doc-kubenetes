@@ -128,7 +128,72 @@ spec:
 如上所述，当工作负载资源的 pod 模板发生变更时，控制器会根据更新的模板创建新的 Pod，而不是更新或修复现有的 Pod。
 
 Kubernetes 不会阻止直接管理 Pod。对运行中的 Pod 的某些字段 执行就地更新操作还是可能。不过，像 `patch` 和 `replace` 这类更新操作有一些限制：
-- Pod 的绝大多数元数据都是不可变的。例如，不可以改变其 `namespace`、`name`、`uid`
+- Pod 的绝大多数元数据都是不可变的。例如，不可以改变其 `namespace`、`name`、`uid` 或 `creationTimestamp` 字段；`generation` 字段比较特别，如果更新该字段，只能增加字段取值而不能减少。
+- 如果 `metadata.deletionTimestamp` 已经被设置，则不可以向 `metadata.finalizers` 列表中添加新的条目。
+- Pod 更新不可以改变除 `spec.containers[*].image`、`spec.initContainers[*].image`、`spec.activeDeadlineSeconds` 或 `spec.tolerations` 之外的字段。对于 `spec.tolerations`，只能添加新条目。
+- 在更新 `spec.activeDeadlineSeconds` 字段时，允许以下两种更新操作：
+    1. 如果该字段尚未设置，可以将其设置为一个正数；
+    2. 如果该字段已经被设置为一个正数，可马头镇其设置为一个更小的、非负数的整数。
+
+## 资源共享和通信
+
+Pod 使其成员容器间能够进行数据共享和通信。
+
+### Pod 存储
+
+Pod 可以指定一组共享存储卷。Pod 中的所有容器都可以访问共享卷，从而使它们共享数据。卷还允许 Pod 中的持久数据在需要重新启动容器的情况下保留下来。
+
+### Pod 通信
+
+每个 Pod 会分配一个唯一的 IP 地址。Pod 中的每个容器共享网络命名空间，包括 IP 地址和端口。Pod 内的容器可以使用 `localhost` 相互通信。当 Pod 中的容器与 Pod 之外的实体通信时，它们必须协调如何那咱俩共享的网络资源（例如，端口）。
+
+在同一 Pod 内，所有容器共享一个 IP 地址和端口空间，并且可以通过 `localhost` 发现对方。Pod 中的容器还可以通过如 SystemV 信号量或 POSIX 共享内容这类标准的进程间通信方式互相通信。不同 Pod 中的容器 IP 地址互不想通，没有特殊配置就不能使用 IPC 进行通信。如果某容器希望与运行于其他 Pod 的容器通信，可以通过 IP 联网的方式实现。
+
+Pod 中的容器所看到的系统主机名与为 Pod 配置的 `name` 属性值相同。
+
+## 容器的特权模式
+
+在 Linux 中，Pod 中的任何容器都可以使用容器规范中的安全性上下文的 `privileged` （Linux）参数启用特权模式。这对于想要使用操作秕管理能力（Capabilities，如接口人网络fw）的容器很有用。
+
+如果集群启动了 `WindowsHostProcessContainers` 特性，可以使用 Pod 规范中安全上下文的 `windowsOptions.hostProcess` 参数来创建 Windows HostProcess Pod。这些 Pod 中的所有容器都必须以 Windows HostProcess 容器方式运行。HostProcess Pod 可以直接运行在主机上，它也能像 Linux 特权容器一样，用于执行管理任务。
+
+说明：
+
+当前环境容器运行时必须支持特权容器的概念才能使用这一配置。
+
+## 静态 Pod 
+
+静态 Pod 直接在特定节点上的 `kubelet` 守护进程管理，不需要 apiserver 看到它们。尽管大多数 Pod 都是控制平面（例如，Deployment）来管理的，对于静态 Pod 而言，`kubelet` 直接监控每个 Pod，并在其失效时重启它们。
+
+静态 Pod 通常绑定到某个节点上的 kubelet。其主要胜任是运行自托管的控制平面。在自托管场景中，使用 `kubelet` 来管理各个独立的控制平面组件。
+
+`kubelet` 自动屁呀为每个静态 Pod 在 Kubernetes apiserver 上创建一个静态 Pod。这意味着在节点上运行的 Pod 在 apiserver 上是可见的，但不可以通过 apiserver 来控制。
+
+说明：
+
+静态 Pod 的 `spec` 不能引用其他的 API 对象（例如：ServiceAccount、ConfigMap、Secret 等）。
+
+## 容器探针
+
+*Probe* 是由 kubelet 对容器执行的定期诊断。kubelet 可以执行三种动作：
+- `ExecAction`（借助容器运行时执行）
+- `TCPSocketAction`（由 kubelet 直接检测）
+- `HTTPGetAction`（由 kubelet 直接检测）
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
