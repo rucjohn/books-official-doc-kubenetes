@@ -143,65 +143,85 @@ status:
 
 ## 容器探针
 
-探针（*Probe*）是由 kubelet 对容器执行的定期检测。kubelet 通过执行容器内的代码或进行网络请求进行探测。
+探针（_Probe_）是由 kubelet 对容器执行的定期检测。kubelet 通过执行容器内的代码或进行网络请求进行探测。
 
 ### 检测机制
 
 有四种不同的探测方法。探测器的定义如下：
 
-    exec
+```
+exec
 
-    在容器内指定的命令。如果命令以状态码 `0` 退出，则认为检测成功。
+在容器内指定的命令。如果命令以状态码 `0` 退出，则认为检测成功。
 
-    grpc
+grpc
 
-    使用 gRPC 执行远程过程调用。目标实施 gRPC 健康检查，如果响应的状态是 SERVING，则认为检测成功。gRPC 探针还是 alpha 功能，仅在启动 GRPCContainerProbe 特性门控时可用。
+使用 gRPC 执行远程过程调用。目标实施 gRPC 健康检查，如果响应的状态是 SERVING，则认为检测成功。gRPC 探针还是 alpha 功能，仅在启动 GRPCContainerProbe 特性门控时可用。
 
-    httGet
+httGet
 
-    在 Pod 的 IP 地址上指定端口和路径，执行 HTTP GET 请求。如果响应的状态码 >= 200 且 < 400，则认为检测成功。
+在 Pod 的 IP 地址上指定端口和路径，执行 HTTP GET 请求。如果响应的状态码 >= 200 且 < 400，则认为检测成功。
 
-    tcpSocket
+tcpSocket
 
-    在 Pod 的 IP 地址上指定端口，执行 TCP 检查。如果端口连接成功，则认为检测成功。如果远程系统（容器）在打开连接后立即关闭连接，也算作健康的。
+在 Pod 的 IP 地址上指定端口，执行 TCP 检查。如果端口连接成功，则认为检测成功。如果远程系统（容器）在打开连接后立即关闭连接，也算作健康的。
+```
 
 ### 探测结果
 
 每次探测都将返回以下三种其中一种结果：
 
-    Success
+```
+Success
 
-    容器通过了检测。
+容器通过了检测。
 
-    Failure
+Failure
 
-    容器未通过检测。
+容器未通过检测。
 
-    Unknown
+Unknown
 
-    检测失败，因此不会采取任何行动。
+检测失败，因此不会采取任何行动。
+```
 
 ### 探针类型
 
 以下三种探针类型：
 
-    livenessProbe
+&#x20;   <mark style="color:orange;">livenessProbe</mark>
 
-    存活探针，指示容器是否正在运行。如果探测失败，则 kubelet 会杀死容器，并且容器会受到其重启策略的约束。如果容器不提供存活探针，则状态默认为 `Success`。
+&#x20;       存活探针，指示容器是否正在运行。
 
-    readinessProbe
+&#x20;       如果探测失败，则 kubelet 会杀死容器，并且容器会受到其重启策略的约束。
 
-    就绪探针，指示容器是否准好响应请求。如果探测失败，endpoints 控制器会从与 Pod 匹配的所有服务的 endpoint 列表中删除 Pod 的 IP 地址。初始化延迟之前的状态默认为 `Failure`。如果容器不提供就绪探针，则状态默认为 `Success`。
+&#x20;       如果容器不提供存活探针，则状态默认为 `Success`。
 
-    startupProbe
+&#x20;   <mark style="color:orange;">readinessProbe</mark>
 
-    启动探针，指示容器中的应用是否已经启动。如果提供了启动探针，则其他所有探针都会被禁用，直到此探针成功为止。如果探测失败，kubelet 会杀死容器，而容器会根据其重启策略进行重启。如果容器没有提供启动探针，则状态默认为 `Success`。
+&#x20;       就绪探针，指示容器是否准好响应请求。
 
-可以参阅 [配置存活、就绪和启动探针任务]() 查看更多细节。
+&#x20;       如果探测失败，endpoints 控制器会从与 Pod 匹配的所有服务的 endpoint 中删除 Pod 的 IP 地址。
+
+&#x20;       初始化延迟之前的状态默认为 `Failure`。
+
+&#x20;       如果容器不提供就绪探针，则状态默认为 `Success`。
+
+&#x20;   <mark style="color:blue;">****</mark>    <mark style="color:orange;">startupProbe</mark>
+
+&#x20;       启动探针，指示容器中的应用是否已经启动。
+
+&#x20;       如果提供了启动探针，则其他所有探针都会被禁用，直到此探针成功为止。
+
+&#x20;       如果探测失败，kubelet 会杀死容器，而容器会根据其重启策略进行重启。
+
+&#x20;       如果容器没有提供启动探针，则状态默认为 `Success`。
+
+可以参阅 [配置存活、就绪和启动探针任务](../../Tasks/Configure-Pods-and-Containers/Configure-Liveness-Readiness-and-Startup-Probes.md) 查看更多细节。
 
 ### 何时使用存活探针
 
-**FEATURE STATE:** Kubetnetes v1.0 [stable]
+**FEATURE STATE:** <mark style="color:orange;">Kubetnetes v1.0 \[stable]</mark>
 
 如果容器中的进程在遇到问题或者不健康的情况下会自行崩溃，那不一定需要存活探针，因为 kubelet 会根据 Pod 的 `restartPolicy` 自动执行修复操作。
 
@@ -209,7 +229,7 @@ status:
 
 ### 何时使用就绪探针
 
-**FEATURE STATE:** Kubetnetes v1.0 [stable]
+**FEATURE STATE:** <mark style="color:orange;">Kubetnetes v1.0 \[stable]</mark>
 
 如果希望仅在探测成功时才开始允许向 Pod 发送流量，那就指定一个就绪探针。在这种情况下，就绪探针可能与存活探针相同，但是规范中的就绪探针的存在，意味着 Pod 在启动阶段不接收任何数据，只有在探测成功后才开始接收数据。
 
@@ -219,20 +239,19 @@ status:
 
 如果容器需要在启动期间加载大数据、配置文件或者迁移，可以使用启动探针。但是，如果想区分已经失败的应用程和仍在处理其启动数据的应用，可能更倾向于使用就绪探针。
 
-说明：
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>
 
 请注意，如果只想在 Pod 被删除时能够清空请求，则不一定需要使用就绪探针；在删除 Pod 时，Pod 会自动将自身置于未就绪状态，无论就绪探针是否存在。等待 Pod 中的容器停止期间，Pod 会一直处于未就绪状态。
+{% endhint %}
 
 ### 何时使用启动探针
 
-**FEATURE STATE:** Kubetnetes v1.18 [stable]
+**FEATURE STATE:** <mark style="color:orange;">Kubetnetes v1.18 \[stable]</mark>
 
 启动探针对于容器需要很多时间才能投入使用的 Pod 非常有用。可以配置一个单独的配置来在容器启动时探测容器，而不是设置一个很长的活动间隔，因为启动探针可以较精准的控制时间，而不是设置一个在模糊的时长。
 
 如果容器启动时间超出 `initialDelaySeconds + failureThreshold * periodSeconds` 总合，应该指定一个启动探针来检查与存活探针相同的目标。`periodSeconds` 默认为 **10 秒**。然后，应该将 `failureThreshold` 设置得足够高以允许容器启动，而无需更改存活探针的默认值，这一设置有助于减少死锁状态的发生。
-
-
-
 
 ## Pod 的终止 <a href="#termination-of-pods" id="termination-of-pods"></a>
 
