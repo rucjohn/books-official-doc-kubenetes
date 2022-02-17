@@ -219,7 +219,7 @@ Unknown
 
 可以参阅 [配置存活、就绪和启动探针任务](../../Tasks/Configure-Pods-and-Containers/Configure-Liveness-Readiness-and-Startup-Probes.md) 查看更多细节。
 
-### 何时使用存活探针
+#### 何时使用存活探针
 
 **FEATURE STATE:** <mark style="color:orange;">Kubetnetes v1.0 \[stable]</mark>
 
@@ -227,7 +227,7 @@ Unknown
 
 如果希望容器在探测失败时被杀死或重启，那么请配置一个存活探针，并指定 `restartPolicy` 为 `Always` 或 `OnFailure`。
 
-### 何时使用就绪探针
+#### 何时使用就绪探针
 
 **FEATURE STATE:** <mark style="color:orange;">Kubetnetes v1.0 \[stable]</mark>
 
@@ -245,7 +245,7 @@ Unknown
 请注意，如果只想在 Pod 被删除时能够清空请求，则不一定需要使用就绪探针；在删除 Pod 时，Pod 会自动将自身置于未就绪状态，无论就绪探针是否存在。等待 Pod 中的容器停止期间，Pod 会一直处于未就绪状态。
 {% endhint %}
 
-### 何时使用启动探针
+#### 何时使用启动探针
 
 **FEATURE STATE:** <mark style="color:orange;">Kubetnetes v1.18 \[stable]</mark>
 
