@@ -29,6 +29,7 @@
 * [第四章 工作负载](Workloads/README.md)
   * [Pods](Workloads/Pods/README.md)
     * [Pod 生命周期](Workloads/Pods/Pod-Lifecycle.md)
+    * [初始容器](Workloads/Pods/Init-Containers.md)
   * [已完成资源的 TTL 控制器](Workloads/Automatic-Clean-up-for-Finished-jobs.md)
 * [第六章 存储](Storage/README.md)
   * [持久卷](Storage/Persistent-Volumes.md)
