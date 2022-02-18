@@ -26,6 +26,30 @@ Deployment 声明式配置负责描述其目标状态，而 Deployment 控制器
 
 下面是 Deployment 示例。其中创建了一个 ReplicaSet，负责启动三个 `nginx` Pods：
 
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  slector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.20.1
+        ports:
+        - containerPort: 80
+```
+
 在该例中：
 
 * 创建名为 `nginx-deployment`（由 `.metadata.name` 字段标明）的 Deployment。
