@@ -273,24 +273,24 @@ status:
 
 1. 使用 `kubelet` 工具手动删除某个特定的 Pod，而该 Pod 预期期限的默认值是 **30 秒**。
 2. apiserver 的 Pod 对象被更新，记录涵盖宽限期在内 Pod 被视为“死亡”的时间。如果使用 `kubectl describe` 来验证正在删除的 Pod，该 Pod 会显示为 `Terminating`。在 Pod 运行所在的节点上，`kubelet` 一旦看到 Pod 被标记为正在终止（已经设置了宽限期），`kubelet` 即开始将本地的 Pod 进行关闭过程。
-
     1. 如果 Pod 中的某个容器定义了 `preStop` 回调，`kubelet` 开始在容器内运行该回调逻辑。当超出宽限期时，`preStop` 仍在运行，`kubelet` 会请求给予该 Pod 宽限期一次性增加 **2 秒钟**。
-
-{% hint style="info" %}
-<mark style="color:blue;">**说明：**</mark>如果 preStop 回调所需的时间长于默认的宽限期，必须修改 `terminationGracePeriodSeconds` 属性来保证使其能够正常工作。
-{% endhint %}
-
     2. `kubelet` 接下来触发容器运行时发送 TEAM 信号给每个容器的主进程，即进程 1。
-
-{% hint style="info" %}
-<mark style="color:blue;">**说明：**</mark>Pod 中的容器收到 TEAM 信号的时间是不同的，接收顺序也是不确定的。如果关闭的顺序很重要，可以考虑使用 preStop 回调逻辑来处理。
-{% endhint %}
-
 3. 此此同时，`kubelet` 启动优雅关闭逻辑，控制平面会将 Pod 从对应的 endpoints 列表中移除，匹配规则是 Pod 符合所对应的服务的选择器。ReplicaSets 和其他工作负载资源不再将关闭进程中的 Pod 视为合法的、能够提供服务的副本。关闭动作很慢的 Pod 也无法继续处理请求数据，因为负载均衡器（例如，服务代理）已经在宽限期开始的时间将其从 endpoints 列表中移除了。
 4. 超出宽限期时，`kubelet` 会触发强制关闭过程。容器运行时会向 Pod 所有容器内仍在运行的进程发送 `SIGKILL` 信号。如果容器运行时有使用隐藏的 `pause` 容器，`kubelet` 也会清理该容器。
 5. `kubelet` 触发强制从 apiserver 上删除 Pod 对象的逻辑，并将宽限期设置为 0，即马上删除。
 6. apiserver 删除 Pod 的 API 对象，从任何客户端都无法再看到该对象。
 
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>
+
+如果 preStop 回调所需的时间长于默认的宽限期，必须修改 `terminationGracePeriodSeconds` 属性来保证使其能够正常工作。
+{% endhint %}
+
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>
+
+Pod 中的容器收到 TEAM 信号的时间是不同的，接收顺序也是不确定的。如果关闭的顺序很重要，可以考虑使用 preStop 回调逻辑来处理。
+{% endhint %}
 
 ### 强制终止 Pod
 
