@@ -7,7 +7,7 @@ Deployment 声明式配置负责描述其目标状态，而 Deployment 控制器
 {% hint style="info" %}
 <mark style="color:blue;">**说明：**</mark>
 
-不<mark style="color:blue;">**用**</mark>管理 Deployment 所匹配的 ReplicaSet 。 如果存在以下未覆盖的使用场景，可以考虑在 Kubernetes github仓库中提 Issue。
+不用管理 Deployment 所匹配的 ReplicaSet 。 如果存在以下未覆盖的使用场景，可以考虑在 Kubernetes github仓库中提 Issue。
 {% endhint %}
 
 ## 用例
@@ -52,11 +52,18 @@ spec:
 
 在该例中：
 
-* 创建名为 `nginx-deployment`（由 `.metadata.name` 字段标明）的 Deployment。
-* 该 Deployment 创建三个（由 `replicas` 字段标明）Pod 副本。
-*   `selector` 字段定义 Deployment 如何查找要管理的 Pods。 在这里，你选择在 Pod 模板中定义的标签（`app: nginx`）。 不过，更复杂的选择规则是也可能的，只要 Pod 模板本身满足所给规则即可。
+* 创建名为 `nginx-deployment`（`.metadata.name` 字段）的 Deployment。
+* 该 Deployment 创建三个（`replicas` 字段）Pod 副本。
+* `selector` 字段定义 Deployment 所要匹配的 Pods。 在这种情况下，选择在 Pod 模板中定义的标签（`app: nginx`）。 不过，更复杂的选择规则是也可能的，只要 Pod 模板本身满足所给规则即可。
 
-    `spec.selector.matchLabels` 字段是 `{key,value}` 键值对映射。 在 `matchLabels` 映射中的每个 `{key,value}` 映射等效于 `matchExpressions` 中的一个元素， 即其 `key` 字段是 “key”，`operator` 为 “In”，`values` 数组仅包含 “value”。 在 `matchLabels` 和 `matchExpressions` 中给出的所有条件都必须满足才能匹配。
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>
+
+<mark style="color:orange;">`spec.selector.matchLabels`</mark> 字段是 `{key,value}` 键值对映射。<mark style="color:orange;">`matchLabels`</mark> 中的每个 `{key,value}` 映射等同于 <mark style="color:orange;">`matchExpressions`</mark> 中的一个元素， 即其 `key` 字段是 “key”，`operator` 为 “In”，`values` 数组仅包含 “value”。&#x20;
+
+在 <mark style="color:orange;">`matchLabels`</mark> 和 <mark style="color:orange;">`matchExpressions`</mark> 中给出的所有条件都必须满足才能匹配。
+{% endhint %}
+
 * `template` 字段包含以下子字段：
   * Pod 被使用 `labels` 字段打上 `app: nginx` 标签。
   * Pod 模板规约（即 `.template.spec` 字段）指示 Pods 运行一个 `nginx` 容器， 该容器运行版本为 1.14.2 的 `nginx` [Docker Hub](https://hub.docker.com)镜像。
