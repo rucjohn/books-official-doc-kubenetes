@@ -15,12 +15,12 @@ Deployment 声明式配置负责描述其目标状态，而 Deployment 控制器
 以下是 Deployments 的典型用例：
 
 * [创建 Deployment 同时自动创建 ReplicaSet](Deployments.md#creating-a-deployment)。 ReplicaSet 在后台创建 Pod。 检查 ReplicaSet 的使用状态，查看其是否成功。
-* 通过更新 Deployment 的 PodTemplateSpec，[声明 Pod 的新状态](Deployments.md#updating-a-deployment) 。 新的 ReplicaSet 会被创建，Deployment 以受控速率将 Pod 从旧 ReplicaSet 迁移到新 ReplicaSet。 每个新的 ReplicaSet 都会更新 Deployment 的修订版本。
-* 如果 Deployment 的当前状态不稳定，[回滚到较早的 Deployment 版本](Deployments.md#rolling-back-a-deployment)。 每次回滚都会更新 Deployment 的修订版本。
+* 通过更新 Deployment 的 PodTemplateSpec 来声明 Pod 的新状态 。 新的 ReplicaSet 被创建，并且 Deployment 以受控的速率将 Pod 从旧 ReplicaSet 迁移到新 ReplicaSet。 每个新的 ReplicaSet 都会更新 Deployment 的修订版本。
+* 如果 Deployment 的当前状态不稳定，则[回滚到较早的 Deployment 版本](Deployments.md#rolling-back-a-deployment)。 每次回滚都会更新 Deployment 的修订版本。
 * [扩大 Deployment 规模以承担更多负载](Deployments.md#scaling-a-deployment)。
-* [暂停 Deployment ](Deployments.md#pausing-and-resuming-a-deployment)以应用对 PodTemplateSpec 所作的多项修改， 然后恢复其执行以启动新的上线版本。
-* [使用 Deployment 状态](Deployments.md#deployment-status) 来判定上线过程是否出现停滞。
-* [清理较旧的不再需要的 ReplicaSet](Deployments.md#clean-up-policy) 。
+* [暂停 Deployment ](Deployments.md#pausing-and-resuming-a-deployment)，以应用 PodTemplateSpec 所作的多项修改， 然后恢复，它将开始新的部署。
+* [使用 Deployment 状态](Deployments.md#deployment-status) 来判断部署是否完成。
+* [清理较旧的、不再需要的 ReplicaSet](Deployments.md#clean-up-policy) 。
 
 ## 创建 Deployment <a href="#creating-a-deployment" id="creating-a-deployment"></a>
 
