@@ -68,7 +68,7 @@ spec:
 
     * `template.metadata.labels` 字段为 Pod 打上 `app: nginx` 标签
     * `template.spec` 字段，即 Pod 模板规范，表示 Pod 运行一个 `nginx` 容器，该容器镜像为 `nginx:1.20.1`。
-    * `template.spec.containers[*].name` 字段表示创建一个 名为 `nginx` 的容器。
+    * `template.spec.containers[0].name` 字段表示创建一个 名为 `nginx` 的容器。
 
 
 
@@ -160,47 +160,50 @@ spec:
 
 ## 更新 Deployment <a href="#updating-a-deployment" id="updating-a-deployment"></a>
 
-仅当 Deployment Pod 模板（即 `.spec.template`）发生改变时，例如模板的标签或容器镜像被更新， 才会触发 Deployment 上线。 其他更新（如对 Deployment 执行扩缩容的操作）不会触发上线动作。
+{% hint style="info" %}
+说明：
+
+仅当 Deployment Pod 模板（即 `.spec.template`）发生改变时，才会触发 Deployment rollout，例如，模板的标签或容器镜像被更新。其他更新（如，对 Deployment 执行扩缩容操作）不会 rollout 动作。
+{% endhint %}
 
 按照以下步骤更新 Deployment：
 
-1.  先来更新 nginx Pod 以使用 `nginx:1.16.1` 镜像，而不是 `nginx:1.14.2` 镜像。
+1.  先来更新 nginx Pod 的镜像，使用 `nginx:1.20.3` 镜像替代 `nginx:1.20.1` 镜像。
 
     ```shell
-    kubectl --record deployment.apps/nginx-deployment set image \
-       deployment.v1.apps/nginx-deployment nginx=nginx:1.16.1
+    kubectl set image deployment.v1.apps/nginx-deployment nginx= nginx=nginx:1.20.3
     ```
 
     或者使用下面的命令：
 
     ```shell
-    kubectl set image deployment/nginx-deployment nginx=nginx:1.16.1 --record
+    kubectl set image deployment/nginx-deployment nginx=nginx:1.20.3
     ```
 
-    输出类似于：
+    输出：
 
     ```
     deployment.apps/nginx-deployment image updated
     ```
 
-    或者，可以 `edit` Deployment 并将 `.spec.template.spec.containers[0].image` 从 `nginx:1.14.2` 更改至 `nginx:1.16.1`。
+    或者，可以编辑 Deployment ，并将 `.spec.template.spec.containers[0].image` 从 `nginx:1.20.1` 更改至 `nginx:1.20.3`。
 
     ```shell
     kubectl edit deployment.v1.apps/nginx-deployment
     ```
 
-    输出类似于：
+    输出：
 
     ```
     deployment.apps/nginx-deployment edited
     ```
-2.  要查看上线状态，运行：
+2.  要查看部署状态，运行：
 
     ```shell
     kubectl rollout status deployment/nginx-deployment
     ```
 
-    输出类似于：
+    输出：
 
     ```
     Waiting for rollout to finish: 2 out of 3 new replicas have been updated...
@@ -214,13 +217,13 @@ spec:
 
 获取关于已更新的 Deployment 的更多信息：
 
-*   在上线成功后，可以通过运行 `kubectl get deployments` 来查看 Deployment： 输出类似于：
+*   部署成功后，可以通过运行 `kubectl get deployments` 来查看 Deployment。输出于：
 
     ```shell
-    NAME               DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-    nginx-deployment   3         3         3            3           36s
+    NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+    nginx-deployment   3/3     3            3           36s
     ```
-*   运行 `kubectl get rs` 以查看 Deployment 通过创建新的 ReplicaSet 并将其扩容到 3 个副本并将旧 ReplicaSet 缩容到 0 个副本完成了 Pod 的更新操作：
+*   运行 `kubectl get rs` ，查看 Deployment 创建了新的 ReplicaSet ，并将其扩容到 3 个副本，同时将旧 ReplicaSet 缩容到 0 个副本，最后完成了所有 Pod 的更新操作：
 
     ```shell
     kubectl get rs
