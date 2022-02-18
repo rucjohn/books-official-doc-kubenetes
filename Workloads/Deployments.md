@@ -141,7 +141,7 @@ spec:
     创建的 ReplicaSet 确保总是有三个 `nginx` Pod。
 
 {% hint style="info" %}
-说明：
+<mark style="color:blue;">**说明：**</mark>
 
 必须在 Deployment 中指定适当的选择器和 Pod 模板标签（在本例中为 `app: nginx`）。
 
@@ -150,11 +150,13 @@ spec:
 
 ### Pod-template-hash 标签
 
-不要更改此标签。
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>不要更改此标签。
+{% endhint %}
 
-Deployment 控制器将 `pod-template-hash` 标签添加到 Deployment 所创建或收留的 每个 ReplicaSet 。
+`pod-template-hash` 标签由 Deployment 控制器添加到 Deployment 创建或采用的每个 ReplicaSet。
 
-此标签可确保 Deployment 的子 ReplicaSets 不重叠。 标签是通过对 ReplicaSet 的 `PodTemplate` 进行哈希处理。 所生成的哈希值被添加到 ReplicaSet 选择算符、Pod 模板标签，并存在于在 ReplicaSet 可能拥有的任何现有 Pod 中。
+此标签确保 Deployment 对应的 ReplicaSets 不重复。 它是通过对 ReplicaSet 的 `PodTemplate` 进行哈希处理，所生成的哈希值被添加到 ReplicaSet 选择器、Pod 模板标签，以及 ReplicaSet 可能匹配的所有 Pod 中。
 
 ## 更新 Deployment <a href="#updating-a-deployment" id="updating-a-deployment"></a>
 
