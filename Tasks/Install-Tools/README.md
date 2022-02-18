@@ -1,26 +1,5 @@
----
-title: "安装工具"
-weight: 10
-description: 在你的计算机上设置 Kubernetes 工具。
-no_list: true
----
+# 安装工具
 
-<!--
-title: "Install Tools"
-description: Set up Kubernetes tools on your computer.
-weight: 10
-no_list: true
--->
-
-<!--
-## kubectl
-
-The Kubernetes command-line tool, [kubectl](/docs/reference/kubectl/kubectl/), allows
-you to run commands against Kubernetes clusters.
-You can use kubectl to deploy applications, inspect and manage cluster resources,
-and view logs. For more information including a complete list of kubectl operations, see the
-[`kubectl` reference documentation](/docs/reference/kubectl/).
--->
 ## kubectl
 
 Kubernetes 命令行工具，[kubectl](/docs/reference/kubectl/kubectl/)，使得你可以对 Kubernetes 集群运行命令。
