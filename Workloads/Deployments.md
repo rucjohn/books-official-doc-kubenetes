@@ -72,7 +72,7 @@ spec:
 
 
 
-开始之前，请确保的 Kubernetes 集群已启动并运行。 按照以下步骤创建上述 Deployment ：
+在开始之前，请确保 Kubernetes 集群已成功启动。 然后按照以下步骤创建上述 Deployment ：
 
 1.  通过运行以下命令创建 Deployment ：
 
@@ -80,55 +80,55 @@ spec:
     kubectl apply -f https://k8s.io/examples/controllers/nginx-deployment.yaml
     ```
 
-    你可以设置 `--record` 标志将所执行的命令写入资源注解 `kubernetes.io/change-cause` 中。 这对于以后的检查是有用的。例如，要查看针对每个 Deployment 修订版本所执行过的命令。
-2.  运行 `kubectl get deployments` 检查 Deployment 是否已创建。如果仍在创建 Deployment， 则输出类似于：
+
+2.  运行 `kubectl get deployments` 检查 Deployment 是否已创建。如果仍在创建 Deployment，则输出类似于以下内容：
 
     ```
-    NAME               DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-    nginx-deployment   3         0         0            0           1s
+    NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+    nginx-deployment   0/3     0            0           1s
     ```
 
-    在检查集群中的 Deployment 时，所显示的字段有：
+    所显示的字段含义：
 
-    * `NAME` 列出了集群中 Deployment 的名称。
-    * `READY` 显示应用程序的可用的 _副本_ 数。显示的模式是“就绪个数/期望个数”。
-    * `UP-TO-DATE` 显示为了达到期望状态已经更新的副本数。
-    * `AVAILABLE` 显示应用可供用户使用的副本数。
-    * `AGE` 显示应用程序运行的时间。
+    * `NAME` ：显示集群中 Deployment 的名称。
+    * `READY` ：显示可用的副本数。格式为：“就绪个数/期望个数”。
+    * `UP-TO-DATE` ：显示为达到期望状态，当前已经更新的副本数。
+    * `AVAILABLE` ：显示可供用户使用的副本数。
+    * `AGE` ：显示运行的时间。
 
-    请注意期望副本数是根据 `.spec.replicas` 字段设置 3。
-3.  要查看 Deployment 上线状态，运行 `kubectl rollout status deployment/nginx-deployment`。
+    请注意，期望的副本数是根据 `.spec.replicas` 字段决定的，本例中设置为 3。
+3.  想要查看 Deployment 部署状态，运行 `kubectl rollout status deployment/nginx-deployment`命令。
 
-    输出类似于：
+    输出类似以下结果：
 
     ```
     Waiting for rollout to finish: 2 out of 3 new replicas have been updated...
     deployment "nginx-deployment" successfully rolled out
     ```
-4.  几秒钟后再次运行 `kubectl get deployments`。输出类似于：
+4.  几秒钟后再次运行 `kubectl get deployments`。输出结果：
 
     ```
-    NAME               DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-    nginx-deployment   3         3         3            3           18s
+    NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+    nginx-deployment   3/3     3            3           18s
     ```
 
-    注意 Deployment 已创建全部三个副本，并且所有副本都是最新的（它们包含最新的 Pod 模板） 并且可用。
-5.  要查看 Deployment 创建的 ReplicaSet（`rs`），运行 `kubectl get rs`。 输出类似于：
+    请注意，Deployment 已创建全部三个副本，并且所有副本都是最新的（它们包含最新的 Pod 模板） 并且可用。
+5.  想要查看 Deployment 创建的 ReplicaSet（`rs`），运行 `kubectl get rs`。 输出：
 
     ```
     NAME                          DESIRED   CURRENT   READY   AGE
     nginx-deployment-75675f5897   3         3         3       18s
     ```
 
-    ReplicaSet 输出中包含以下字段：
+    所显示的字段含义：
 
-    * `NAME` 列出名字空间中 ReplicaSet 的名称；
-    * `DESIRED` 显示应用的期望副本个数，即在创建 Deployment 时所定义的值。 此为期望状态；
-    * `CURRENT` 显示当前运行状态中的副本个数；
-    * `READY` 显示应用中有多少副本可以为用户提供服务；
-    * `AGE` 显示应用已经运行的时间长度。
+    * `NAME` ：列出命名空间中 ReplicaSet 的名称；
+    * `DESIRED` ：显示应用的期望副本个数，即在创建 Deployment 时所定义的值。 此为期望状态；
+    * `CURRENT` ：显示当前运行状态中的副本数；
+    * `READY` ：显示应用中有多少副本可以为用户提供服务；
+    * `AGE` ：显示应用已经运行的时间。
 
-    注意 ReplicaSet 的名称始终被格式化为`[Deployment名称]-[随机字符串]`。 其中的随机字符串是使用 pod-template-hash 作为种子随机生成的。
+    注意， ReplicaSet 的名称始终被格式化为`[Deployment名称]-[随机字符串]`。 其中的随机字符串是使用 `pod-template-hash` 作为种子随机生成的。
 6.  要查看每个 Pod 自动生成的标签，运行 `kubectl get pods --show-labels`。返回以下输出：
 
     ```
@@ -138,9 +138,15 @@ spec:
     nginx-deployment-75675f5897-qqcnn   1/1       Running   0          18s       app=nginx,pod-template-hash=3123191453
     ```
 
-    所创建的 ReplicaSet 确保总是存在三个 `nginx` Pod。
+    创建的 ReplicaSet 确保总是有三个 `nginx` Pod。
 
-你必须在 Deployment 中指定适当的选择算符和 Pod 模板标签（在本例中为 `app: nginx`）。 标签或者选择算符不要与其他控制器（包括其他 Deployment 和 StatefulSet）重叠。 Kubernetes 不会阻止你这样做，但是如果多个控制器具有重叠的选择算符，它们可能会发生冲突 执行难以预料的操作。
+{% hint style="info" %}
+说明：
+
+必须在 Deployment 中指定适当的选择器和 Pod 模板标签（在本例中为 `app: nginx`）。
+
+标签或者选择器不要与其他控制器（包括其他 Deployment 和 StatefulSet）重复。Kubernetes 不会提示重复，但是如果多个控制器匹配具有重复的选择器时，可能会发生冲突，执行难以预料的操作。
+{% endhint %}
 
 ### Pod-template-hash 标签
 
