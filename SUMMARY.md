@@ -33,6 +33,7 @@
     * [Pod 拓扑分布约束](Workloads/Pods/Pod-Topology-Spread-Constraints.md)
     * [干扰](Workloads/Pods/Disruptions.md)
     * [临时容器](Workloads/Pods/Ephemeral-Containers.md)
+  * [Deployments](Workloads/Deployments.md)
   * [已完成资源的 TTL 控制器](Workloads/Automatic-Clean-up-for-Finished-jobs.md)
 * [第六章 存储](Storage/README.md)
   * [持久卷](Storage/Persistent-Volumes.md)
