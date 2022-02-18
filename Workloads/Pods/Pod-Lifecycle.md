@@ -149,79 +149,79 @@ status:
 
 有四种不同的探测方法。探测器的定义如下：
 
-&#x20;   <mark style="color:orange;">exec</mark>
+<mark style="color:orange;">exec</mark>
 
-&#x20;       在容器内指定的命令。如果命令以状态码 `0` 退出，则认为检测成功。
+在容器内指定的命令。如果命令以状态码 `0` 退出，则认为检测成功。
 
-&#x20;   <mark style="color:orange;">grpc</mark>
+<mark style="color:orange;">grpc</mark>
 
-&#x20;       使用 gRPC 执行远程过程调用。
+使用 gRPC 执行远程过程调用。
 
-&#x20;       目标实施 gRPC 健康检查，如果响应的状态是 SERVING，则认为检测成功。
+目标实施 gRPC 健康检查，如果响应的状态是 SERVING，则认为检测成功。
 
-&#x20;       gRPC 探针还是 alpha 功能，仅在启动 GRPCContainerProbe 特性门控时可用。
+gRPC 探针还是 alpha 功能，仅在启动 GRPCContainerProbe 特性门控时可用。
 
-&#x20;   <mark style="color:orange;">httGet</mark>
+<mark style="color:orange;">httGet</mark>
 
-&#x20;       在 Pod 的 IP 地址上指定端口和路径，执行 HTTP GET 请求。
+在 Pod 的 IP 地址上指定端口和路径，执行 HTTP GET 请求。
 
-&#x20;       如果响应的状态码 >= 200 且 < 400，则认为检测成功。
+如果响应的状态码 >= 200 且 < 400，则认为检测成功。
 
-&#x20;   <mark style="color:orange;">tcpSocket</mark>
+<mark style="color:orange;">tcpSocket</mark>
 
-&#x20;       在 Pod 的 IP 地址上指定端口，执行 TCP 检查。
+在 Pod 的 IP 地址上指定端口，执行 TCP 检查。
 
-&#x20;       如果端口连接成功，则认为检测成功。
+如果端口连接成功，则认为检测成功。
 
-&#x20;       如果远程系统（容器）在打开连接后立即关闭连接，也算作健康的。
+如果远程系统（容器）在打开连接后立即关闭连接，也算作健康的。
 
 ### 探测结果
 
 每次探测都将返回以下三种其中一种结果：
 
-&#x20;   <mark style="color:orange;">Success</mark>
+<mark style="color:orange;">Success</mark>
 
-&#x20;       容器通过了检测。
+容器通过了检测。
 
-&#x20;   <mark style="color:orange;">Failure</mark>
+<mark style="color:orange;">Failure</mark>
 
-&#x20;       容器未通过检测。
+容器未通过检测。
 
-&#x20;   <mark style="color:orange;">Unknown</mark>
+<mark style="color:orange;">Unknown</mark>
 
-&#x20;       检测失败，因此不会采取任何行动。
+检测失败，因此不会采取任何行动。
 
 ### 探针类型
 
 以下三种探针类型：
 
-&#x20;   <mark style="color:orange;">livenessProbe</mark>
+<mark style="color:orange;">livenessProbe</mark>
 
-&#x20;       存活探针，指示容器是否正在运行。
+存活探针，指示容器是否正在运行。
 
-&#x20;       如果探测失败，则 kubelet 会杀死容器，并且容器会受到其重启策略的约束。
+如果探测失败，则 kubelet 会杀死容器，并且容器会受到其重启策略的约束。
 
-&#x20;       如果容器不提供存活探针，则状态默认为 `Success`。
+如果容器不提供存活探针，则状态默认为 `Success`。
 
-&#x20; <mark style="color:orange;">readinessProbe</mark>
+<mark style="color:orange;">readinessProbe</mark>
 
-&#x20;       就绪探针，指示容器是否准好响应请求。
+就绪探针，指示容器是否准好响应请求。
 
-&#x20;       如果探测失败，endpoints 控制器会从与 Pod 匹配的所有服务的 endpoint 中删除 Pod 的 IP 地址。
+如果探测失败，endpoints 控制器会从与 Pod 匹配的所有服务的 endpoint 中删除 Pod 的 IP 地址。
 
-&#x20;       初始化延迟之前的状态默认为 `Failure`。
+初始化延迟之前的状态默认为 `Failure`。
 
-&#x20;       如果容器不提供就绪探针，则状态默认为 `Success`。
+如果容器不提供就绪探针，则状态默认为 `Success`。
 
-&#x20; <mark style="color:orange;">startupProbe</mark>
+<mark style="color:orange;">startupProbe</mark>
 
-&#x20;       启动探针，指示容器中的应用是否已经启动。
+启动探针，指示容器中的应用是否已经启动。
 
-&#x20;       如果提供了启动探针，则其他所有探针都会被禁用，直到此探针成功为止。
+如果提供了启动探针，则其他所有探针都会被禁用，直到此探针成功为止。
 
-&#x20;       如果探测失败，kubelet 会杀死容器，而容器会根据其重启策略进行重启。
+如果探测失败，kubelet 会杀死容器，而容器会根据其重启策略进行重启。
 
-&#x20;       如果容器没有提供启动探针，则状态默认为 `Success`。
+如果容器没有提供启动探针，则状态默认为 `Success`。
 
 可以参阅 [配置存活、就绪和启动探针任务](../../Tasks/Configure-Pods-and-Containers/Configure-Liveness-Readiness-and-Startup-Probes.md) 查看更多细节。
 
@@ -261,8 +261,6 @@ status:
 
 ## Pod 的终止 <a href="#termination-of-pods" id="termination-of-pods"></a>
 
-
-
 由于 Pod 所代表的是在集群中节点上运行的进程，当不再需要这些进程时，能够优雅地终止，而不是武断地通过 `KILL` 信号突然终止它们，导致这些进程没有机会完成清理操作。
 
 设计的目标是能够请求删除进程，并且知道进程何时终止，同时也能够确保删除操作最终能够完成。当请求删除某个 Pod 时，集群会记录并跟踪 Pod 的宽限期，而不是直接强制地杀死 Pod。在存在强制关闭的提前下，kubelet 仍会尝试优雅地终止 Pod。
@@ -273,8 +271,8 @@ status:
 
 1. 使用 `kubelet` 工具手动删除某个特定的 Pod，而该 Pod 预期期限的默认值是 **30 秒**。
 2. apiserver 的 Pod 对象被更新，记录涵盖宽限期在内 Pod 被视为“死亡”的时间。如果使用 `kubectl describe` 来验证正在删除的 Pod，该 Pod 会显示为 `Terminating`。在 Pod 运行所在的节点上，`kubelet` 一旦看到 Pod 被标记为正在终止（已经设置了宽限期），`kubelet` 即开始将本地的 Pod 进行关闭过程。
-    1. 如果 Pod 中的某个容器定义了 `preStop` 回调，`kubelet` 开始在容器内运行该回调逻辑。当超出宽限期时，`preStop` 仍在运行，`kubelet` 会请求给予该 Pod 宽限期一次性增加 **2 秒钟**。
-    2. `kubelet` 接下来触发容器运行时发送 TEAM 信号给每个容器的主进程，即进程 1。
+   1. 如果 Pod 中的某个容器定义了 `preStop` 回调，`kubelet` 开始在容器内运行该回调逻辑。当超出宽限期时，`preStop` 仍在运行，`kubelet` 会请求给予该 Pod 宽限期一次性增加 **2 秒钟**。
+   2. `kubelet` 接下来触发容器运行时发送 TEAM 信号给每个容器的主进程，即进程 1。
 3. 此此同时，`kubelet` 启动优雅关闭逻辑，控制平面会将 Pod 从对应的 endpoints 列表中移除，匹配规则是 Pod 符合所对应的服务的选择器。ReplicaSets 和其他工作负载资源不再将关闭进程中的 Pod 视为合法的、能够提供服务的副本。关闭动作很慢的 Pod 也无法继续处理请求数据，因为负载均衡器（例如，服务代理）已经在宽限期开始的时间将其从 endpoints 列表中移除了。
 4. 超出宽限期时，`kubelet` 会触发强制关闭过程。容器运行时会向 Pod 所有容器内仍在运行的进程发送 `SIGKILL` 信号。如果容器运行时有使用隐藏的 `pause` 容器，`kubelet` 也会清理该容器。
 5. `kubelet` 触发强制从 apiserver 上删除 Pod 对象的逻辑，并将宽限期设置为 0，即马上删除。
@@ -283,16 +281,15 @@ status:
 {% hint style="info" %}
 <mark style="color:blue;">**说明：**</mark>
 
-如果 preStop 回调所需的时间长于默认的宽限期，必须修改 `terminationGracePeriodSeconds` 属性来保证使其能够正常工作。
+如果 <mark style="color:orange;">preStop</mark> 回调所需的时间长于默认的宽限期，必须修改 <mark style="color:orange;">`terminationGracePeriodSeconds`</mark> 属性来保证使其能够正常工作。
 {% endhint %}
 
 {% hint style="info" %}
 <mark style="color:blue;">**说明：**</mark>
 
-Pod 中的容器收到 TEAM 信号的时间是不同的，接收顺序也是不确定的。如果关闭的顺序很重要，可以考虑使用 preStop 回调逻辑来处理。
+Pod 中的容器收到 TEAM 信号的时间是不同的，接收顺序也是不确定的。如果关闭的顺序很重要，可以考虑使用 <mark style="color:orange;">preStop</mark> 回调逻辑来处理。
 {% endhint %}
 
 ### 强制终止 Pod
-
 
 ### 失效 Pod 的垃圾回收 <a href="#garbage-collection-of-failed-pods" id="garbage-collection-of-failed-pods"></a>
