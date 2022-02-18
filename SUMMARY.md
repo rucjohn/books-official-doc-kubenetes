@@ -79,7 +79,7 @@
     * [配置存活、就绪和启动探针](Tasks/Configure-Pods-and-Containers/Configure-Liveness-Readiness-and-Startup-Probes.md)
   * [运行应用](Tasks/Run-Applications/README.md)
     * [强制删除 StatefulSet 中的 Pods](Tasks/Run-Applications/Force-Delete-StatefulSet-Pods.md)
-  * [访问集群中的应用程序](Tasks/Access-Applications-in-a-Cluster/README.md)
+  * [访问集群中的应用程序](task/fang-wen-ji-qun-zhong-de-ying-yong-cheng-xu/README.md)
     * [部署和访问 Kubernetes 仪表盘](Tasks/Access-Applications-in-a-Cluster/Deploy-and-Access-the-Kubernetes-Dashboard.md)
   * [扩展 Kubernetes](Tasks/Extend-Kubernetes/README.md)
     * [设置 Konnectivity 服务](Tasks/Extend-Kubernetes/Set-up-Konnectivity-service.md)

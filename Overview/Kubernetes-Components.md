@@ -45,10 +45,11 @@ etcd 是兼具一致性和高可用的键值数据库，可以作为保存 Kuber
 从逻辑上讲，每个控制器都是一个单独的进程，但是为降低复杂度，它们都被编译在同一个可执行文件，并在一个进程中运行。
 
 这些控制器包括：
-- **节点控制器（Node Controller）**：负载在节点出现故障时进行通知和响应
-- **任务控制器（Job Controller）**：监测代表一次性任务的 Job 对象，然后创建 Pods 来运行这些任务直至完成
-- **端点控制器（Endpoints Controller）**：填充端口（Endpoints）对象（即加入 Service 与 Pod）
-- **服务账户和令牌控制器（ServiceAccount && Token Controllers）**：为新的命名空间创建默认账户和 API 访问令牌
+
+* **节点控制器（Node Controller）**：负载在节点出现故障时进行通知和响应
+* **任务控制器（Job Controller）**：监测代表一次性任务的 Job 对象，然后创建 Pods 来运行这些任务直至完成
+* **端点控制器（Endpoints Controller）**：填充端口（Endpoints）对象（即加入 Service 与 Pod）
+* **服务账户和令牌控制器（ServiceAccount && Token Controllers）**：为新的命名空间创建默认账户和 API 访问令牌
 
 ## 节点组件（Node Components）
 
@@ -85,3 +86,15 @@ Kubernetes 支持多个容器运行时：Docker、containerd、CRI-O，以及任
 集群 DNS 是一个 DNS 服务器，和环境中的其他 DNS 服务器一起工作，它为 Kubernetes 服务提供 DNS 记录。
 
 Kubernetes 启动的容器自动将此 DNS 服务器包含在其 DNS 搜索列表中。
+
+### WEB 界面（仪表盘）
+
+Dashboard 是 Kubernetes 集群通用的、基于 WEB 的用户界面。它使用户可以管理集群中运行的应用程序以及集群本身，并进行故障排查。
+
+### 容器资源监控
+
+容器资源监控将关于容器的一些觉的时间序列指标保存到一个集中的数据库中，并提供可用于浏览这些数据的界面。
+
+### 集群层面日志
+
+集群层面日志机制负责将容器的日志数据保存到一个集中的日志存储中，该存储能够提供搜索和浏览接口。
