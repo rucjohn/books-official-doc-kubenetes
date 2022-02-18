@@ -64,11 +64,13 @@ spec:
 在 <mark style="color:orange;">`matchLabels`</mark> 和 <mark style="color:orange;">`matchExpressions`</mark> 中给出的所有条件都必须满足才能匹配。
 {% endhint %}
 
-* `template` 字段包含以下子字段：
-  * Pod 被使用 `labels` 字段打上 `app: nginx` 标签。
-  * Pod 模板规约（即 `.template.spec` 字段）指示 Pods 运行一个 `nginx` 容器， 该容器运行版本为 1.14.2 的 `nginx` [Docker Hub](https://hub.docker.com)镜像。
-  * 创建一个容器并使用 `name` 字段将其命名为 `nginx`。
-  *
+*   `template` 字段包含以下子字段：
+
+    * `template.metadata.labels` 字段为 Pod 打上 `app: nginx` 标签
+    * `template.spec` 字段，即 Pod 模板规范，表示 Pod 运行一个 `nginx` 容器，该容器镜像为 `nginx:1.20.1`。
+    * `template.spec.containers[*].name` 字段表示创建一个 名为 `nginx` 的容器。
+
+
 
 开始之前，请确保的 Kubernetes 集群已启动并运行。 按照以下步骤创建上述 Deployment ：
 
