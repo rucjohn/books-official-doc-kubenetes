@@ -2,7 +2,7 @@
 
 **Deployment** 为 Pod 和 ReplicaSet 提供声明式的更新能力。
 
-Deployment 声明式配置负责描述其目标状态，而 Deployment 控制器以受控速率更改实际状态，使其变为期望状态。可以定义 Deployment 以创建新的 ReplicaSet，或删除现有 Deployment，并通过新的 Deployment 收养其资源。
+Deployment 声明式配置负责描述其期望状态，Deployment 控制器以受控速率更改实际状态，使其逐渐改变成期望状态。可以定义 Deployment 来创建新的 ReplicaSet，或者删除现有 Deployment 并将其所有资源用于新的 Deployment。
 
 {% hint style="info" %}
 <mark style="color:blue;">**说明：**</mark>
