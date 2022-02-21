@@ -65,7 +65,7 @@ spec:
      Labels:       app=nginx
      Containers:
       nginx:
-       Image:              nginx:1.7.9
+       Image:              nginx:1.14.2
        Port:               80/TCP
        Environment:        <none>
        Mounts:             <none>
