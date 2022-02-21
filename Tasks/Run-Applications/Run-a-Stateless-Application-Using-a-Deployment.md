@@ -185,7 +185,7 @@ spec:
    kubectl apply -f nginx-deployment-scale.yaml
    ```
 
-2. 验证 Deployment 有 4 个 Pods：
+2. 验证 Deployment 有 3 个 Pods：
 
    ```bash
    kubectl get pods -l app=nginx
