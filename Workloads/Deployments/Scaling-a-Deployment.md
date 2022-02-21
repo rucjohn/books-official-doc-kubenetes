@@ -6,27 +6,28 @@
 kubectl scale deployment/nginx-deployment --replicas=5
 ```
 
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>
+
+以上命令表示将 nginx-deployment Deployment 的副本数扩容到 5 个。
+{% endhint %}
+
 输出：
 
 ```
 deployment.apps/nginx-deployment scaled
 ```
 
-假设集群启用了[Pod 的水平自动缩放](../zh/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/)， 你可以为 Deployment 设置自动缩放器，并基于现有 Pods 的 CPU 利用率选择 要运行的 Pods 个数下限和上限。
+假如集群启用了 [Pod 的水平自动缩放]()， 可以为 Deployment 设置 autoscaler 控制器，并基于现有 Pod 的 CPU 利用率，选择要运行的 Pod 数量上限和下限。
 
 ```shell
-kubectl autoscale deployment.v1.apps/nginx-deployment --min=10 --max=15 --cpu-percent=80
+kubectl autoscale deployment/nginx-deployment --min=10 --max=15 --cpu-percent=80
 ```
 
-输出类似于：
 
-```
-deployment.apps/nginx-deployment scaled
-```
+### 比较缩放 <a href="#proportional-scaling" id="proportional-scaling"></a>
 
-### 比例缩放 <a href="#proportional-scaling" id="proportional-scaling"></a>
-
-RollingUpdate 的 Deployment 支持同时运行应用程序的多个版本。 当自动缩放器缩放处于上线进程（仍在进行中或暂停）中的 RollingUpdate Deployment 时， Deployment 控制器会平衡现有的活跃状态的 ReplicaSets（含 Pods 的 ReplicaSets）中的额外副本， 以降低风险。这称为 _比例缩放（Proportional Scaling）_。
+ Deployment 的滚动更新支持同时运行应用程序的多个版本。 当自动缩放器缩放处于上线进程（仍在进行中或暂停）中的 RollingUpdate Deployment 时， Deployment 控制器会平衡现有的活跃状态的 ReplicaSets（含 Pods 的 ReplicaSets）中的额外副本， 以降低风险。这称为 _比例缩放（Proportional Scaling）_。
 
 例如，你正在运行一个 10 个副本的 Deployment，其 [maxSurge](Deployments.md#max-surge)=3，[maxUnavailable](Deployments.md#max-unavailable)=2。
 
