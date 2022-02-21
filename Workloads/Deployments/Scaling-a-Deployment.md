@@ -1,12 +1,12 @@
 ## 扩展 Deployment <a href="#scaling-a-deployment" id="scaling-a-deployment"></a>
 
-你可以使用如下指令缩放 Deployment：
+可以使用以下命令扩展 Deployment：
 
 ```shell
-kubectl scale deployment.v1.apps/nginx-deployment --replicas=10
+kubectl scale deployment/nginx-deployment --replicas=5
 ```
 
-输出类似于：
+输出：
 
 ```
 deployment.apps/nginx-deployment scaled
