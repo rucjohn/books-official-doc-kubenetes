@@ -38,13 +38,13 @@ spec:
 
 1. 通过 YAML 文件创建一个 Deployment：
 
-   ```shell
+   ```bash
    kubectl apply -f nginx-deployment.yaml
    ```
 
 2. 显示 Deployment 相关信息：
 
-   ```shell
+   ```bash
    kubectl describe deployment nginx-deployment
    ```
    
@@ -82,7 +82,7 @@ spec:
 
 3. 列出 Deployment 所创建的 Pod：
 
-   ```shell
+   ```bash
    kubectl get pods -l app=nginx
    ```
    
@@ -96,7 +96,7 @@ spec:
 
 4. 展示某一个 Pod 信息：
 
-   ```shell
+   ```bash
    kubectl describe pod <pod-name>
    ```
 
@@ -131,13 +131,13 @@ spec:
 
 1. 应用新的 YAML：
 
-   ```shell
+   ```bash
    kubectl apply -f nginx-deployment-update.yaml
    ```
 
 2. 查看该 Deployment，将创建新 Pod， 同时删除旧的 Pod：
 
-   ```shell
+   ```bash
    kubectl get pods -l app=nginx
    ```
 
@@ -172,13 +172,13 @@ spec:
 
 1. 应用新的 YAML 文件：
 
-   ```shell
+   ```bash
    kubectl apply -f nginx-deployment-scale.yaml
    ```
 
 2. 验证 Deployment 有 4 个 Pods：
 
-   ```shell
+   ```bash
    kubectl get pods -l app=nginx
    ```
 
@@ -196,7 +196,7 @@ spec:
 
 基于名称删除 Deployment：
 
-```shell
+```bash
 kubectl delete deployment nginx-deployment
 ```
 
