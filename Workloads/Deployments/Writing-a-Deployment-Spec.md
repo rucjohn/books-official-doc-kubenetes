@@ -10,7 +10,7 @@
 
 除了 Pod 的必填字段外，Deployment 中的 Pod 模板必须指定适当的标签（_Labels_）和重启策略（_restartPolicy_）。 对于标签，请确保不要与其他控制器重叠。
 
-仅允许 `.spec.template.spec.restartPolicy` 等于 `Always` 如果未指定，则为默认值。
+仅允许 `.spec.template.spec.restartPolicy` 等于 `Always` ，如果未指定，则为默认值。
 
 ## 副本 <a href="#replicas" id="replicas"></a>
 
