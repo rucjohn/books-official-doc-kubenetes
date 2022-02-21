@@ -79,6 +79,7 @@
     * [从私有仓库拉取镜像](Tasks/Configure-Pods-and-Containers/Pull-an-Image-from-a-Private-Registry.md)
     * [配置存活、就绪和启动探针](Tasks/Configure-Pods-and-Containers/Configure-Liveness-Readiness-and-Startup-Probes.md)
   * [运行应用](Tasks/Run-Applications/README.md)
+    * [使用 Deployment 运行一个无状态应用](Tasks/Run-Applications/Run-a-Stateless-Application-Using-a-Deployment.md)
     * [强制删除 StatefulSet 中的 Pods](Tasks/Run-Applications/Force-Delete-StatefulSet-Pods.md)
     * [Horizontal Pod Autoscaler 演练](Tasks/Run-Applications/Horizontal-Pod-Autoscaler-Walkthrouth.md)
   * [访问集群中的应用程序](task/fang-wen-ji-qun-zhong-de-ying-yong-cheng-xu/README.md)
