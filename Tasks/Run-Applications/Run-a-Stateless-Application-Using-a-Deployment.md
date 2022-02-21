@@ -4,8 +4,8 @@
 
 ## 教程目标
 
-- 创建一个 nginx Deployment.
-- 使用 kubectl 列举关于 Deployment 的信息.
+- 创建一个 nginx Deployment。
+- 使用 kubectl 列举关于 Deployment 的信息。
 - 更新 Deployment。
 
 ## 创建并了解一个 nginx Deployment
