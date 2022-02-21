@@ -70,11 +70,11 @@
 
 如果设置该参数，该值必须大于 `.spec.minReadySeconds`。
 
-### minReadySeconds <a href="#min-ready-seconds" id="min-ready-seconds"></a>
+## minReadySeconds <a href="#min-ready-seconds" id="min-ready-seconds"></a>
 
 `.spec.minReadySeconds` 是一个可选字段，定义新创建的 Pod 在没有任何容器崩溃情况下的最小就绪前的等待时间，只有超出这个时间 Pod 才被视为已就绪。默认值为 0。
 
-### 修订历史限制
+## 修订历史限制
 
 Deployment 的修订历史记录存储在它所控制的 ReplicaSets 中。
 
@@ -82,6 +82,6 @@ Deployment 的修订历史记录存储在它所控制的 ReplicaSets 中。
 
 更具体地说，如果将该值设置为0，所有具有 0 个副本的 ReplicaSet 都会被删除。在这种情况下，Deployment rollout 无法撤销，因为其历史版本都被清理掉了。
 
-### paused <a href="#paused" id="paused"></a>
+## paused <a href="#paused" id="paused"></a>
 
 `.spec.paused` 是一个可选字段，布尔值。用来指定暂停和恢复 Deployment。 paused 和 没有 paused 的 Deployment 之间的唯一区别是，所有对 paused Deployment 中的 PodTemplateSpec 的修改都不会触发新的 rollout。Deployment被创建之后默认是非 paused。
