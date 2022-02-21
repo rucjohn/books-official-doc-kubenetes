@@ -1,71 +1,54 @@
----
-title: 使用 Deployment 运行一个无状态应用
-min-kubernetes-server-version: v1.9
-content_type: tutorial
-weight: 10
----
+# 使用 Deployment 运行一个无状态应用
 
-<!-- overview -->
+本文介绍如何通过 Kubernetes Deployment 对象去运行一个应用。
 
-<!--
-This page shows how to run an application using a Kubernetes Deployment object.
--->
-本文介绍如何通过 Kubernetes Deployment 对象去运行一个应用.
+## 教程目标
 
-## {{% heading "objectives" %}}
+- 创建一个 nginx Deployment.
+- 使用 kubectl 列举关于 Deployment 的信息.
+- 更新 Deployment。
 
-<!--
-* Create an nginx deployment.
-* Use kubectl to list information about the deployment.
-* Update the deployment.
--->
-* 创建一个 nginx Deployment.
-* 使用 kubectl 列举关于 Deployment 的信息.
-* 更新 Deployment。
-
-## {{% heading "prerequisites" %}}
-
-{{< include "task-tutorial-prereqs.md" >}} {{< version-check >}}
-
-<!-- lessoncontent -->
-
-<!--
-## Creating and exploring an nginx deployment
-
-You can run an application by creating a Kubernetes Deployment object, and you
-can describe a Deployment in a YAML file. For example, this YAML file describes
-a Deployment that runs the nginx:1.14.2 Docker image:
--->
 ## 创建并了解一个 nginx Deployment
 
-你可以通过创建一个 Kubernetes Deployment 对象来运行一个应用, 且你可以在一个
-YAML 文件中描述 Deployment。例如, 下面这个 YAML 文件描述了一个运行 nginx:1.14.2
-Docker 镜像的 Deployment：
+可以通过创建一个 Kubernetes Deployment 对象来运行一个应用, 且可以在一个 YAML 文件中描述 Deployment。
 
-{{< codenew file="application/deployment.yaml" >}}
+例如, 下面这个 YAML 文件描述了一个运行 nginx:1.14.2 Docker 镜像的 Deployment：
 
-<!--
-1. Create a Deployment based on the YAML file:
--->
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+```
+
 1. 通过 YAML 文件创建一个 Deployment：
 
    ```shell
-   kubectl apply -f https://k8s.io/examples/application/deployment.yaml
+   kubectl apply -f nginx-deployment.yaml
    ```
 
-<!--
-1. Display information about the Deployment:
--->
 2. 显示 Deployment 相关信息：
 
    ```shell
    kubectl describe deployment nginx-deployment
    ```
-
-   <!-- 
-   The output is similar to this:
-   -->
-   输出类似于这样：
+   
+   输出：
 
    ```
    Name:     nginx-deployment
@@ -97,19 +80,13 @@ Docker 镜像的 Deployment：
    No events.
    ```
 
-<!--
-1. List the Pods created by the deployment:
--->
-3. 列出 Deployment 创建的 Pods：
+3. 列出 Deployment 所创建的 Pod：
 
    ```shell
    kubectl get pods -l app=nginx
    ```
-
-   <!--
-   The output is similar to this:
-   -->
-   输出类似于这样：
+   
+   输出：
 
    ```
    NAME                                READY     STATUS    RESTARTS   AGE
@@ -117,86 +94,95 @@ Docker 镜像的 Deployment：
    nginx-deployment-1771418926-r18az   1/1       Running   0          16h
    ```
 
-<!--
-1. Display information about a Pod:
--->
 4. 展示某一个 Pod 信息：
 
    ```shell
    kubectl describe pod <pod-name>
    ```
 
-   <!--
-   where `<pod-name>` is the name of one of your Pods.
-   -->
    这里的 `<pod-name>` 是某一 Pod 的名称。
 
-<!--
-## Updating the deployment
 
-You can update the deployment by applying a new YAML file. This YAML file
-specifies that the deployment should be updated to use nginx 1.16.1.
--->
 ## 更新 Deployment
 
-你可以通过更新一个新的 YAML 文件来更新 Deployment。下面的 YAML 文件指定该
-Deployment 镜像更新为 nginx 1.16.1。
+通过更新一个新的 YAML 文件来更新 Deployment。下面的 YAML 文件指定该 Deployment 镜像更新为 nginx 1.16.1。
 
-{{< codenew file="application/deployment-update.yaml" >}}
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.16.1
+        ports:
+        - containerPort: 80
+```
 
-<!--
-1. Apply the new YAML file:
--->
 1. 应用新的 YAML：
 
    ```shell
-   kubectl apply -f https://k8s.io/examples/application/deployment-update.yaml
+   kubectl apply -f nginx-deployment-update.yaml
    ```
 
-<!--
-1. Watch the deployment create pods with new names and delete the old pods:
--->
-2. 查看该 Deployment 以新的名称创建 Pods 同时删除旧的 Pods：
+2. 查看该 Deployment，将创建新 Pod， 同时删除旧的 Pod：
 
    ```shell
    kubectl get pods -l app=nginx
    ```
-<!--
-## Scaling the application by increasing the replica count
 
-You can increase the number of Pods in your Deployment by applying a new YAML
-file. This YAML file sets `replicas` to 4, which specifies that the Deployment
-should have four Pods:
--->
-## 通过增加副本数来扩缩应用
+## 扩容应用
 
-你可以通过应用新的 YAML 文件来增加 Deployment 中 Pods 的数量。
-下面的 YAML 文件将 `replicas` 设置为 4，指定该 Deployment 应有 4 个 Pods：
+通过应用新的 YAML 文件来增加 Deployment 中 Pods 的数量。
 
-{{< codenew file="application/deployment-scale.yaml" >}}
+下面的 YAML 文件将 `replicas` 设置为 4，指定该 Deployment 应有 4 个 Pod：
 
-<!--
-1. Apply the new YAML file:
--->
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 4 # 副本从 2 个更新到 4 个
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+```
+
+
 1. 应用新的 YAML 文件：
 
    ```shell
-   kubectl apply -f https://k8s.io/examples/application/deployment-scale.yaml
+   kubectl apply -f nginx-deployment-scale.yaml
    ```
 
-<!--
-1. Verify that the Deployment has four Pods:
--->
 2. 验证 Deployment 有 4 个 Pods：
 
    ```shell
    kubectl get pods -l app=nginx
    ```
 
-   <!--
-   The output is similar to this:
-   -->
-   输出的结果类似于:
+   输出:
 
    ```
    NAME                               READY     STATUS    RESTARTS   AGE
@@ -206,11 +192,6 @@ should have four Pods:
    nginx-deployment-148880595-rwovn   1/1       Running   0          2m
    ```
 
-<!--
-## Deleting a deployment
-
-Delete the deployment by name:
--->
 ## 删除 Deployment
 
 基于名称删除 Deployment：
@@ -218,26 +199,4 @@ Delete the deployment by name:
 ```shell
 kubectl delete deployment nginx-deployment
 ```
-
-<!--
-## ReplicationControllers -- the Old Way
-
-The preferred way to create a replicated application is to use a Deployment,
-which in turn uses a ReplicaSet. Before the Deployment and ReplicaSet were
-added to Kubernetes, replicated applications were configured using a
-[ReplicationController](/docs/concepts/workloads/controllers/replicationcontroller/).
--->
-## ReplicationControllers -- 旧的方式
-
-创建一个多副本应用首选方法是使用 Deployment，Deployment 内部使用 ReplicaSet。
-在 Deployment 和 ReplicaSet 被引入到 Kubernetes 之前，多副本应用通过
-[ReplicationController](/zh/docs/concepts/workloads/controllers/replicationcontroller/)
-来配置。
-
-## {{% heading "whatsnext" %}}
-
-<!--
-* Learn more about [Deployment objects](/docs/concepts/workloads/controllers/deployment/).
--->
-* 进一步了解 [Deployment 对象](/zh/docs/concepts/workloads/controllers/deployment/)。
 
