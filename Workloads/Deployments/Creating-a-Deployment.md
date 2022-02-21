@@ -1,4 +1,4 @@
-# 创建 Deployment
+# Deployment 创建
 
 下面是 Deployment 示例。其中创建了一个 ReplicaSet，负责启动三个 `nginx` Pods：
 
