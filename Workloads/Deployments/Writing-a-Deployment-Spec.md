@@ -1,14 +1,14 @@
-# Deployment 编写规范 <a href="#writing-a-deployment-spec" id="writing-a-deployment-spec"></a>
+# Deployment 编写规范
 
-同其他 Kubernetes 配置一样， Deployment 也需要 `apiVersion`，`kind` 和 `metadata` 字段。 有关配置文件的其他信息，请参考 [部署 Deployment ]()、配置容器和 [使用 kubectl 管理资源]()等相关文档。Deployment 对象的名称必须是合法的 DNS 子域名。
+同其他 Kubernetes 配置一样， Deployment 也需要 `apiVersion`，`kind` 和 `metadata` 字段。 有关配置文件的其他信息，请参考 [部署 Deployment ](../../Tasks/Run-Applications/Run-a-Stateless-Application-Using-a-Deployment.md)、配置容器和 [使用 kubectl 管理资源 ](../../Overview/Working-with-kubernetes-objects/)等相关文档。Deployment 对象的名称必须是合法的 DNS 子域名。
 
 `.spec` 中只有两个必需的字段：`.spec.template` 和 `.spec.selector`。
 
 ## Pod 模板 <a href="#pod-template" id="pod-template"></a>
 
-`.spec.template` 是一个 [Pod 模板]()。 它和 Pod 的语法规则是完全相同的。 只是在这里，它是嵌套的，因此不需要 `apiVersion` 或 `kind`。
+`.spec.template` 是一个 [Pod 模板](../Pods/#pod-mo-ban)。 它和 Pod 的语法规则是完全相同的。 只是在这里，它是嵌套的，因此不需要 `apiVersion` 或 `kind`。
 
-除了 Pod 的必填字段外，Deployment 中的 Pod 模板必须指定适当的标签（*Labels*）和重启策略（*restartPolicy*）。 对于标签，请确保不要与其他控制器重叠。
+除了 Pod 的必填字段外，Deployment 中的 Pod 模板必须指定适当的标签（_Labels_）和重启策略（_restartPolicy_）。 对于标签，请确保不要与其他控制器重叠。
 
 仅允许 `.spec.template.spec.restartPolicy` 等于 `Always` 如果未指定，则为默认值。
 
@@ -24,25 +24,32 @@
 
 在 `apps/v1` API 版本中，`.spec.selector` 和 `.metadata.labels` 如果未配置，不会被默认设置为 `.spec.template.metadata.labels`，所以这两个字段必须进行明确设置。 同时在 `apps/v1` API 版本中，Deployment 创建后 `.spec.selector` 是不允许改变的。
 
-注意：
+{% hint style="warning" %}
+<mark style="color:orange;">**注意：**</mark>
 
-当尝试使用 `kubectl edit deploy` 命令更改 Deployment `.spec.selector` 字段时，编辑器会提示报错，并且无法保存更改内容。
+当尝试使用 <mark style="color:orange;">`kubectl edit deploy`</mark> 命令更改 Deployment <mark style="color:orange;">`.spec.selector`</mark> 字段时，编辑器会提示报错，并且无法保存更改内容。
+{% endhint %}
 
 当 Pod 的标签和选择器匹配，但其模板和 `.spec.template` 不同时，或者此类 Pod 的总数超过 `.spec.replicas` 的设置时，Deployment 则会终止它。 如果 Pod 总数未达到期望值，Deployment 会基于 `.spec.template` ，逐步创建新 Pod。
 
-说明：
+{% hint style="info" %}
+<mark style="color:purple;">**说明：**</mark>
 
-不应直接通过创建另一个 Deployment，或者创建类似 ReplicaSet 或 ReplicationController 这类控制器，来创建标签与此选择器匹配的 Pod。这样做的话，第一个 Deployment 会认为是由它创建了这些 Pod。注意，Kubernetes 并不会阻止这么做。
+不应直接通过创建另一个 Deployment，或者创建类似 ReplicaSet 或 ReplicationController 这类控制器，来创建标签与此选择器匹配的 Pod。这样做的话，第一个 Deployment 会认为是由它创建了这些 Pod。
+
+注意，Kubernetes 并不会阻止这么做。
+{% endhint %}
 
 如果有多个控制器的选择器发生重叠，则控制器之间会因冲突而无法正常工作。
 
 ## 策略 <a href="#strategy" id="strategy"></a>
 
-`.spec.strategy` 字段定义新 Pod 替换旧 Pod 的策略。 
+`.spec.strategy` 字段定义新 Pod 替换旧 Pod 的策略。
 
 `.spec.strategy.type` 字段有两种类型：
-- RollingUpdate（默认值）
-- Recreate
+
+* RollingUpdate（默认值）
+* Recreate
 
 ### Recreate <a href="#recreate-deployment" id="recreate-deployment"></a>
 
@@ -66,7 +73,7 @@
 
 ## progressDeadlineSeconds <a href="#progress-deadline-seconds" id="progress-deadline-seconds"></a>
 
-`.spec.progressDeadlineSeconds` 是一个可选字段，定义在系统报告 Deployment 的 [failed progressing]()（表现为 resource 的状态中 `Type=Progressing`、`Status=False`、 `Reason=ProgressDeadlineExceeded`）之前可以等待的 Deployment 进行的秒数。 Deployment 控制器将持续重试 Deployment。 未来，在实现了自动回滚后，Deployment 控制器将在探测到这样的条件时立即回滚。
+`.spec.progressDeadlineSeconds` 是一个可选字段，定义在系统报告 Deployment 的 [failed progressing](Writing-a-Deployment-Spec.md)（表现为 resource 的状态中 `Type=Progressing`、`Status=False`、 `Reason=ProgressDeadlineExceeded`）之前可以等待的 Deployment 进行的秒数。 Deployment 控制器将持续重试 Deployment。 未来，在实现了自动回滚后，Deployment 控制器将在探测到这样的条件时立即回滚。
 
 如果设置该参数，该值必须大于 `.spec.minReadySeconds`。
 
