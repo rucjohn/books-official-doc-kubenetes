@@ -35,18 +35,15 @@ spec:
 {% hint style="info" %}
 <mark style="color:blue;">**说明：**</mark>
 
-<mark style="color:orange;">spec.selector.matchLabels</mark> 字段是 `{key,value}` 键值对映射。<mark style="color:orange;">matchLabels</mark> 中的每个 `{key,value}` 映射等同于 <mark style="color:orange;">matchExpressions</mark> 中的一个元素， 即其 `key` 字段是 “key”，`operator` 为 “In”，`values` 数组仅包含 “value”。&#x20;
+<mark style="color:orange;">spec.selector.matchLabels</mark> 字段是 `{key,value}` 键值对映射。<mark style="color:orange;">matchLabels</mark> 中的每个 `{key,value}` 映射等同于 <mark style="color:orange;">matchExpressions</mark> 中的一个元素， 即其 `key` 字段是 “key”，`operator` 为 “In”，`values` 数组仅包含 “value”。
 
 在 <mark style="color:orange;">matchLabels</mark> 和 <mark style="color:orange;">matchExpressions</mark> 中给出的所有条件都必须满足才能匹配。
 {% endhint %}
 
-*   `.spec.template` 字段包含以下子字段：
-
-    * `.spec.template.metadata.labels` 字段为 Pod 打上 `app: nginx` 标签
-    * `.spec.template.spec` 字段，即 Pod 模板规范，表示 Pod 运行一个 `nginx` 容器，该容器镜像为 `nginx:1.20.1`。
-    * `.spec.template.spec.containers[0].name` 字段表示创建一个名为 `nginx` 的容器。
-
-
+* `.spec.template` 字段包含以下子字段：
+  * `.spec.template.metadata.labels` 字段为 Pod 打上 `app: nginx` 标签
+  * `.spec.template.spec` 字段，即 Pod 模板规范，表示 Pod 运行一个 `nginx` 容器，该容器镜像为 `nginx:1.20.1`。
+  * `.spec.template.spec.containers[0].name` 字段表示创建一个名为 `nginx` 的容器。
 
 在开始之前，请确保 Kubernetes 集群已成功启动。 然后按照以下步骤创建上述 Deployment ：
 
@@ -55,8 +52,6 @@ spec:
     ```bash
     kubectl apply -f nginx-deployment.yaml
     ```
-
-
 2.  运行 `kubectl get deployments` 检查 Deployment 是否已创建。如果仍在创建 Deployment，则输出以下内容：
 
     ```
@@ -71,18 +66,18 @@ spec:
     * `UP-TO-DATE` ：显示为了达到期望状态，当前已经更新的副本数。
     * `AVAILABLE` ：显示可供用户使用的副本数。
     * `AGE` ：显示运行的时间。
-
 3.  通过以下命令查看 Deployment rollout 状态，
+
     ```bash
     kubectl rollout status deployment/nginx-deployment。
     ```
+
     输出以下结果：
 
     ```
     Waiting for rollout to finish: 2 out of 3 new replicas have been updated...
     deployment "nginx-deployment" successfully rolled out
     ```
-    
 4.  几秒钟后再次运行 `kubectl get deployments`。输出结果：
 
     ```
@@ -91,7 +86,6 @@ spec:
     ```
 
     显示 Deployment 已创建全部三个副本，所有副本都是最新的（最新的 Pod 模板） 并且可用。
-    
 5.  想要查看 Deployment 创建的 ReplicaSet（`rs`），运行 `kubectl get rs`。 输出：
 
     ```
@@ -108,12 +102,14 @@ spec:
     * `AGE` ：显示应用已经运行的时间。
 
     注意， ReplicaSet 的名称始终被格式化为`[Deployment名称]-[随机字符串]`。 其中的随机字符串是使用 `pod-template-hash` 作为种子随机生成的。
-    
 6.  要查看每个 Pod 自动生成的标签，
+
     ```bash
     kubectl get pods --show-labels
     ```
+
     返回以下结果：
+
     ```
     NAME                                READY     STATUS    RESTARTS   AGE       LABELS
     nginx-deployment-75675f5897-7ci7o   1/1       Running   0          18s       app=nginx,pod-template-hash=3123191453
@@ -123,7 +119,7 @@ spec:
 
     创建的 ReplicaSet 确保总是有三个 `nginx` Pod。
 
-{% hint style="info" %}
+{% hint style="warning" %}
 <mark style="color:orange;">**注意：**</mark>
 
 必须在 Deployment 中指定适当的选择器和 Pod 模板标签（在本例中为 `app: nginx`）。
