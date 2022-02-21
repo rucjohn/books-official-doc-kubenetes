@@ -12,18 +12,20 @@
 
 可以通过创建一个 Kubernetes Deployment 对象来运行一个应用, 且可以在一个 YAML 文件中描述 Deployment。
 
-例如, 下面这个 YAML 文件描述了一个运行 nginx:1.14.2 Docker 镜像的 Deployment：
+例如, 下面这个 YAML 文件描述了一个运行 nginx:1.20.1 Docker 镜像的 Deployment：
 
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
+  labels:
+    app: nginx
 spec:
   selector:
     matchLabels:
       app: nginx
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -31,7 +33,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.14.2
+        image: nginx:1.20.1
         ports:
         - containerPort: 80
 ```
@@ -51,33 +53,37 @@ spec:
    输出：
 
    ```
-   Name:     nginx-deployment
-   Namespace:    default
-   CreationTimestamp:  Tue, 30 Aug 2016 18:11:37 -0700
-   Labels:     app=nginx
-   Annotations:    deployment.kubernetes.io/revision=1
-   Selector:   app=nginx
-   Replicas:   2 desired | 2 updated | 2 total | 2 available | 0 unavailable
-   StrategyType:   RollingUpdate
-   MinReadySeconds:  0
-   RollingUpdateStrategy:  1 max unavailable, 1 max surge
-   Pod Template:
-     Labels:       app=nginx
-     Containers:
-      nginx:
-       Image:              nginx:1.14.2
-       Port:               80/TCP
-       Environment:        <none>
-       Mounts:             <none>
-     Volumes:              <none>
-   Conditions:
-     Type          Status  Reason
-     ----          ------  ------
-     Available     True    MinimumReplicasAvailable
-     Progressing   True    NewReplicaSetAvailable
-   OldReplicaSets:   <none>
-   NewReplicaSet:    nginx-deployment-1771418926 (2/2 replicas created)
-   No events.
+    Name:                   nginx-deployment
+    Namespace:              default
+    CreationTimestamp:      Mon, 21 Feb 2022 17:01:48 +0800
+    Labels:                 app=nginx
+    Annotations:            deployment.kubernetes.io/revision: 1
+    Selector:               app=nginx
+    Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+    StrategyType:           RollingUpdate
+    MinReadySeconds:        0
+    RollingUpdateStrategy:  25% max unavailable, 25% max surge
+    Pod Template:
+      Labels:  app=nginx
+      Containers:
+       nginx:
+        Image:        nginx:1.20.1
+        Port:         80/TCP
+        Host Port:    0/TCP
+        Environment:  <none>
+        Mounts:       <none>
+      Volumes:        <none>
+    Conditions:
+      Type           Status  Reason
+      ----           ------  ------
+      Available      True    MinimumReplicasAvailable
+      Progressing    True    NewReplicaSetAvailable
+    OldReplicaSets:  <none>
+    NewReplicaSet:   nginx-deployment-58b9b8ff79 (1/1 replicas created)
+    Events:
+      Type    Reason             Age   From                   Message
+      ----    ------             ----  ----                   -------
+      Normal  ScalingReplicaSet  2m4s  deployment-controller  Scaled up replica set nginx-deployment-58b9b8ff79 to 1
    ```
 
 3. 列出 Deployment 所创建的 Pod：
@@ -89,9 +95,8 @@ spec:
    输出：
 
    ```
-   NAME                                READY     STATUS    RESTARTS   AGE
-   nginx-deployment-1771418926-7o5ns   1/1       Running   0          16h
-   nginx-deployment-1771418926-r18az   1/1       Running   0          16h
+    NAME                                READY   STATUS    RESTARTS   AGE
+    nginx-deployment-58b9b8ff79-f7tt8   1/1     Running   0          5m59s
    ```
 
 4. 展示某一个 Pod 信息：
@@ -105,18 +110,20 @@ spec:
 
 ## 更新 Deployment
 
-通过更新一个新的 YAML 文件来更新 Deployment。下面的 YAML 文件指定该 Deployment 镜像更新为 nginx 1.16.1。
+通过更新一个新的 YAML 文件来更新 Deployment。下面的 YAML 文件指定该 Deployment 镜像更新为 nginx 1.20.2。
 
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
+  labels:
+    app: nginx
 spec:
   selector:
     matchLabels:
       app: nginx
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -124,7 +131,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.16.1
+        image: nginx:1.20.2
         ports:
         - containerPort: 80
 ```
@@ -145,18 +152,20 @@ spec:
 
 通过应用新的 YAML 文件来增加 Deployment 中 Pods 的数量。
 
-下面的 YAML 文件将 `replicas` 设置为 4，指定该 Deployment 应有 4 个 Pod：
+下面的 YAML 文件将 `replicas` 设置为 3，指定该 Deployment 应有 3 个 Pod：
 
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
+  labels:
+    app: nginx
 spec:
   selector:
     matchLabels:
       app: nginx
-  replicas: 4 # 副本从 2 个更新到 4 个
+  replicas: 3 # 副本从 1 个扩容到 3 个
   template:
     metadata:
       labels:
@@ -164,7 +173,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.14.2
+        image: nginx:1.20.1
         ports:
         - containerPort: 80
 ```
@@ -185,11 +194,10 @@ spec:
    输出:
 
    ```
-   NAME                               READY     STATUS    RESTARTS   AGE
-   nginx-deployment-148880595-4zdqq   1/1       Running   0          25s
-   nginx-deployment-148880595-6zgi1   1/1       Running   0          25s
-   nginx-deployment-148880595-fxcez   1/1       Running   0          2m
-   nginx-deployment-148880595-rwovn   1/1       Running   0          2m
+    NAME                                READY   STATUS    RESTARTS   AGE
+    nginx-deployment-58b9b8ff79-f7tt8   1/1     Running   0          26m
+    nginx-deployment-58b9b8ff79-tnf69   1/1     Running   0          18m
+    nginx-deployment-58b9b8ff79-x2vmr   1/1     Running   0          18m
    ```
 
 ## 删除 Deployment
