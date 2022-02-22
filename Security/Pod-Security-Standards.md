@@ -38,9 +38,13 @@ Privileged 策略定义中限制较少。
 
 | 控制（Control） | 策略（Policy） |
 | -------------- | ------------- |
-| HostProcess | Windows Pod 提供了运行 HostProcess 容器的能力，这使得对 Windows 节点的特权访问成为可能。Baseline 策略中对宿主的特权访问是被禁止的。HostProcess Pod 基于 Kubernetes v1.22 [alpha]。<br>限制的字段：<br>- `spec.securityContext.windowsOptions.hostProcess<br>- `spec.containers[*].securityContext.windowsOptions.hostProcess`
-
-
+| HostProcess | Windows Pod 提供了运行 HostProcess 容器的能力，这使得对 Windows 节点的特权访问成为可能。Baseline 策略中对宿主的特权访问是被禁止的。HostProcess Pod 基于 Kubernetes v1.22 [alpha]。<br>**限制的字段**<br>- `spec.securityContext.windowsOptions.hostProcess` <br>- `spec.containers[*].securityContext.windowsOptions.hostProcess` <br>- `spec.initContainers[*].securityContext.windowsOptions.hostProcess` <br>- `spec.ephemeralContainers[*].securityContext.windowsOptions.hostProcess` <br>**允许的值**<br>- 未定义 / nil<br>- false |
+| 宿主命名空间 | 必须禁止共享宿主命名空间。<br>**限制的字段**<br>- `spec.hostNetwork` <br>- `spec.hostPID` <br>- `spec.hostIPC` <br>**允许的值**<br>- 未定义 / nil<br>- false |
+| 特权容器 | 特权 Pod 关闭了大多数安全机制，必须禁止。<br>**限制的字段**<br>- `spec.containers[*].securityContext.privileged` <br>- `spec.initContainers[*].securityContext.privileged` <br>- `spec.ephemeralContainers[*].securityContext.privileged` <br>**允许的值**<br>- 未定义 / nil<br>- false |
+| Capabilities | 必须禁止添加除下列字段之外的能力。<br>**限制的字段**<br>- `spec.containers[*].securityContext.capabilities.add` <br>- `spec.initContainers[*].securityContext.capabilities.add` <br>- `spec.ephemeralContainers[*].securityContext.capabilities.add` <br>**允许的值**<br>- 未定义 / nil<br>- AUDIT_WRITE<br>- CHOWN<br>- DAC_OVERRIDE<br>- FOWNER<br>- FSETID<br>- KILL<br>- MKNOD<br>- NET_BIND_SERVICE<br>- SETFACP<br>- SETGID<br>- SETPCAP<br>- SETUID<br>- SYS_CHROOT |
+| HostPath 卷 | 必须禁止 HostPath 卷。<br>**限制的字段**<br>- `spec.volumes[*].hostPath` <br>**允许的值**<br>- 未定义 / nil |
+| 宿主端口 | 应该禁止使用宿主端口，或者至少限制在一个已知的列表中。<br>**限制的字段**<br>- `spec.containers[*].ports[*].hostPort` <br>- `spec.initContainers[*].ports[*].hostPort` <br>- `spec.ephemeralContainers[*].ports[*].hostPort` <br>**允许的值**<br>- 未定义 / nil<br>- 已知列表<br>- 0 |
+| AppArmor | 在受支持的主机上，默认使用 runtime/default AppArmor Profile。 Baseline 策略应避免覆盖或者禁用默认策略，以及限制覆盖一些 Profile 集合的权限。<br>**限制的字段**<br>- `metadata.annotations["container.apparmor.security.beta.kubernetes.io/*"]<br>**允许的值**<br>- 未定义 / nil<br>- runtime/default<br>- localhost/* |
 
 
 
