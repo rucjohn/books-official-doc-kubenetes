@@ -3,34 +3,45 @@
 Pod 安全性标准定义了三种不同的策略（_Policy_）来广泛覆盖安全应用场景。这些策略是渐进式的（_Cumulative_），安全级别从高度宽松至高度限制。本指南概述了每个策略的要求。
 
 | Profile | 描述 |
-| ------ | ----------- |
+| ------- | ---- |
 | **Privileged** | 不受限制的策略，提供最大可能范围的权限许可。此策略允许已知的特权提升。 |
 | **Baseline** | 限制性最弱的策略，禁止已知的策略提升。允许使用默认的（规定最少）Pod 配置。 |
 | **Restricted** | 限制性非常强的策略，遵循当前的保护 Pod 的最佳实践。 |
 
 
-## Profile 细节    {#profile-details}
+## Profile 细节
 
 ### Privileged
 
 **_Privileged_ 策略是有目的地开放且完全无限制的策略。**
-此类策略通常针对由特权较高、受信任的用户所管理的系统级或基础设施级负载。
 
-Privileged 策略定义中限制较少。对于默认允许（Allow-by-default）实施机制（例如 gatekeeper），
-Privileged 框架可能意味着不应用任何约束而不是实施某策略实例。
-与此不同，对于默认拒绝（Deny-by-default）实施机制（如 Pod 安全策略）而言，
-Privileged 策略应该默认允许所有控制（即，禁止所有限制）。
+此类策略通常针对由特权较高、受信任的用户所管理的系统级或基础架构级负载。
+
+Privileged 策略定义中限制较少。
+- 对于默认允许（Allow-by-default）实施机制（如，gatekeeper），Privileged 策略可能意味着不应用任何约束，而不是实施某策略实例。
+- 对于默认拒绝（Deny-by-default）实施机制（如，Pod 安全策略），Privileged 策略应该默认允许所有控制（即，禁止所有限制）。
 
 ### Baseline
 
 **_Baseline_ 策略的目标是便于常见的容器化应用采用，同时禁止已知的特权提升。**
-此策略针对的是应用运维人员和非关键性应用的开发人员。
-下面列举的控制应该被实施（禁止）：
 
+此策略针对的是应用运维人员和非关键性应用的开发人员。
+
+应该禁止以下列出的控制：
+
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>
 
 在下述表格中，通配符（`*`）意味着一个列表中的所有元素。
-例如 `spec.containers[*].securityContext` 表示 _所定义的所有容器_ 的安全性上下文对象。
-如果所列出的任一容器不能满足要求，整个 Pod 将无法通过校验。
+例如 `spec.containers[*].securityContext` 表示所定义的所有容器的安全性上下文对象。如果所列出的任一容器不能满足要求，整个 Pod 将无法通过校验。
+{% endhint %}
+
+| 控制（Control） | 策略（Policy） |
+| -------------- | ------------- |
+| HostProcess | Windows Pod 提供了运行 HostProcess 容器的能力，这使得对 Windows 节点的特权访问成为可能。Baseline 策略中对宿主的特权访问是被禁止的。HostProcess Pod 基于 Kubernetes v1.22 [alpha]。<br>限制的字段：<br>- `spec.securityContext.windowsOptions.hostProcess<br>- `spec.containers[*].securityContext.windowsOptions.hostProcess`
+
+
+
 
 
 ### Restricted
