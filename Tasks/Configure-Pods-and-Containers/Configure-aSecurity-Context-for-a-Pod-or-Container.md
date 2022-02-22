@@ -1,31 +1,4 @@
----
-title: 为 Pod 或容器配置安全性上下文
-content_type: task
-weight: 80
----
-<!--
-reviewers:
-- erictune
-- mikedanese
-- thockin
-title: Configure a Security Context for a Pod or Container
-content_type: task
-weight: 80
--->
-
-<!-- overview -->
-
-<!--
-A security context defines privilege and access control settings for
-a Pod or Container. Security context settings include, but are not limited to:
-
-* Discretionary Access Control: Permission to access an object, like a file, is based on
-  [user ID (UID) and group ID (GID)](https://wiki.archlinux.org/index.php/users_and_groups).
-* [Security Enhanced Linux (SELinux)](https://en.wikipedia.org/wiki/Security-Enhanced_Linux): Objects are assigned security labels.
-* Running as privileged or unprivileged.
-* [Linux Capabilities](https://linux-audit.com/linux-capabilities-hardening-linux-binaries-by-removing-setuid/): 
-  Give a process some privileges, but not all the privileges of the root user.
--->
+# 为 Pod 或容器配置安全性上下文
 安全上下文（Security Context）定义 Pod 或 Container 的特权与访问控制设置。
 安全上下文包括但不限于：
 
