@@ -37,6 +37,7 @@
     * [Deployment 编写规范](Workloads/Deployments/Writing-a-Deployment-Spec.md)
     * [Deployment 创建](Workloads/Deployments/Creating-a-Deployment.md)
     * [Deployment 更新](Workloads/Deployments/Updating-a-Deployment.md)
+    * [Deployment 回滚](Workloads/Deployments/Rolling-Backup-a-Deployment.md)
   * [ReplicaSet](Workloads/ReplicaSet.md)
   * [StatefulSets](Workloads/StatefulSets.md)
   * [已完成资源的 TTL 控制器](Workloads/Automatic-Clean-up-for-Finished-jobs.md)
