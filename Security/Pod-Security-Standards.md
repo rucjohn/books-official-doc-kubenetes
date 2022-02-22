@@ -1,32 +1,6 @@
----
-title: Pod 安全性标准
-content_type: concept
-weight: 10
----
-<!--
-reviewers:
-- tallclair
-title: Pod Security Standards
-content_type: concept
-weight: 10
--->
+# 安全性标准
 
-<!-- overview -->
-
-<!--
-The Pod Security Standards define three different _policies_ to broadly cover the security
-spectrum. These policies are _cumulative_ and range from highly-permissive to highly-restrictive.
-This guide outlines the requirements of each policy.
-
-| Profile | Description |
-| ------ | ----------- |
-| <strong style="white-space: nowrap">Privileged</strong> | Unrestricted policy, providing the widest possible level of permissions. This policy allows for known privilege escalations. |
-| <strong style="white-space: nowrap">Baseline</strong> | Minimally restrictive policy which prevents known privilege escalations. Allows the default (minimally specified) Pod configuration. |
-| <strong style="white-space: nowrap">Restricted</strong> | Heavily restricted policy, following current Pod hardening best practices. |
--->
-Pod 安全性标准定义了三种不同的 _策略（Policy）_，以广泛覆盖安全应用场景。
-这些策略是 _渐进式的（Cumulative）_，安全级别从高度宽松至高度受限。
-本指南概述了每个策略的要求。
+Pod 安全性标准定义了三种不同的策略（_Policy_）来广泛覆盖安全应用场景。这些策略是渐进式的（_Cumulative_），安全级别从高度宽松至高度限制。本指南概述了每个策略的要求。
 
 | Profile | 描述 |
 | ------ | ----------- |
