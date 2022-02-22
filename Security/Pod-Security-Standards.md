@@ -44,7 +44,7 @@ Privileged 策略定义中限制较少。
 | Capabilities | 必须禁止添加除下列字段之外的能力。<br>**限制的字段**<br>- `spec.containers[*].securityContext.capabilities.add` <br>- `spec.initContainers[*].securityContext.capabilities.add` <br>- `spec.ephemeralContainers[*].securityContext.capabilities.add` <br>**允许的值**<br>- 未定义 / nil<br>- AUDIT_WRITE<br>- CHOWN<br>- DAC_OVERRIDE<br>- FOWNER<br>- FSETID<br>- KILL<br>- MKNOD<br>- NET_BIND_SERVICE<br>- SETFACP<br>- SETGID<br>- SETPCAP<br>- SETUID<br>- SYS_CHROOT |
 | HostPath 卷 | 必须禁止 HostPath 卷。<br>**限制的字段**<br>- `spec.volumes[*].hostPath` <br>**允许的值**<br>- 未定义 / nil |
 | 宿主端口 | 应该禁止使用宿主端口，或者至少限制在一个已知的列表中。<br>**限制的字段**<br>- `spec.containers[*].ports[*].hostPort` <br>- `spec.initContainers[*].ports[*].hostPort` <br>- `spec.ephemeralContainers[*].ports[*].hostPort` <br>**允许的值**<br>- 未定义 / nil<br>- 已知列表<br>- 0 |
-| AppArmor | 在受支持的主机上，默认使用 runtime/default AppArmor Profile。 Baseline 策略应避免覆盖或者禁用默认策略，以及限制覆盖一些 Profile 集合的权限。<br>**限制的字段**<br>- `metadata.annotations["container.apparmor.security.beta.kubernetes.io/*"]<br>**允许的值**<br>- 未定义 / nil<br>- runtime/default<br>- localhost/* |
+| AppArmor | 在受支持的主机上，默认使用 runtime/default AppArmor Profile。 Baseline 策略应避免覆盖或者禁用默认策略，以及限制覆盖一些 Profile 集合的权限。<br>**限制的字段**<br>- `metadata.annotations["container.apparmor.security.beta.kubernetes.io/*"]`<br>**允许的值**<br>- 未定义 / nil<br>- runtime/default<br>- localhost/* |
 
 
 
