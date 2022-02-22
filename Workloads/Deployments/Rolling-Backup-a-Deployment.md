@@ -203,7 +203,7 @@ Deployment 控制器会自动停止有问题的部署过程，并停止对新的
     deployment.apps/nginx-deployment rolled back
     ```
 
-    与回滚相关的指令的更详细信息，请参考 [`kubectl rollout`]()。
+    与回滚相关的指令的更详细信息，请参考 [`kubectl rollout`](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#rollout)。
 
     现在，Deployment 正在回滚到以前的稳定版本。正如你所看到的，Deployment 控制器生成了 回滚到修订版本 2 的 `DeploymentRollback` 事件。
 2.  检查回滚是否成功以及 Deployment 是否正在运行，运行：
