@@ -1,22 +1,15 @@
 # 为 Pod 或容器配置安全性上下文
-安全上下文（Security Context）定义 Pod 或 Container 的特权与访问控制设置。
+
+安全上下文（_Security Context_）定义 Pod 或容器的特权和访问控制设置。
 安全上下文包括但不限于：
 
-* 自主访问控制（Discretionary Access Control）：基于
-  [用户 ID（UID）和组 ID（GID）](https://wiki.archlinux.org/index.php/users_and_groups).
-  来判定对对象（例如文件）的访问权限。
-* [安全性增强的 Linux（SELinux）](https://zh.wikipedia.org/wiki/%E5%AE%89%E5%85%A8%E5%A2%9E%E5%BC%BA%E5%BC%8FLinux)：
-  为对象赋予安全性标签。
+* 自主访问控制（Discretionary Access Control）：基于 [用户 ID（UID）和组 ID（GID）](https://wiki.archlinux.org/index.php/users_and_groups) 来判定对对象（例如文件）的访问权限。
+* [安全性增强的 Linux（SELinux）](https://zh.wikipedia.org/wiki/%E5%AE%89%E5%85%A8%E5%A2%9E%E5%BC%BA%E5%BC%8FLinux)：为对象赋予安全性标签。
 * 以特权模式或者非特权模式运行。
-* [Linux 权能](https://linux-audit.com/linux-capabilities-hardening-linux-binaries-by-removing-setuid/): 
-  为进程赋予 root 用户的部分特权而非全部特权。
-
+* [Linux Capabilities](https://linux-audit.com/linux-capabilities-hardening-linux-binaries-by-removing-setuid/)：为进程赋予 root 用户的部分特权而非全部特权。
 * [AppArmor](/zh/docs/tutorials/clusters/apparmor/)：使用程序框架来限制个别程序的权能。
 * [Seccomp](/zh/docs/tutorials/clusters/seccomp/)：过滤进程的系统调用。
-* AllowPrivilegeEscalation：控制进程是否可以获得超出其父进程的特权。
-  此布尔值直接控制是否为容器进程设置
-  [`no_new_privs`](https://www.kernel.org/doc/Documentation/prctl/no_new_privs.txt)标志。
-  当容器以特权模式运行或者具有 `CAP_SYS_ADMIN` 权能时，AllowPrivilegeEscalation 总是为 true。
+* AllowPrivilegeEscalation：控制进程是否可以获得超出其父进程的特权。此布尔值直接控制是否为容器进程设置 [`no_new_privs`](https://www.kernel.org/doc/Documentation/prctl/no_new_privs.txt)标志。当容器以特权模式运行或者具有 `CAP_SYS_ADMIN` 权能时，AllowPrivilegeEscalation 总是为 true。
 * readOnlyRootFilesystem：以只读方式加载容器的根文件系统。
 
 
