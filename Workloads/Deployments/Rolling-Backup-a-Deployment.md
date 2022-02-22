@@ -4,7 +4,9 @@
 
 说明：
 
-当 Deployment 触发 rollout 动作时，系统会创建
+当 Deployment 触发 rollout 动作时，系统会给 Deployment 创建一个新的修订版本（一个新的 ReplicaSet）。意思是仅当 Deployment 的 Pod 模板（`.spec.template`）发生更改时，才会创建新修订版本。
+
+例如，
 
 Deployment 被触发上线时，系统就会创建 Deployment 的新的修订版本。 这意味着仅当 Deployment 的 Pod 模板（`.spec.template`）发生更改时，才会创建新修订版本 -- 例如，模板的标签或容器镜像发生变化。 其他更新，如 Deployment 的扩缩容操作不会创建 Deployment 修订版本。 这是为了方便同时执行手动缩放或自动缩放。 换言之，当你回滚到较早的修订版本时，只有 Deployment 的 Pod 模板部分会被回滚。
 
