@@ -1,26 +1,38 @@
 
-## Deployment 状态 <a href="#deployment-status" id="deployment-status"></a>
+# Deployment 状态 <a href="#deployment-status" id="deployment-status"></a>
 
-Deployment 的生命周期中会有许多状态。上线新的 ReplicaSet 期间可能处于 [Progressing（进行中）](Deployments.md#progressing-deployment)，可能是 [Complete（已完成）](Deployments.md#complete-deployment)，也可能是 [Failed（失败）](Deployments.md#failed-deployment)以至于无法继续进行。
+Deployment 在其生命周期中会有许多状态，上线时新的 ReplicaSet 期间可能处于 `Progressing`（进行中），可能是 `Complete`（已完成），也可能是 `Failed`（失败）。
 
-### 进行中的 Deployment <a href="#progressing-deployment" id="progressing-deployment"></a>
+## Progressing（进行中） <a href="#progressing-deployment" id="progressing-deployment"></a>
 
-执行下面的任务期间，Kubernetes 标记 Deployment 为 _进行中（Progressing）_：
+执行以下任务时，Kubernetes 会将 Deployment 标记为 _Progressing（进行中）_：
 
 * Deployment 创建新的 ReplicaSet
 * Deployment 正在为其最新的 ReplicaSet 扩容
-* Deployment 正在为其旧有的 ReplicaSet(s) 缩容
-* 新的 Pods 已经就绪或者可用（就绪至少持续了 [MinReadySeconds](Deployments.md#min-ready-seconds) 秒）。
+* Deployment 正在为其旧有的 ReplicaSet 缩容
+* 新的 Pods 已经就绪或者可用（就绪至少持续了 [MinReadySeconds](Deployments.md#min-ready-seconds) 秒）
 
-你可以使用 `kubectl rollout status` 监视 Deployment 的进度。
+当上线状态变为 `Progressing`，Deployment 控制器将具有以下属性的状况添加到 Deployment 的 `.status.conditions`：
 
-### 完成的 Deployment <a href="#complete-deployment" id="complete-deployment"></a>
+* `type: Progressing`
+* `status: "True"`
+* `reson: NewReplicaSetCreated` 或 `reson: FoundNewReplicaSet` 或 `reson: ReplicaSetUpdated`
 
-当 Deployment 具有以下特征时，Kubernetes 将其标记为 _完成（Complete）_：
+可以使用 `kubectl rollout status` 监控 Deployment 的进度。
 
-* 与 Deployment 关联的所有副本都已更新到指定的最新版本，这意味着之前请求的所有更新都已完成。
+## Complete（已完成） <a href="#complete-deployment" id="complete-deployment"></a>
+
+当 Deployment 具有以下特征时，Kubernetes 将其标记为 _Complete（已完成）_：
+
+* 与 Deployment 关联的所有副本都已更新到指定的最新版本，即之前请求的所有更新都已完成。
 * 与 Deployment 关联的所有副本都可用。
-* 未运行 Deployment 的旧副本。
+* 没有运行 Deployment 的旧副本。
+
+当上线状态变为 `Complete`，Deployment 控制器将具有以下属性的状况添加到 Deployment 的 `.status.conditions`：
+
+* `type: Progressing`
+* `status: "True"`
+* `reson: NewReplicaSetAvailable`
 
 你可以使用 `kubectl rollout status` 检查 Deployment 是否已完成。 如果上线成功完成，`kubectl rollout status` 返回退出代码 0。
 
@@ -37,7 +49,7 @@ $ echo $?
 0
 ```
 
-### 失败的 Deployment <a href="#failed-deployment" id="failed-deployment"></a>
+## Failed（失败） <a href="#failed-deployment" id="failed-deployment"></a>
 
 你的 Deployment 可能会在尝试部署其最新的 ReplicaSet 受挫，一直处于未完成状态。 造成此情况一些可能因素如下：
 
