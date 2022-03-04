@@ -1,32 +1,5 @@
----
-title: 将 Pod 分配给节点
-content_type: concept
-weight: 20
----
+# 将 Pod 分配给节点
 
-<!--
-reviewers:
-- davidopp
-- kevin-wangzefeng
-- bsalamat
-title: Assigning Pods to Nodes
-content_type: concept
-weight: 20
--->
-
-<!-- overview -->
-
-<!--
-You can constrain a {{< glossary_tooltip text="Pod" term_id="pod" >}} so that it can only run on particular set of
-{{< glossary_tooltip text="Node(s)" term_id="node" >}}.
-There are several ways to do this, and the recommended approaches all use
-[label selectors](/docs/concepts/overview/working-with-objects/labels/) to facilitate the selection.
-Generally such constraints are unnecessary, as the scheduler will automatically do a reasonable placement
-(e.g. spread your pods across nodes so as not place the pod on a node with insufficient free resources, etc.)
-but there are some circumstances where you may want more control on a node where a pod lands, for example to ensure
-that a pod ends up on a machine with an SSD attached to it, or to co-locate pods from two different
-services that communicate a lot into the same availability zone.
--->
 你可以约束一个 {{< glossary_tooltip text="Pod" term_id="pod" >}} 只能在特定的
 {{< glossary_tooltip text="节点" term_id="node" >}} 上运行。
 有几种方法可以实现这点，推荐的方法都是用
