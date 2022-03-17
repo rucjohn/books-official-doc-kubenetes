@@ -31,6 +31,16 @@ API Server 是 Kubernetes 控制平面的组件，它公开了 Kubernetes API。
 
 Kubernetes API Server 的主要实现就是 kube-apiserver。kube-apiserver 设计上考虑了水平伸缩，也就是说，它可以通过部署多个实例进行伸缩，并在这些实例间平衡流量。
 
+## Applications
+
+各种容器化应用运行所在的层。
+
+## Cgroup
+
+一组具有资源隔离、审计和限制的 Linux 进程。
+
+cgroup 是一个 Linux 内核特性，对一组进程的资源使用（CPU、内存、磁盘 I/O 和网络等）进行限制、审计和隔离。
+
 ## CustomResourceDefinition
 
 通过定制化的代码给 Kubernetes API 服务器增加资源对象，而无需编译完整的定制 API 服务。
