@@ -1,6 +1,7 @@
 # Table of contents
 
-* [README](README.md)
+* [前言](README.md)
+* [词汇表](Glossary.md)
 * [第一章 Kubernetes 概述](Overview/README.md)
   * [Kubernetes 是什么？](Overview/What-is-Kubernetes.md)
   * [Kubernetes 组件](Overview/Kubernetes-Components.md)
