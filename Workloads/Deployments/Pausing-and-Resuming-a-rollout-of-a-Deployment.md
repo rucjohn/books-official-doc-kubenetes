@@ -74,21 +74,19 @@ deployment.apps/nginx-deployment resource requirements updated
 
 ### 查看 Deployment 历史记录
 
-注意没有新的上线被触发：
+注意，并没有新的上线被触发：
 
 ```bash
 kubectl rollout history deployment/nginx-deployment
 ```
 
-输出类似于：
+输出如下：
 
 ```
 deployments "nginx"
 REVISION  CHANGE-CAUSE
 1   <none>
 ```
-
-### 获取最新 ReplicaSet
 
 获取上线状态验证现有的 ReplicaSet 没有被更改：
 
