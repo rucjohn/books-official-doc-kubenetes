@@ -49,6 +49,7 @@
   * [云原生安全概述](Security/Overview-of-Cloud-Native-Security.md)
   * [Pod 安全性标准](Security/Pod-Security-Standards.md)
 * [第十章 调度，抢占和驱逐](Scheduling-Preemption-and-Eviction/README.md)
+  * [Kubernetes 调度器](Scheduling-Preemption-and-Eviction/Kubernetes-Scheduler.md)
   * [将 Pod 分配给节点](Scheduling-Preemption-and-Eviction/Assigning-Pods-to-Nodes.md)
   * [污点和容忍度](Scheduling-Preemption-and-Eviction/Taints-and-Toleratiions.md)
 * [管理集群](Adminster-a-Cluster/README.md)
