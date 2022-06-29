@@ -2,7 +2,7 @@
 
 在 Kubernetes 中，调度是指将 Pod 放到合适的 Node 上，然后对应 Node 上的 kubelet 才能够运行这些 Pod。
 
-## 调度概览 <a href="#scheduling" id="scheduling"></a>
+### 调度概览 <a href="#scheduling" id="scheduling"></a>
 
 调度器通过 Kubernetes 的监测（Watch）机制来发现集群中新创建且尚未被调度到 Node 上的 Pod。 调度器会将发现的每一个未调度的 Pod 调度到一个合适的 Node 上来运行。 调度器会依据下文的调度原则来做出调度选择。
 
@@ -10,9 +10,7 @@
 
 ### kube-scheduler
 
-
-
-是 Kubernetes 集群的默认调度器，并且是集群 \{{< glossary\_tooltip text="控制面" term\_id="control-plane" >\}} 的一部分。 如果你真的希望或者有这方面的需求，kube-scheduler 在设计上是允许 你自己写一个调度组件并替换原有的 kube-scheduler。
+kube-scheduler，是 Kubernetes 集群的默认调度器，并且是集群控制平面的一部分。 如果真有这方面的需求，kube-scheduler 在设计上是允许自定义一个调度组件并替换原有的 kube-scheduler。
 
 对每一个新创建的 Pod 或者是未被调度的 Pod，kube-scheduler 会选择一个最优的 Node 去运行这个 Pod。然而，Pod 内的每一个容器对资源都有不同的需求，而且 Pod 本身也有不同的资源需求。因此，Pod 在被调度到 Node 上之前， 根据这些特定的资源调度需求，需要对集群中的 Node 进行一次过滤。
 
