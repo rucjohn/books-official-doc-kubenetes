@@ -48,3 +48,19 @@ cgroup 是一个 Linux 内核特性，对一组进程的资源使用（CPU、内
 当 Kubernetes 公开支持的 API 资源不能满足需求时，定制资源对象（Custom Resource Definitions）可以在现有环境上扩展 Kubernetes API。
 
 ## DaemonSet
+
+确保 Pod 副本在集群中的一组节点上运行。
+
+用来部署系统守护进程，例如：日志搜索和监控代理，这些进程通常必须运行在每个节点上。
+
+### Deployment[^1] <a href="#deployment" id="deployment"></a>
+
+管理多副本应用的一种 API 对象，通常通过运行无状态的 Pod 来完成工作。
+
+每个副本表现为一个 Pod，Pod 分布在集群中的节点上。对于确实需要本地状态的工作负载，请参考使用 StatefulSet。
+
+
+
+
+
+[^1]: 
