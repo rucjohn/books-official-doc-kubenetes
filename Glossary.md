@@ -69,7 +69,7 @@ Docker 使用了 Linux 内核中的资源隔离特性（如 cgroup 和内核命�
 
 dockershim 是 Kubernetes v1.23 及之前版本中的一件组件。Kubernetes 系统组件通过它与 Docker Engine 通信。
 
-从 Kubernetes v1.24 版本开始，dockershim 已从 Kubernetes 中移除。想了解更多信息，可参考 移除 Dockershim 的常见问题。
+从 Kubernetes v1.24 版本开始，dockershim 已从 Kubernetes 中移除。想了解更多信息，可参考 [移除 Dockershim 的常见问题](Blog/Dockershim-Removal-FAQ.md)。
 
 ### StatefulSet
 
