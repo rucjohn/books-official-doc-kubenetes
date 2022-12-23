@@ -30,3 +30,5 @@
     * [管理集群中的 TLS 认证](Tasks/TLS/Manage-TLS-Certificates-in-a-Cluster.md)
 * [参考](Reference/README.md)
   * [命令行工具 (kubectl)](Reference/Command-line-tool-kubectl/README.md)
+* [博客](Blog/README.md)
+  * [移除 Dockershim 的常见问题](Blog/Dockershim-Removal-FAQ.md)
