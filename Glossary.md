@@ -57,7 +57,29 @@ cgroup 是一个 Linux 内核特性，对一组进程的资源使用（CPU、内
 
 管理多副本应用的一种 API 对象，通常通过运行无状态的 Pod 来完成工作。
 
-每个副本表现为一个 Pod，Pod 分布在集群中的节点上。对于确实需要本地状态的工作负载，请参考使用 StatefulSet。
+每个副本表现为一个 Pod，Pod 分布在集群中的节点上。对于确实需要本地状态的工作负载，请参考使用 [StatefulSet](Glossary.md#statefulset)。
+
+### Docker
+
+Docker（这里指 Docker Engine）是一种可以提供操作系统级别的虚拟化（也称容器）的软件技术。
+
+Docker 使用了 Linux 内核中的资源隔离特性（如 cgroup 和内核命名空间），以及支持联合文件系统（如 OverlayFS 和其他），允许多个相互独立的容器一起运行在同一 Linux 实例上，从而避免启动和维护虚拟机的开销。
+
+### Dockershim
+
+dockershim 是 Kubernetes v1.23 及之前版本中的一件组件。Kubernetes 系统组件通过它与 Docker Engine 通信。
+
+从 Kubernetes v1.24 版本开始，dockershim 已从 Kubernetes 中移除。想了解更多信息，可参考 移除 Dockershim 的常见问题。
+
+### StatefulSet
+
+用来管理 Pod 集合的部署和扩缩容，并为这些 Pod 提供持久存储和持久标记符。
+
+和 Deployment 类似，StatefulSet 管理基于相同容器规范的一组 Pod。但和 Deployment 不同的是，StatefulSet 为每个 Pod 维护了一个具有粘性的 ID。这些 Pod 是基于相同的规范来创建的，但是不能相互替换；无论怎么调度，每个 Pod 都有一个永久不变的 ID。
+
+如果希望使用存储卷为工作负载提供持久存储，可以使用 StatefulSet 作为解决方案的一部分。尽管 StatefulSet 中的单个 Pod 仍可能出现故障，但持久的 Pod 标识符使得当前使用的存储卷与因失败而重新生成的新 Pod 进行匹配变得更容易。
+
+
 
 
 
