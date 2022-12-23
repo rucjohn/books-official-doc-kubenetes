@@ -10,7 +10,7 @@
 
 这张图表展示了包含所有相互关联组件的 Kubernetes 集群。
 
-![](../../static/components-of-kubernetes.svg)
+![](../../.gitbook/assets/components-of-kubernetes.svg)
 
 ## 控制平面组件（Control Plane Components）
 
