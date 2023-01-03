@@ -36,6 +36,7 @@
 * [参考](Reference/README.md)
   * [网络参数](Reference/Networking-Reference/README.md)
     * [Service 所用的协议](Reference/Networking-Reference/Protocols-for-Services.md)
+    * [虚拟 IP 和服务代理](Reference/Networking-Reference/Virtual-IPs-and-Service-Proxies.md)
   * [命令行工具 (kubectl)](Reference/Command-line-tool-kubectl/README.md)
 * [博客](Blog/README.md)
   * [移除 Dockershim 的常见问题](Blog/Dockershim-Removal-FAQ.md)
