@@ -7,6 +7,7 @@
     * [组件](Concepts/Overview/Kubernetes-Components.md)
     * [对象](Concepts/Overview/Working-with-Kubernetes-Objects/README.md)
       * [理解 Kubernetes 对象](Concepts/Overview/Working-with-Kubernetes-Objects/Understanding-Kubernetes-Objects.md)
+      * [对象名称和 ID](Concepts/Overview/Working-with-Kubernetes-Objects/Object-Names-and-IDs.md)
       * [标签和选择算符](Concepts/Overview/Working-with-Kubernetes-Objects/Labels-and-Selectors.md)
   * [服务、负载均衡和网络](Concepts/Services-Load-Balancing-and-Networking/README.md)
     * [服务](Concepts/Services-Load-Balancing-and-Networking/Service/README.md)
