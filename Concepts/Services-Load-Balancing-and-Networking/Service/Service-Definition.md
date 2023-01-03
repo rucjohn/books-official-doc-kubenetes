@@ -84,4 +84,6 @@ spec:
 #### 没有选择算符的 Service <a href="#services-without-selectors" id="services-without-selectors"></a>
 
 
+## 虚拟 IP 寻址机制
 
+阅读 [虚拟 IP 和服务代理]() 以了解 Kubernetes 提供的使用虚拟 IP 地址公开服务的机制。
