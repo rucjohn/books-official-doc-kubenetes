@@ -34,7 +34,7 @@ spec:
 
 上述配置创建一个名称名为 "my-service" 的 Service 对象，它会将请求代理到 TCP 端口的 9376，并且具有标签 `app.kubernetes.io/name=MyApp` 的 Pod 上。
 
-Kubernetes 为该服务分配一个 IP 地址（有时称为 "集群 IP"），该 IP 地址由服务代理使用。（请参阅 [虚拟 IP 寻址机制](Service-Definition.md)）。
+Kubernetes 为该服务分配一个 IP 地址（有时称为 "集群 IP"），该 IP 地址由服务代理使用。（请参阅 [虚拟 IP 寻址机制](Service-Definition.md#xu-ni-ip-xun-zhi-ji-zhi)）。
 
 Service Selector 控制器不断扫描与其选择算符匹配的 Pod，然后将所有更新发布到同样名称为 `my-service` 的 Endpoint 对象上。
 
@@ -83,7 +83,6 @@ spec:
 
 #### 没有选择算符的 Service <a href="#services-without-selectors" id="services-without-selectors"></a>
 
-
 ## 虚拟 IP 寻址机制
 
-阅读 [虚拟 IP 和服务代理]() 以了解 Kubernetes 提供的使用虚拟 IP 地址公开服务的机制。
+阅读 [虚拟 IP 和服务代理](../../../Reference/Networking-Reference/Virtual-IPs-and-Service-Proxies.md) 以了解 Kubernetes 提供的使用虚拟 IP 地址公开服务的机制。
