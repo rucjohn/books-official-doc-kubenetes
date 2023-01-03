@@ -81,7 +81,56 @@ spec:
 
 由于许多服务需要公开多个端口，因此 Kubernetes 在服务对象上支持多个端口定义。每个端口定义可以具有相同的 `protocol`，也可以具有不同的协议。
 
-#### 没有选择算符的 Service <a href="#services-without-selectors" id="services-without-selectors"></a>
+### 没有选择算符的 Service <a href="#services-without-selectors" id="services-without-selectors"></a>
+
+由于选择算符的存在，服务最常见的用法是为 Kubernetes Pod 的访问提供抽象，但是当在与相应的 EndpointSlices 对象一起使用，且没有选择算符时，服务也可以为其他类型的后端提供抽象，包括在集群外运行的后端程序。
+
+例如：
+
+- 希望在生产环境中使用外部的数据库集群，但测试环境使用自己的数据库。
+- 希望服务指向另一个命名空间（Namespace）中或其它集群中的服务。
+- 正在将工作负载迁移至 Kubernetes。在评估该方法时，仅在 Kubernetes 中运行一部分的后端。
+
+在上述这些场景中，都能够定义没有选择算符的 Service。
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  ports:
+  - portocol: TCP
+    port: 80
+    targetPort: 9376
+```
+
+由于此服务没有选择算符，因此不会自动创建相应的 EndpointSlice（旧版本称为 Endpoint）对象。可以通过让他发错了添加 EndpointSlice 对象，将服务映射到运行该服务的网络地址和端口上：
+
+```yaml
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  # 按惯例将服务的名称用作 EndpointSlice 名称的前缀
+  name: my-service-1
+  labels: 
+    # 应设置 "kubernetes.io/service-name" 标签。
+    # 设置其值以匹配服务的名称
+    kubernetes.io/service-name: my-service
+addressType: IPv4
+ports:
+# 留空，因为 port 9376 未被 IANA 分配为已注册端口
+- name: ''
+  appProtocol: http
+  protocol: TCP
+  port: 9376
+endpoints:
+- addresses:
+  # 此列表中的 IP 地址可以按任何顺序显示
+  - "10.4.5.6"
+  - "10.1.2.3"
+```
+
 
 ## 虚拟 IP 寻址机制
 
