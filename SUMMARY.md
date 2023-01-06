@@ -11,6 +11,7 @@
       * [标签和选择算符](Concepts/Overview/Working-with-Kubernetes-Objects/Labels-and-Selectors.md)
   * [工作负载](Concepts/Workloads/README.md)
     * [工作负载资源](Concepts/Workloads/Workload-Resources/README.md)
+      * [Job](Concepts/Workloads/Workload-Resources/Jobs/README.md)
   * [服务、负载均衡和网络](Concepts/Services-Load-Balancing-and-Networking/README.md)
     * [服务](Concepts/Services-Load-Balancing-and-Networking/Service/README.md)
       * [服务定义](Concepts/Services-Load-Balancing-and-Networking/Service/Service-Definition.md)
