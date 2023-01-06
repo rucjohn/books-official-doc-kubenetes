@@ -12,7 +12,7 @@
   * [服务、负载均衡和网络](Concepts/Services-Load-Balancing-and-Networking/README.md)
     * [服务](Concepts/Services-Load-Balancing-and-Networking/Service/README.md)
       * [服务定义](Concepts/Services-Load-Balancing-and-Networking/Service/Service-Definition.md)
-      * [无头服务](Concepts/Services-Load-Balancing-and-Networking/Service/Headless-Services.md)
+      * [无头服务(Headless Service)](Concepts/Services-Load-Balancing-and-Networking/Service/Headless-Services.md)
       * [发布服务](Concepts/Services-Load-Balancing-and-Networking/Service/Publishing-Services.md)
   * [架构](Concepts/Cluster-Architecture/README.md)
     * [节点](Concepts/Cluster-Architecture/Nodes.md)
