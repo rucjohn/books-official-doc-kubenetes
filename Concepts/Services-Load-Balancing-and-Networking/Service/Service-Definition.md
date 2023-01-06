@@ -131,6 +131,40 @@ endpoints:
   - "10.1.2.3"
 ```
 
+#### 自定义 EndpointSlices
+
+当为 Service 创建 EndpointSlice 对象时，可以为 EndpointSlice 使用任何名称。命名空间中的每个 EndpointSlice 必须有一个唯一的名称。通过在 EndpointSlice 上设置 `kubernetes.io/service-name` 标签可以将 EndpointSlice 链接到 Service。
+
+
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>
+
+EndpointSlice IP 地址**必须不是：**本地回环地址（IPv4 的 `127.0.0.1/8`、IPv6 的 `::1/128`）或链路本地地址（IPv4 的 `169.254.0.0/16`和`224.0.0.0/24`、IPv6 的 `fe80::/64`）。
+
+EndpointSlice IP 地址不能是其他 Kubernetes Service 的 ClusterIP，因为 kube-proxy 不支持将虚拟 IP 作为目标地址。
+{% endhint %}
+
+
+对于自定义或由代码中创建的 EndpointSlice，还应该为 `endpointslice.kubernetes.io/managed-by` 标签设置一个值。
+- 如果使用的是第三方工具，请使用全小写的工具名称，并将空格和其他标点符号更改为中划线（`-`）。
+- 如果直接使用 `kubectl` 之类的工具来管理 EndpointSlice，请使用描述这种管理方式的名称，例如 `"staff"` 或 `"cluster-admins"`。
+- 应该避免使用保留字。
+
+
+#### 访问没有选择算符的 Service
+
+访问没有选择算符的 Service，与有选择算符的 Service 的原理相同。在上述示例中，流量被路由到 EndpointSlice 清单中定义的两个端点之一：通过 TCP 协议连接到 `10.1.2.3` 或 `10.4.5.6` 的 9376 端口。
+
+{% hint style="info" %}
+<mark style="color:blue;">**说明：**</mark>
+
+Kubernetes API 服务器不允许代理到未被映射至 Pod 上的端点。由于此约束，当 Service 没有选择算符时，诸如 `kubectl proxy <service-name>` 之类的操作将会失败。这可以防止 Kubernetes API 服务器被用作调用者可能无权访问的端点的代理。
+{% endhint %}
+
+
+ExternalName Service 是 Service 的特例，它没有选择算符，但是使用 DNS 名称。 有关更多信息，请参阅本文档后面的 ExternalName。
+
+
 
 ## 虚拟 IP 寻址机制
 
