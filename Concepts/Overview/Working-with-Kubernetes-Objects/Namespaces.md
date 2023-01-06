@@ -1,6 +1,6 @@
-# 命名空间
+# 命名空间（Namespace）
 
-Kubernetes 支持多个虚拟集群，它们底层依赖于同一个物理集群。这些虚拟集群被称为命名空间。
+在 Kubernetes 中，**命名空间（Namespace）**提供一种机制，将同一集群中的资源划分为相互隔离的组。同一命名空间内的资源名称必须唯一，但跨命名空间时没有这个要求。命名空间的作用域仅针对带有命名空间的对象，例如 Deployment、Service 等，这种作用域对集群访问的对象不适用，例如 StorageClass、Node、PersistentVolume等。
 
 ## 何时使用命名空间？
 
@@ -84,6 +84,6 @@ kubectl api-resources --namespace=false
 
 ## 自动标签
 
-**FEATURE STATE:** <mark style="color:yellow;"></mark> <mark style="color:yellow;"></mark>_<mark style="color:yellow;">**Kubernetes 1.21\[beta]**</mark>_
+**FEATURE STATE:** _<mark style="color:yellow;">**Kubernetes 1.21\[beta]**</mark>_
 
 Kubernetes 控制平面会为所有命名空间设置一个不可变更的标签：`kubernetes.io/metadata.name`，只要 `NamespaceDefaultLabelName` 特性被启用，标签的值就是命名空间的名称。
