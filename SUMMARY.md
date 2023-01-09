@@ -45,6 +45,7 @@
     * [Pod 水平自动扩缩容](Tasks/Run-Applications/Horizontal-Pod-Autoscaling/README.md)
       * [HPA 是如何工作的？](Tasks/Run-Applications/Horizontal-Pod-Autoscaling/How-does-a-HorizontalPodAutoscaler-work.md)
     * [HPA 演练](Tasks/Run-Applications/HorizontalPodAutoscaler-Walkthrouth/README.md)
+      * [创建 HPA](Tasks/Run-Applications/HorizontalPodAutoscaler-Walkthrouth/Create-the-HorizontalPodAutoscaler.md)
   * [TLS](Tasks/TLS/README.md)
     * [管理集群中的 TLS 认证](Tasks/TLS/Manage-TLS-Certificates-in-a-Cluster.md)
 * [参考](Reference/README.md)
