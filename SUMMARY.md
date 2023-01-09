@@ -13,6 +13,7 @@
       * [命名空间（Namespace）](Concepts/Overview/Working-with-Kubernetes-Objects/Namespaces.md)
       * [注解（Annotation）](Concepts/Overview/Working-with-Kubernetes-Objects/Annotations.md)
       * [字段选择器](Concepts/Overview/Working-with-Kubernetes-Objects/Field-Selectors.md)
+      * [Finalizers](Concepts/Overview/Working-with-Kubernetes-Objects/Finalizers.md)
   * [架构](Concepts/Cluster-Architecture/README.md)
     * [节点](Concepts/Cluster-Architecture/Nodes.md)
   * [工作负载](Concepts/Workloads/README.md)
