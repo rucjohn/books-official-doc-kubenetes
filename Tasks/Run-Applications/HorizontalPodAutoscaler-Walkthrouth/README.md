@@ -1,7 +1,6 @@
+# HPA 演练
 
-# HorizontalPodAutoscaler 演练
-
-HorizontalPodAutoscaler（简称 HPA）自动更新工作负载资源（例如，Deployment 或 StatefulSet），目的是自动扩缩容工作负载以满足需求。
+[HorizontalPodAutoscaler](../Horizontal-Pod-Autoscaling/)（简称 HPA）自动更新工作负载资源（例如，Deployment 或 StatefulSet），目的是自动扩缩容工作负载以满足需求。
 
 本文档将引导完成启用 HorizontalPodAutoscaler 以自动管理Web 应用程序扩缩容的示例。此示例工作负载是运行一些 PHP 代码的 Apache httpd。
 
@@ -58,14 +57,15 @@ spec:
     run: php-apache
 ```
 
-
 运行命令：
+
 ```bash
 kubectl apply -f https://k8s.io/examples/application/php-apache.yaml
 ```
+
 输出
+
 ```
 deployment.apps/php-apache created
 service/php-apache created
 ```
-
