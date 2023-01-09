@@ -84,6 +84,6 @@ kubectl api-resources --namespace=false
 
 ## 自动标签
 
-**FEATURE STATE:** _<mark style="color:yellow;">**Kubernetes 1.21\[beta]**</mark>_
+**特性状态：**<mark style="color:orange;">Kubernetes 1.21 \[beta]</mark>
 
 Kubernetes 控制平面会为所有命名空间设置一个不可变更的标签：`kubernetes.io/metadata.name`，只要 `NamespaceDefaultLabelName` 特性被启用，标签的值就是命名空间的名称。
