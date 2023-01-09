@@ -43,7 +43,7 @@ Kubernetes 默认命名空间，无需创建新的命名空间也可以使用新
 ## 使用命名空间
 
 {% hint style="info" %}
-<mark style="color:blue;">**说明：**</mark>避免使用 kube- 前缀创建命名空间，因为它是为 Kubernetes 系统命令空间预留的。
+<mark style="color:blue;">**说明：**</mark>避免使用 <mark style="color:orange;">**kube-**</mark> 前缀创建命名空间，因为它是为 Kubernetes 系统命令空间预留的。
 {% endhint %}
 
 ### 查看命名空间
@@ -63,13 +63,6 @@ kube-node-lease     Active    1d
 kube-system         Active    1d
 kube-publie         Active    1d
 ```
-
-Kubernetes 会创建四个初始命名空间：
-
-* `default`: 没有指明命名空间的对象所使用的默认命名空间
-* `kube-system`: Kubernetes 系统创建的对象所使用的命名空间
-* `kube-public`: 此命名空间是自动创建的，所有用户（包括未经身份验证的用户）都可以读取它。这个命名空间主要用于集群使用，以防某些资源在整个集群中应该是可见或可读的。这个命名空间在公共方面是一种约定，而不是约束。
-* `kube-node-lease`: 此命名空间用于与各个节点相关的租期（Lease）；此对象的设计使得集群规模很大时，节点心跳检测的性能能够得到提升。
 
 ### 设置命名空间
 
@@ -95,7 +88,19 @@ kubectl config view | grep namespace:
 当创建一个 Service 时，Kubernetes 会创建一个相应的 DNS 条目，格式为：`<Service>.<Namespace>.svc.cluster.local`。
 
 * 如果容器使用 `<Service>`，则将解析到容器所在命名空间中的 Service；
-* 如果容器使用 `<Service>.<Namespace>.svc.cluster.local`，则允许跨命名空间（如：开发、测试和生产），将解析到 `<Namespace>` 下的 Service。
+* 如果容器使用 `<Service>.<Namespace>.svc.cluster.local`，则允许跨命名空间（如：开发、测试和生产），将解析到 `<Namespace>` 下的 Service。如果希望跨命名空间访问，则需要使用完全限定域名（FQDN）。
+
+因此，所有的命名空间名称都必须是合法的 [RFC 1123 DNS 标签](Object-Names-and-IDs.md#rfc-1123-label-names)。
+
+{% hint style="danger" %}
+<mark style="color:red;">**警告：**</mark>
+
+通过创建与[公共顶级域名](https://data.iana.org/TLD/tlds-alpha-by-domain.txt)同名的命名空间，这些命名中的服务可以拥有与公共 DNS 记录重叠的、较短的 DNS 名称。所有命名空间中的负载在执行 DNS 查找时，如果查找的名称没有[尾部句点](https://datatracker.ietf.org/doc/html/rfc1034#page-8)，就会被重定向到这些服务上，因此呈现出比公共 DNS 更高的优先序列。
+
+为了缓解这类问题，需要将创建命名空间的权限授予可信的用户。如果需要，可以额外部署第三方的安全控制机制，例如以准入 Webhook 的形式，阻止用户创建与[公共 TLD](https://data.iana.org/TLD/tlds-alpha-by-domain.txt) 同名的命名空间。
+{% endhint %}
+
+##
 
 ## 有没有对象不在命名空间中？
 
