@@ -6,7 +6,7 @@
 * `metadata.namespace!=default`
 * `status.phase=Pending`
 
-下面这个 `kubectl` 命令将筛选出 status.phase 字段值为 Running 的所有 Pod：
+下面这个 `kubectl` 命令将筛选出 <mark style="color:blue;">`status.phase`</mark> 字段值为 Running 的所有 Pod：
 
 ```bash
 kubectl get pods --field-selector status.phase=Running
@@ -31,9 +31,10 @@ kubectl get pods --field-selector ""
 kubectl get ingress --field-selector foo.bar=baz
 ```
 
-```
-Error from server (BadRequest): Unable to find "ingresses" that match label selector "", field selector "foo.bar=baz": "foo.bar" is not a known field selector: only "metadata.name", "metadata.namespace"
-```
+输出
+
+<pre><code><strong>Error from server (BadRequest): Unable to find "ingresses" that match label selector "", field selector "foo.bar=baz": "foo.bar" is not a known field selector: only "metadata.name", "metadata.namespace"
+</strong></code></pre>
 
 ## 支持的操作符
 
