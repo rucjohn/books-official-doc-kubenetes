@@ -41,6 +41,8 @@
 * [任务](Tasks/README.md)
   * [管理集群](Tasks/Administer-a-Cluster/README.md)
     * [手动生成证书](Tasks/Administer-a-Cluster/Generate-Certificates-Manually.md)
+  * [运行应用](Tasks/Run-Applications/README.md)
+    * [Pod 水平自动扩缩容](Tasks/Run-Applications/Horizontal-Pod-Autoscaling/README.md)
   * [TLS](Tasks/TLS/README.md)
     * [管理集群中的 TLS 认证](Tasks/TLS/Manage-TLS-Certificates-in-a-Cluster.md)
 * [参考](Reference/README.md)
