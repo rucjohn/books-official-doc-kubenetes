@@ -1,8 +1,6 @@
 # HPA 是如何工作的？
 
-
-
-<figure><img src="../../../.gitbook/assets/hpa-how-work.svg" alt=""><figcaption><p>图 1. HorizontalPodAutoscaler 控制 Deployment 及其 R'e'p'li'ca'S'eReplicaSet 的规模</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/hpa-how-work.svg" alt=""><figcaption><p>图 1. HorizontalPodAutoscaler 控制 Deployment 及其 ReplicaSet 的规模</p></figcaption></figure>
 
 Kubernetes 将水平 Pod 自动扩缩容实现为一个间歇运行的控制回路（它不是一个连续的过程）。间隔由 `kube-controller-manager` 的 `--horizontal-pod-autoscaler-sync-period` 参数来控制（默认间隔为 15 秒）。
 
