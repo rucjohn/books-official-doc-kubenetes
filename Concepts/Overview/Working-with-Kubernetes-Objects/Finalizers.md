@@ -6,7 +6,12 @@ Finalizers 是带命名空间的键，告诉 Kubernetes 等到特定的条件被
 <mark style="color:blue;">**说明：**</mark>控制器通过 apiserver 监控集群的公共状态，并致力于将当前状态转变来期望状态。
 {% endhint %}
 
-当告诉 Kubernetes 删除了一个指定 Finalizer 的对象时，Kubernetes API 会将该对象标记为删除，使其进入只读状态。此时控制平面或其他组件会采取 Finalizer 所定义的行动，而目标对象仍然处于终止中（`Terminating`）的状态。这些行动完成后，控制器会删除目标对象的 Finalizer。当 `metadata.finalizers` 为空时，Kubernetes 认为删除已完成。
+当告诉 Kubernetes 需要删除一个指定了 Finalizer 的对象时：
+
+1. Kubernetes API 通过填充 `.metadata.deletionTimestamp` 来标记要删除的对象，并返回 `202` 状态（HTTP 表示“已接受”）使其进入只读状态。
+2. 此时控制平面或其他组件会采取 Finalizer 所定义的动作，而目标对象仍然处于终止中（`Terminating`）的状态。
+3. 这些行动完成后，控制器会删除目标对象的 Finalizer。
+4. 当 `metadata.finalizers` 为空时，Kubernetes 认为删除已完成并删除对象。
 
 可以使用 Finalizer 控制资源的垃圾收集。例如，可以定义一个 Finalizer，在删除目标资源前清理相关资源或基础设施。
 
@@ -51,6 +56,5 @@ Finalizers 通常不指定要执行的代码。相反，它们通常是特定资
 {% hint style="info" %}
 <mark style="color:blue;">**说明：**</mark>
 
-当对象卡在删除状态下时，尽量避免为允许继续删除操作而手动移除 Finalizers。
-Finalizers 通常是因特殊原因被添加到资源上的，所以强行删除它们会导致集群出现问题。
+当对象卡在删除状态下时，尽量避免为允许继续删除操作而手动移除 Finalizers。 Finalizers 通常是因特殊原因被添加到资源上的，所以强行删除它们会导致集群出现问题。
 {% endhint %}
