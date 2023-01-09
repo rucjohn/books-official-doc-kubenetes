@@ -11,6 +11,7 @@
       * [对象名称和 ID](Concepts/Overview/Working-with-Kubernetes-Objects/Object-Names-and-IDs.md)
       * [标签（Label）和选择算符（Selector）](Concepts/Overview/Working-with-Kubernetes-Objects/Labels-and-Selectors.md)
       * [命名空间（Namespace）](Concepts/Overview/Working-with-Kubernetes-Objects/Namespaces.md)
+      * [注解（Annotation）](Concepts/Overview/Working-with-Kubernetes-Objects/Annotations.md)
   * [架构](Concepts/Cluster-Architecture/README.md)
     * [节点](Concepts/Cluster-Architecture/Nodes.md)
   * [工作负载](Concepts/Workloads/README.md)
