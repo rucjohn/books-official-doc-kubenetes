@@ -55,6 +55,7 @@
   * [组件工具](Reference/Component-tools/README.md)
     * [kube-scheduler](Reference/Component-tools/kube-scheduler.md)
   * [调度](Reference/Scheduling/README.md)
+    * [调度器配置](Reference/Scheduling/Scheduler-Configuration.md)
     * [调度策略](Reference/Scheduling/Scheduling-Policies.md)
   * [网络参数](Reference/Networking-Reference/README.md)
     * [Service 所用的协议](Reference/Networking-Reference/Protocols-for-Services.md)
