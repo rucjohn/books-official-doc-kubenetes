@@ -29,6 +29,7 @@
     * [配置最佳实践](Concepts/Configuration/Configuration-Best-Practices.md)
   * [策略](Concepts/Policies/README.md)
     * [资源配额](Concepts/Policies/Resource-Quotas.md)
+  * [调度、抢占和驱逐](Concepts/Scheduling-Preemption-and-Eviction/README.md)
   * [集群管理](Concepts/Cluster-Administration/README.md)
     * [证书](Concepts/Cluster-Administration/Certificates.md)
     * [管理资源](Concepts/Cluster-Administration/Managing-Resources/README.md)
