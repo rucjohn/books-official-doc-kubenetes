@@ -52,6 +52,8 @@
   * [TLS](Tasks/TLS/README.md)
     * [管理集群中的 TLS 认证](Tasks/TLS/Manage-TLS-Certificates-in-a-Cluster.md)
 * [参考](Reference/README.md)
+  * [组件工具](Reference/Component-tools/README.md)
+    * [kube-scheduler](Reference/Component-tools/kube-scheduler.md)
   * [网络参数](Reference/Networking-Reference/README.md)
     * [Service 所用的协议](Reference/Networking-Reference/Protocols-for-Services.md)
     * [虚拟 IP 和服务代理](Reference/Networking-Reference/Virtual-IPs-and-Service-Proxies.md)
