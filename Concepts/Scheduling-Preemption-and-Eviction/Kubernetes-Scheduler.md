@@ -10,7 +10,7 @@
 
 ## kube-scheduler
 
-kube-scheduler 是 Kubernetes 集群的默认调度器，并且是集群控制平面的一部分。 如果真有这方面的需求，kube-scheduler 在设计上是允许自定义一个调度组件并替换原有的 kube-scheduler。
+[kube-scheduler](../../Reference/Component-tools/kube-scheduler.md) 是 Kubernetes 集群的默认调度器，并且是集群控制平面的一部分。 如果真有这方面的需求，kube-scheduler 在设计上是允许自定义一个调度组件并替换原有的 kube-scheduler。
 
 对每一个新创建的 Pod 或者是未被调度的 Pod，kube-scheduler 会选择一个最优的 Node 去运行这个 Pod。然而，Pod 内的每一个容器对资源都有不同的需求，而且 Pod 本身也有不同的资源需求。因此，Pod 在被调度到 Node 上之前， 根据这些特定的资源调度需求，需要对集群中的 Node 进行一次过滤。
 
@@ -35,5 +35,5 @@ kube-scheduler 给一个 pod 做调度选择包含两个步骤：
 
 支持以下两种方式配置调度器的过滤和打分行为：
 
-1. [调度策略](../zh/docs/reference/scheduling/policies/) 允许你配置过滤的 _**断言(Predicates)**_ 和打分的 _**优先级(Priorities)**_ 。
-2. [调度配置](../zh/docs/reference/scheduling/config/#profiles) 允许你配置实现不同调度阶段的插件， 包括：`QueueSort`, `Filter`, `Score`, `Bind`, `Reserve`, `Permit` 等等。 你也可以配置 kube-scheduler 运行不同的配置文件。
+1. [调度策略](../../Reference/Scheduling/Scheduling-Policies.md) 允许你配置过滤的 _**断言(Predicates)**_ 和打分的 _**优先级(Priorities)**_ 。
+2. [调度配置](../../Reference/Scheduling/Scheduler-Configuration.md) 允许你配置实现不同调度阶段的插件， 包括：`QueueSort`, `Filter`, `Score`, `Bind`, `Reserve`, `Permit` 等等。 你也可以配置 kube-scheduler 运行不同的配置文件。
