@@ -1,6 +1,6 @@
 # 命令行工具
 
-### kubectl create role
+## kubectl create role
 
 创建 Role 对象，定义在某一命名空间中的权限。例如：
 
