@@ -53,25 +53,31 @@ cgroup 是一个 Linux 内核特性，对一组进程的资源使用（CPU、内
 
 用来部署系统守护进程，例如：日志搜索和监控代理，这些进程通常必须运行在每个节点上。
 
-### Deployment[^1] <a href="#deployment" id="deployment"></a>
+## Deployment[^1] <a href="#deployment" id="deployment"></a>
 
 管理多副本应用的一种 API 对象，通常通过运行无状态的 Pod 来完成工作。
 
 每个副本表现为一个 Pod，Pod 分布在集群中的节点上。对于确实需要本地状态的工作负载，请参考使用 [StatefulSet](Glossary.md#statefulset)。
 
-### Docker
+## Docker
 
 Docker（这里指 Docker Engine）是一种可以提供操作系统级别的虚拟化（也称容器）的软件技术。
 
 Docker 使用了 Linux 内核中的资源隔离特性（如 cgroup 和内核命名空间），以及支持联合文件系统（如 OverlayFS 和其他），允许多个相互独立的容器一起运行在同一 Linux 实例上，从而避免启动和维护虚拟机的开销。
 
-### Dockershim
+## Dockershim
 
 dockershim 是 Kubernetes v1.23 及之前版本中的一件组件。Kubernetes 系统组件通过它与 Docker Engine 通信。
 
 从 Kubernetes v1.24 版本开始，dockershim 已从 Kubernetes 中移除。想了解更多信息，可参考 [移除 Dockershim 的常见问题](Blog/Dockershim-Removal-FAQ.md)。
 
-### StatefulSet
+## Finalizer
+
+Finalzer 是带有命名空间的键，告诉 Kubernetes 等到特定的条件被满足后，再完全删除被标记为删除的资源。
+
+Finalzer 提醒控制器清理被删除的对象拥有的资源。
+
+## StatefulSet
 
 用来管理 Pod 集合的部署和扩缩容，并为这些 Pod 提供持久存储和持久标记符。
 
