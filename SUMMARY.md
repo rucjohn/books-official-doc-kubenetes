@@ -57,6 +57,7 @@
       * [API 对象](Reference/API-Access-Control/Using-RBAC-Authorization/API-objects.md)
       * [默认 Roles 和 Role Bindings](Reference/API-Access-Control/Using-RBAC-Authorization/Default-roles-and-role-bindings.md)
       * [初始化与预防权限提升](Reference/API-Access-Control/Using-RBAC-Authorization/Privilege-escalation-prevention-and-bootstrapping.md)
+      * [命令行工具](Reference/API-Access-Control/Using-RBAC-Authorization/Command-line-utilities.md)
   * [组件工具](Reference/Component-tools/README.md)
     * [kube-scheduler](Reference/Component-tools/kube-scheduler.md)
   * [调度](Reference/Scheduling/README.md)
