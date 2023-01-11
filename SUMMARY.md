@@ -52,6 +52,8 @@
   * [TLS](Tasks/TLS/README.md)
     * [管理集群中的 TLS 认证](Tasks/TLS/Manage-TLS-Certificates-in-a-Cluster.md)
 * [参考](Reference/README.md)
+  * [API 访问控制](Reference/API-Access-Control/README.md)
+    * [使用 RBAC 鉴权](Reference/API-Access-Control/Using-RBAC-Authorization/README.md)
   * [组件工具](Reference/Component-tools/README.md)
     * [kube-scheduler](Reference/Component-tools/kube-scheduler.md)
   * [调度](Reference/Scheduling/README.md)
